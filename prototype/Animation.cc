@@ -1,4 +1,4 @@
-//  $Id: Animation.cc,v 1.4 2001/04/27 20:42:57 grumbel Exp $
+//  $Id: Animation.cc,v 1.5 2001/07/12 08:13:49 grumbel Exp $
 //
 //  Pingus - A free Lemmings clone
 //  Copyright (C) 2000 Ingo Ruhnke <grumbel@gmx.de>
@@ -116,8 +116,7 @@ Animation::init ()
 SCM
 Animation::play (SCM animation)
 {
-  
-  Scenario::current->add (new Animation (animation));
+  Scenario::get_current ()->add (new Animation (animation));
   return SCM_UNSPECIFIED;
 }
 

@@ -1,4 +1,4 @@
-//  $Id: Scenario.cc,v 1.18 2001/07/02 10:27:13 grumbel Exp $
+//  $Id: Scenario.cc,v 1.25 2001/07/15 21:00:31 grumbel Exp $
 //
 //  Pingus - A free Lemmings clone
 //  Copyright (C) 2000 Ingo Ruhnke <grumbel@gmx.de>
@@ -26,33 +26,21 @@
 #include "Scenario.hh"
 #include "Drawable.hh"
 
+struct adv_is_removeable
+{
+  bool operator ()  (AdventObj* obj)
+  {
+    if (obj == 0)
+      return true;
+    else
+      return false;
+  }
+};
+
+
 ///
 std::list<Scenario*> Scenario::scenario_list;
 ///
-Scenario* Scenario::current;
-
-void
-Scenario::set_current_scenario (std::string name)
-{
-  for (std::list<Scenario*>::iterator i = scenario_list.begin ();
-       i != scenario_list.end ();
-       i++)
-    {
-      if ((*i)->get_name () == name)
-	{
-	  set_current_scenario (*i);
-	  return;
-	}
-    }
-  assert (false);
-}
-
-void
-Scenario::set_current_scenario (Scenario* scenario)
-{
-  assert (scenario);
-  current = scenario;
-}
 
 Scenario::Scenario (SCM arg_name,
 		    std::string arg_background, std::string arg_colmap,
@@ -60,18 +48,28 @@ Scenario::Scenario (SCM arg_name,
 		    bool arg_with_guy) 
   : is_init (false)
 {
+  std::cout << "Creating scenario: " << this << std::endl;
+
+  adv_list_lock = 0;
+  drawable_list_lock = 0;
+  
   if (SCM_STRINGP (arg_name))
     name = SCM_CHARS (arg_name);
   else
-    scm_object = arg_name;
-
+    {
+      scm_protect_object (scm_object);
+      scm_object = arg_name;
+    }
+  
   colmap_name = arg_colmap;
   background_name = arg_background;
 
   objects = arg_objects;
 
-  if (arg_with_guy)
-    this->objects.push_back (the_guy);
+  // FIXME: Ugggllyyyy...
+  /*if (arg_with_guy)
+    this->objects.push_back (Guy::get_current ());
+  */
 }
 
 void
@@ -99,12 +97,12 @@ Scenario::~Scenario ()
 }
   
 void
-Scenario::draw ()
+Scenario::draw (View* view)
 {
   if (!is_init) init ();
   
-  int x_offset = -int(the_guy->get_x_pos ()) + CL_Display::get_width ()/2;
-  int y_offset = -int(the_guy->get_y_pos ()) + CL_Display::get_height ()/2;
+  int x_offset = -int(Guy::get_current ()->get_x_pos ()) + CL_Display::get_width ()/2;
+  int y_offset = -int(Guy::get_current ()->get_y_pos ()) + CL_Display::get_height ()/2;
   
   if (background->get_width () + x_offset < CL_Display::get_width ())
     x_offset = CL_Display::get_width () - background->get_width ();
@@ -120,14 +118,14 @@ Scenario::draw ()
 
   background->draw (x_offset, y_offset);
 
-  view.x_offset = x_offset;
-  view.y_offset = y_offset;
+  view->x_offset = x_offset;
+  view->y_offset = y_offset;
   
   if (CL_Mouse::middle_pressed ())
     {
       std::cout << ";" 
 		<< CL_Mouse::get_x() - x_offset << " " << CL_Mouse::get_y() - y_offset << " " 
-		<< Scenario::current->get_colmap ()->get_pixel (CL_Mouse::get_x (),
+		<< Scenario::get_current ()->get_colmap ()->get_pixel (CL_Mouse::get_x (),
 								CL_Mouse::get_y ())
 		<< std::endl;
       while (CL_Mouse::middle_pressed ())
@@ -139,43 +137,65 @@ Scenario::draw ()
 
   std::list<Drawable*> draw_lst;
 
+  //draw_lst.push_back(Guy::get_current ());
+
+  // Add all advent objects to the drawable list
+  ++adv_list_lock;
   for (std::list<AdventObj*>::iterator i = objects.begin ();
        i != objects.end (); ++i)
     {
-      draw_lst.push_back (*i);
+      if (*i) draw_lst.push_back (*i);
     }
+  --adv_list_lock;
 
+  // Draw all drawables to the draw list
+  ++drawable_list_lock;
   for (std::list<Drawable*>::iterator i = drawables.begin (); 
        i != drawables.end (); ++i)
     {
-      draw_lst.push_back (*i);
+      if (*i) draw_lst.push_back (*i);
     }
+  --drawable_list_lock;
 
+  // Sort the Scene
   draw_lst.sort (AdventObj_less ());
 
+  // Draw thhe scene
+  ++drawable_list_lock;
   for (std::list<Drawable*>::iterator i = draw_lst.begin (); 
        i != draw_lst.end (); ++i)
     {
-      (*i)->draw_world (x_offset, y_offset);
+      if (*i) (*i)->draw_world (x_offset, y_offset);
     }
+  --drawable_list_lock;
 }
 
 void
 Scenario::update (float delta)
 {
+  //std::cout << "Update: " << delta << std::endl;
+  //Guy::get_current ()->update (delta);
+  //std::cout << "Updating scenario: " << this << std::endl;
   if (!is_init) init ();
 
+  ++adv_list_lock;
   for (std::list<AdventObj*>::iterator i = objects.begin (); 
        i != objects.end (); i++)
     {
-      (*i)->update (delta);
+      if (*i) (*i)->update (delta);
     }
+  --adv_list_lock;
 
+  //std::cout << "AdvLockCount: " << adv_list_lock << std::endl;
+  if (need_list_update) update_list ();
+
+  ++drawable_list_lock;
   for (std::list<Drawable*>::iterator i = drawables.begin (); 
        i != drawables.end (); ++i)
     {
-      (*i)->update (delta);
+      if (*i) (*i)->update (delta);
     }
+  --drawable_list_lock;
 
   drawables.remove_if (is_removeable ());
 
@@ -192,6 +212,7 @@ Scenario::get_colmap ()
   return colmap;
 }
 
+/** FIXME: Do we use world or mouse CO's here? */
 AdventObj* 
 Scenario::get_object (int x, int y)
 {
@@ -200,32 +221,69 @@ Scenario::get_object (int x, int y)
   for (std::list<AdventObj*>::iterator i = objects.begin (); 
        i != objects.end (); i++)
     {
-      if ((*i)->is_at (x, y))
+      if (*i && (*i)->is_at (x, y))
 	obj = (*i);
     }
   return obj;
 }
 
 void 
-Scenario::add (AdventObj* obj)
+Scenario::add (Drawable* obj)
 {
-  objects.push_back (obj);
+  //std::cout << "uhAOEUAOEUAOETUTsnotehu Adding drawable" << std::endl;
+  if (drawable_list_lock == 0)
+    drawables.push_back (obj);
+  else
+    std::cout << "DrawableList is currently locked: " << adv_list_lock << std::endl;
 }
 
 void 
-Scenario::add (Drawable* obj)
+Scenario::add (AdventObj* obj)
 {
-  std::cout << "Adding drawable" << std::endl;
-  drawables.push_back (obj);
+  need_list_update = true;
+  adv_add_list.push_back (obj);
 }
 
 void
 Scenario::remove (AdventObj* obj)
 {
+  need_list_update = true;
   std::list<AdventObj*>::iterator obj_iter;
   obj_iter = std::find (objects.begin (), objects.end (), obj);
-  if (obj_iter != objects.end ())
-    objects.erase (obj_iter);
+  
+  if (obj_iter != objects.end ()) 
+    *obj_iter = 0;
+  else
+    {
+      std::cout << "Scenario:remove: Couldn't find object: " << obj << std::endl;
+      for (std::list<AdventObj*>::iterator i = objects.begin ();
+	   i != objects.end (); ++i)
+	{
+	  std:: cout << "  Obj: " << **i << std::endl;
+	}
+    }
+}
+
+void 
+Scenario::update_list ()
+{
+  std::cout << "Updating the list " << std::endl;
+  objects.remove_if (adv_is_removeable ());
+
+  for (std::list<AdventObj*>::iterator i = adv_add_list.begin ();
+       i != adv_add_list.end (); ++i)
+    {
+      objects.push_back (*i);
+    }
+  adv_add_list.clear ();
+
+  need_list_update = false;
+}
+
+Scenario*
+Scenario::get_current ()
+{
+  return Guy::get_current ()->get_scenario ();
 }
 
 /* EOF */

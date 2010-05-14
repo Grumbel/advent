@@ -1,4 +1,4 @@
-//  $Id: Drawable.cc,v 1.3 2001/03/16 00:53:41 grumbel Exp $
+//  $Id: Drawable.cc,v 1.4 2001/07/12 08:13:49 grumbel Exp $
 //
 //  Pingus - A free Lemmings clone
 //  Copyright (C) 2000 Ingo Ruhnke <grumbel@gmx.de>
@@ -69,7 +69,7 @@ DrawableFill::get_z_pos ()
 void 
 DrawableSmob::add (std::string sur_name, const CL_Vector& vec)
 {
-  Scenario::current->add (new DrawableObj (sur_name, vec));
+  Scenario::get_current ()->add (new DrawableObj (sur_name, vec));
 }
 
 void 
@@ -101,7 +101,7 @@ DrawableSmob::fill_display (SCM arg_red, SCM arg_green, SCM arg_blue, SCM arg_al
   assert(SCM_INUMP (arg_blue));
   assert(SCM_INUMP (arg_alpha));
 
-  Scenario::current->add (new DrawableFill (SCM_INUM (arg_red)/255.0,
+  Scenario::get_current ()->add (new DrawableFill (SCM_INUM (arg_red)/255.0,
 					    SCM_INUM (arg_green)/255.0,
 					    SCM_INUM (arg_blue)/255.0,
 					    SCM_INUM (arg_alpha)/255.0));

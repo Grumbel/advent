@@ -1,4 +1,4 @@
-;; $Id: syntax-ext.scm,v 1.7 2001/07/02 10:27:13 grumbel Exp $                                                             
+;; $Id: syntax-ext.scm,v 1.12 2001/08/21 20:38:43 grumbel Exp $                                                             
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Macros of various stuff, all this should be sorted.
 ;;
@@ -27,13 +27,6 @@
 ;;  (syntax-rules ()
 ;;    ((_ type)
 
-;; TimeManager, timed
-(define-syntax adv:timed
-  (syntax-rules ()
-    ((_ macro:time macro:func ...)
-     (c:add-timed macro:time
-		  (lambda () macro:func ...)))))
-
 ;; Define a class and the corresponding object
 (define-syntax adv:define-object
   (syntax-rules ()
@@ -46,14 +39,15 @@
      (let ((classname  (string->symbol (string-append "<" (symbol->string 'type) ">")))
 	   )
        (eval `(define-class ,classname (<advent:object>)
-		(name #:accessor name #:init-value str-name) 
-		(mem-name #:accessor mem-name
+		(name #:accessor name #:init-value str-name)
+		(uid  #:accessor adv:uid #:init-value #f #:init-keyword #:uid)
+		(mem-name #:accessor mem-name ;; Member-name
 			  #:init-value value
 			  #:setter  ,(string->symbol
 				      (string-append "set-" (symbol->string 'mem-name))))
 		...))
 		;;		      #:init-keyword #:,(string->symbol "#:name")
-       (eval `(define type (make ,classname)))
+       (eval `(define type (make ,classname #:uid 'type)))
        ))
     ))
 
@@ -184,6 +178,28 @@
        (cons
 	(list str ...)
 	'()))
+       )))
+
+
+;; Evaluate a list of expressions in sequential order, instead of
+;; instantan evaluation.
+;; FIXME: Works *only* with '(order)=>hook' able functions
+(define-syntax adv:seq
+  (syntax-rules ()
+    ((_ first)
+     first)
+    ((_ first rest ...)
+     (c:adv:hook:add-finish first (lambda () (adv:seq rest ...))))
+     ))
+
+;; FIXME: Stupid function name
+(define-syntax adv:def-combine
+  (syntax-rules ()
+    ((_ name1 name2 body ...)
+     (define-method (combine name1 name2)
+       body ...)
+;;       (define-method (combine (name2 type2) (name1 type1))
+;;	 (combine name2 name1))
        )))
 
 ;; EOF ;;

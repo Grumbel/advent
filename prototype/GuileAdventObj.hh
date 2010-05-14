@@ -1,4 +1,4 @@
-//  $Id: GuileAdventObj.hh,v 1.12 2001/04/27 20:42:57 grumbel Exp $
+//  $Id: GuileAdventObj.hh,v 1.13 2001/07/16 17:44:10 grumbel Exp $
 // 
 //  Pingus - A free Lemmings clone
 //  Copyright (C) 2000 Ingo Ruhnke <grumbel@gmx.de>
@@ -46,8 +46,13 @@ private:
   std::string surname;
   bool is_init;
 
+
   void init ();
 public:
+  // true if object is 'empty', that means doesn't has a name and
+  // isn't captureable
+  bool empty_object;
+
   /// Empty default constructor
   GuileAdventObj (SCM arg_name, 
 		  std::string arg_surname, CL_Vector pos);

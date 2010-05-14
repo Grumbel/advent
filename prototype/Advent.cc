@@ -1,4 +1,4 @@
-//  $Id: Advent.cc,v 1.25 2001/07/02 10:27:13 grumbel Exp $
+//  $Id: Advent.cc,v 1.36 2001/08/21 20:38:43 grumbel Exp $
 //
 //  Pingus - A free Lemmings clone
 //  Copyright (C) 2000 Ingo Ruhnke <grumbel@gmx.de>
@@ -43,13 +43,20 @@ void scm_init_oop_goops_goopscore_module (void);
 #include "DialogManager.hh"
 #include "Inventory.hh"
 #include "Guy.hh"
-#include "ClickManager.hh"
+#include "AdvHook.hh"
 #include "TimeManager.hh"
 #include "Animation.hh"
+#include "ClickManager.hh"
 #include "DeltaManager.hh"
+#include "View.hh"
+#include "FadeOut.hh"
+#include "KeyboardManager.hh"
 
 Advent app;
 
+InputMode input_mode;
+
+ ClickManager click_manager;
 // Wrapper to call the member func
 void inner_main (void* closure, int argc, char* argv[])
 {
@@ -58,6 +65,7 @@ void inner_main (void* closure, int argc, char* argv[])
 
 Advent::Advent ()
 {
+  input_mode = MODE_NORMAL;
 }
 
 char* 
@@ -96,7 +104,15 @@ Advent::inner_main (void* closure, int argc, char* argv[])
   scm_init_oop_goops_goopscore_module ();
 #endif
 
+  // Ugly... as the rest of the code..
+  the_view = new View ();
+
+  
+
   //std::cout << "Loading guile code..." << std::endl;
+  AdvHook::init ();
+  FadeOut::init ();
+  ClickManager::init ();
   AdventObjSmob::init ();
   ScenarioSmob::init ();
   Dialog::init ();
@@ -107,8 +123,11 @@ Advent::inner_main (void* closure, int argc, char* argv[])
   DrawableSmob::init ();
   Animation::init ();
   System::init ();
-
+  KeyboardManager::init ();
+      
   //std::cout << "Loading guile code...done" << std::endl;
+
+
 
   if (argc == 2)
     {
@@ -127,6 +146,9 @@ Advent::inner_main (void* closure, int argc, char* argv[])
       CL_SetupJPEG::init ();
   
       CL_Display::set_videomode (640, 480, 16, fullscreen, false);
+
+      CL_Display::clear_display ();
+      CL_Display::flip_display ();
 
       resource = new CL_ResourceManager("data/resources.scr", false);
 
@@ -158,7 +180,7 @@ Advent::inner_main (void* closure, int argc, char* argv[])
       coin = new Coin ();
 
       // FIXME: wrong place to create this...
-      the_guy = new Guy ();    
+      //the_guy = new Guy (SCM_BOOL_F);
 
       gh_load ("engine/adventure.scm");
       gh_load (game_init_file.c_str ());
@@ -167,23 +189,32 @@ Advent::inner_main (void* closure, int argc, char* argv[])
       int count = 0;
       char str[256] = {"Calculation"};
 
-      ClickManager click_manager;
+      //ClickManager click_manager;
       
       inventory = new Inventory ();
 
       click_manager.add (inventory);
       click_manager.add (coin);
-      click_manager.add (the_guy);
       click_manager.add (&dialog_manager);
 
       
-      assert (Scenario::current);
+      assert (Scenario::get_current ());
 
-      
+      the_view->follow(Guy::get_current ());
+
       /** Main Loop */
       DeltaManager delta_manager;
       while (CL_Keyboard::get_keycode (CL_KEY_ESCAPE) == 0)
-	{
+	{	  
+	  /* FIXME: inputhandling should be somewhere else... */
+	  if (CL_Keyboard::get_keycode (CL_KEY_G)) 
+	    {
+	      while (CL_Keyboard::get_keycode (CL_KEY_G))
+		CL_System::keep_alive ();
+	      std::cout << "Garbage Collecting..." << std::endl;
+	      scm_gc ();
+	    }
+
 	  if (CL_Keyboard::get_keycode (CL_KEY_SPACE)) 
 	    {
 	      while (CL_Keyboard::get_keycode (CL_KEY_SPACE))
@@ -191,34 +222,38 @@ Advent::inner_main (void* closure, int argc, char* argv[])
 	      interpreter.launch ();
 	    }
 
-	  if (CL_Keyboard::get_keycode (CL_KEY_F5)) 
+	  if (CL_Keyboard::get_keycode (CL_KEY_F6)) 
 	    {
-	      while (CL_Keyboard::get_keycode (CL_KEY_F5))
+	      while (CL_Keyboard::get_keycode (CL_KEY_F6))
 		CL_System::keep_alive ();
 	      gh_eval_str ("(adv:quick-save)");
 	    }
 
-	  if (CL_Keyboard::get_keycode (CL_KEY_F6)) 
+	  if (CL_Keyboard::get_keycode (CL_KEY_F5)) 
 	    {
-	      while (CL_Keyboard::get_keycode (CL_KEY_F6))
+	      while (CL_Keyboard::get_keycode (CL_KEY_F5))
 		CL_System::keep_alive ();
 	      gh_eval_str ("(adv:quick-load)");
 	    }
 
 	  float delta = delta_manager.getset ();
-	  
-	  Scenario::current->update (delta);
+
+	  the_view->update (delta);
+	  Scenario::get_current ()->update (delta);
 	  dialog_manager.update (delta);
 	  coin->update (delta);
 	  dialog.update (delta);
 	  inventory->update (delta);
+	  TimeManager::update (delta);
 
-	  Scenario::current->draw ();
+	  the_view->draw ();
+	  //Scenario::current->draw (the_view);
+	  
 	  coin->draw ();
 	  inventory->draw ();
 	  font ("font")->print_left (0, 0, str);
 	  dialog.draw ();
-	  TimeManager::update (delta);
+
 
 	  if (count > 9)
 	    {
@@ -229,8 +264,9 @@ Advent::inner_main (void* closure, int argc, char* argv[])
 	      count = 0;
 	      time = CL_System::get_time ();
 	    }
-	  dialog_manager.draw ();
-
+	  dialog_manager.draw ();	  
+	  FadeOut::update (delta);
+	  FadeOut::draw ();
 	  CL_Display::flip_display ();
 	  count++;
 	  CL_System::keep_alive ();

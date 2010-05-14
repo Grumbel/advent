@@ -1,4 +1,4 @@
-//  $Id: Inventory.hh,v 1.7 2001/06/28 08:32:23 grumbel Exp $
+//  $Id: Inventory.hh,v 1.9 2001/08/21 20:38:43 grumbel Exp $
 // 
 //  Pingus - A free Lemmings clone
 //  Copyright (C) 2000 Ingo Ruhnke <grumbel@gmx.de>
@@ -28,9 +28,11 @@ class Inventory : public Clickable
 {
 private:
   std::vector<AdventObj*> objects;
+  typedef std::vector<AdventObj*>::iterator ObjIter;
   bool visible;
   CL_Surface icon;
   CL_Surface icon_h;
+  bool ignore_release;
 public:
   Inventory ();
   virtual ~Inventory () {}
@@ -57,12 +59,12 @@ public:
   static SCM remove (SCM obj);
   static SCM has (SCM obj);
   static SCM static_show ();
+  static SCM get_objects ();
 
   // Clickable
   // Ignore presses when the inventory is visible
-  bool  on_mouse_press (const CL_Key&) { return visible; }
-  bool  on_mouse_release (const CL_Key&) { return visible; }
-  bool  on_mouse_click (const CL_Key& key);
+  bool  on_mouse_press (const CL_Key&);
+  bool  on_mouse_release (const CL_Key&);
   float priority ();
   bool  mouse_over (int, int);
 };

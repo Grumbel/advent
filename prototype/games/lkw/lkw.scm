@@ -1,7 +1,9 @@
-;; $Id: lkw.scm,v 1.2 2001/06/28 08:32:24 grumbel Exp $ 
+;; $Id: lkw.scm,v 1.4 2001/07/15 18:54:59 grumbel Exp $ 
 
 (adv:load "action-defaults.scm")
 (adv:register-scenario scenario:lkw "scenario-lkw.scm")
+
+(define my-person (person:make mogli-gfx))
 
 (adv:set-scenario scenario:lkw)
 (c:guy:set-position 516 417)

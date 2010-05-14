@@ -1,4 +1,4 @@
-//  $Id: Dialog.hh,v 1.3 2001/04/27 20:42:57 grumbel Exp $
+//  $Id: Dialog.hh,v 1.6 2001/08/21 20:38:43 grumbel Exp $
 // 
 //  Pingus - A free Lemmings clone
 //  Copyright (C) 2000 Ingo Ruhnke <grumbel@gmx.de>
@@ -42,6 +42,8 @@ class Dialog
 {
 private:
   std::deque<DialogMessage> texts;
+  std::vector<SCM> hooks;
+  std::string speaker;
   
 public:
   Dialog () {}
@@ -50,10 +52,14 @@ public:
   void add (const DialogMessage& message);
   void draw ();
   void update (float delta);
+  void call_hooks ();
+  void set_speaker (std::string arg_speaker);
 
   // Guile bindings
+  static SCM dialog_set_speaker (SCM arg_speaker);
   static SCM dialog_push (SCM text);
   static SCM dialog_clear ();
+  static SCM dialog_add_hook (SCM);
   static void init ();
 };
 

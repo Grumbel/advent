@@ -1,4 +1,4 @@
-//  $Id: AdventObj.hh,v 1.6 2001/04/27 20:42:57 grumbel Exp $
+//  $Id: AdventObj.hh,v 1.9 2001/07/14 10:02:58 grumbel Exp $
 // 
 //  Pingus - A free Lemmings clone
 //  Copyright (C) 2000 Ingo Ruhnke <grumbel@gmx.de>
@@ -49,7 +49,8 @@ public:
   virtual void draw_inventory (int x, int y) {}
 
   virtual bool is_at (int x, int y) { return false; }
-  
+  virtual SCM  call (std::string func) =0;
+  virtual SCM  get_scm () =0;
   virtual std::string get_name () { return "-- unset --"; }
 };
 
@@ -58,7 +59,9 @@ struct AdventObj_less : public std::binary_function<Drawable*, Drawable*, bool>
 {
   bool operator() (Drawable* a, Drawable* b) const
     {
-      return a->get_z_pos () < b->get_z_pos ();
+      if (a && b)
+	return a->get_z_pos () < b->get_z_pos ();
+      return true;
     }
 };
 
@@ -75,6 +78,8 @@ public:
   void  draw_world (int x_offset = 0, int y_offset = 0);
   float get_z_pos () { return pos.z; }
 };
+
+ostream& operator<<(ostream& ostr, AdventObj& obj);
 
 #endif
 

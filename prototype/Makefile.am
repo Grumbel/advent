@@ -48,7 +48,11 @@ View.cc \
 helper.cc \
 helper.hh  \
 Interpreter.cc \
-Interpreter.hh
+Interpreter.hh \
+AdvHook.hh AdvHook.cc \
+FadeOut.cc FadeOut.hh \
+KeyboardManager.cc \
+KeyboardManager.hh
 
 # SUBDIRS = guile data
 

@@ -1,4 +1,4 @@
-;; $Id: adventure.scm,v 1.8 2001/07/02 10:27:13 grumbel Exp $                                                             
+;; $Id: adventure.scm,v 1.18 2001/08/21 20:38:43 grumbel Exp $                                                             
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; The main initialisation file of the scheme advent engine, all stuff
 ;; that needs to be loaded should be loaded from here, except the game
@@ -47,6 +47,24 @@
 	    #:init-value #f
 	    #:init-keyword #:adv:bind))
 
+(define-method (adv:save-obj-stat (obj <advent:object>))
+  (cond ((adv:uid obj)
+	 (println ";; Object: " (name obj))
+	 (for-each (lambda (slot)
+		     (let ((value ((caddr slot) obj)))
+		       (cond ((or (integer? value) 
+				  (boolean? value))
+			      (println ";; slot: " slot)
+			      (println "(set! (" (car slot) " " (adv:uid obj) ") " 
+				       ((caddr slot) obj) 
+				       ")"))
+			     (else
+			      (println ";; Unsupported slot: " slot)))))
+		   (class-slots (class-of obj))))
+	(else
+	 (println ";; " obj " - not supported")
+	 )))
+
 ;; FIXME: document me!
 (define-class <advent:walk-point> (<advent:object>)
   (adv:scenario #:accessor adv:scenario
@@ -85,7 +103,8 @@
     ((north) 0)
     ((east)  1)
     ((south) 2)
-    ((west)  3)))
+    ((west)  3)
+    (else sym)))
 
 ;; Set the hotspot of an object
 (define (adv:set-hotspot! obj x-pos y-pos direction)
@@ -106,14 +125,19 @@
 
 
 (load "helper.scm")
-(load "inventory.scm")
+(load "classes.scm")
 (load "scenario.scm")
-(load "guy.scm")
+(load "person.scm")
+(load "inventory.scm")
+(load "knowledge.scm")
+
 (load "animation.scm")
 (load "actions.scm")
 (load "syntax-ext.scm")
 (load "dialog.scm")
 (load "stat.scm")
+(load "sequence.scm")
+(load "keyboard.scm")
 
 ;;(load "objects.scm")
 

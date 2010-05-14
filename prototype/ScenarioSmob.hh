@@ -1,4 +1,4 @@
-//  $Id: ScenarioSmob.hh,v 1.4 2001/03/03 22:55:34 grumbel Exp $
+//  $Id: ScenarioSmob.hh,v 1.6 2001/07/15 21:00:31 grumbel Exp $
 // 
 //  Pingus - A free Lemmings clone
 //  Copyright (C) 2000 Ingo Ruhnke <grumbel@gmx.de>
@@ -19,6 +19,14 @@
 
 #ifndef SCENARIOSMOB_HH
 #define SCENARIOSMOB_HH
+
+
+struct ScenarioSmobStruct
+{
+  int i;
+  Scenario* scenario;
+};
+
 
 class ScenarioSmob
 {
@@ -44,6 +52,7 @@ public:
 			SCM objects,
 			SCM with_guy);
   static SCM ScenarioSmob::remove (SCM obj);
+  static SCM ScenarioSmob::add (SCM obj);
 };
 
 #endif

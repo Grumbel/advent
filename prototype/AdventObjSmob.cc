@@ -1,4 +1,4 @@
-//  $Id: AdventObjSmob.cc,v 1.15 2001/06/28 08:32:23 grumbel Exp $
+//  $Id: AdventObjSmob.cc,v 1.16 2001/07/16 17:44:10 grumbel Exp $
 //
 //  Pingus - A free Lemmings clone
 //  Copyright (C) 2000 Ingo Ruhnke <grumbel@gmx.de>
@@ -43,6 +43,7 @@ void AdventObjSmob::init ()
   gh_new_procedure2_0("advent:set-surface", AdventObjSmob::set_surface);
   gh_new_procedure4_0("c:advent:set-surface-pos", AdventObjSmob::set_surface_pos);
   gh_new_procedure2_0("advent:set-inventory-surface", AdventObjSmob::set_inventory_surface);
+  gh_new_procedure1_0("c:adv:mark-empty", AdventObjSmob::mark_empty);
 }
 
 SCM       
@@ -190,6 +191,16 @@ AdventObjSmob::set_inventory_surface (SCM smob, SCM name)
   GuileAdventObj* advobj = scm2GuileAdventObj (smob);
   std::cout << "Pointer: " << advobj << std::endl;
   advobj->set_inventory_surface (SCM_CHARS (name));
+  return SCM_UNSPECIFIED;
+}
+
+SCM 
+AdventObjSmob::mark_empty (SCM smob)
+{
+  GuileAdventObj* obj = scm2GuileAdventObj (smob);  
+
+  obj->empty_object = true;
+
   return SCM_UNSPECIFIED;
 }
 

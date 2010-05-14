@@ -1,4 +1,4 @@
-//  $Id: Advent.hh,v 1.6 2001/03/28 21:59:57 grumbel Exp $
+//  $Id: Advent.hh,v 1.8 2001/07/15 18:54:58 grumbel Exp $
 // 
 //  Pingus - A free Lemmings clone
 //  Copyright (C) 2000 Ingo Ruhnke <grumbel@gmx.de>
@@ -23,6 +23,7 @@
 #include <ClanLib/application.h>
 #include <ClanLib/core.h>
 #include "Inventory.hh"
+#include "ClickManager.hh"
 
 void inner_main (void* closure, int argc, char* argv[]);
 
@@ -39,8 +40,31 @@ public:
   int   main (int argc, char* argv[]);
 };
 
+enum InputMode { MODE_NORMAL,    /* Standard mode, click will lead to a
+				    walk event or to MODE_COIN */
+		 
+ 		 MODE_OBJECT,    /* Person as a object in its hand,
+				    left click will lead to a combine,
+				    right click will lead to
+				    MODE_NORMAL */
+		 
+		 MODE_COIN,      /* Click will lead to a action or to
+				    MODE_NORMAL */
+
+		 MODE_INVENTORY, /* Inventory is visible, click will
+				    lead to MODE_NORMAL or
+				    MODE_OBJECT */
+		 
+		 MODE_DISABLED,  /* User input is suspended until the
+				    end of a cutscene */
+
+		 MODE_DIALOG     /* Dialog Mode, will end in MODE_NORMAL */
+};
+
+extern InputMode input_mode;
 extern Inventory* inventory;
 extern Advent app;
+extern ClickManager click_manager;
 
 #endif
 

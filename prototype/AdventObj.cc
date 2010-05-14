@@ -1,4 +1,4 @@
-//  $Id: AdventObj.cc,v 1.6 2001/04/27 20:42:57 grumbel Exp $
+//  $Id: AdventObj.cc,v 1.7 2001/07/12 09:23:16 grumbel Exp $
 //
 //  Pingus - A free Lemmings clone
 //  Copyright (C) 2000 Ingo Ruhnke <grumbel@gmx.de>
@@ -34,5 +34,12 @@ SurfaceAdvObj::draw_world (int x_offset = 0, int y_offset = 0)
 {
   sur.put_screen (int(pos.x + x_offset), int(pos.y + y_offset));
 }
+
+ostream& operator<<(ostream& ostr, AdventObj& obj)
+{
+  ostr << obj.get_name ();
+  return ostr;
+}
+
 
 /* EOF */

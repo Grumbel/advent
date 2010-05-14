@@ -1,4 +1,4 @@
-//  $Id: Inventory.cc,v 1.11 2001/06/28 08:32:23 grumbel Exp $
+//  $Id: Inventory.cc,v 1.14 2001/08/21 20:38:43 grumbel Exp $
 //
 //  Pingus - A free Lemmings clone
 //  Copyright (C) 2000 Ingo Ruhnke <grumbel@gmx.de>
@@ -40,6 +40,7 @@ Inventory::Inventory ()
 void 
 Inventory::add (AdventObj* obj)
 {
+  std::cout << "Adding object..." << std::endl;
   for (std::vector<AdventObj*>::iterator i = objects.begin ();
        i != objects.end (); ++i)
     {
@@ -128,27 +129,9 @@ Inventory::update (float delta)
     {
       if (CL_Mouse::get_x () < 10 || CL_Mouse::get_x () > 630
 	  || CL_Mouse::get_y () < 10 || CL_Mouse::get_y () > 470)
-	visible = false;
-
-      if (CL_Mouse::left_pressed ())
 	{
-	  int size = 80;
-	  int width = 6;
-	  int height = 4;
-
-	  for (int y = 0; y < height; ++y)
-	    for (int x = 0; x < width; ++x)
-	      {
-		if (CL_Mouse::get_x () > x*size + size
-		    && CL_Mouse::get_x () < x*size + size + size
-		    && CL_Mouse::get_y () > y*size + size 
-		    && CL_Mouse::get_y () < y*size + size + size)
-		  {
-		    int index = width * y + x;
-		    coin->set_current_obj(objects[index]);
-		  }
-	      }
 	  visible = false;
+	  input_mode = MODE_NORMAL;
 	}
     }
 }
@@ -161,6 +144,7 @@ Inventory::init ()
   gh_new_procedure1_0 ("c:inventory:remove", &Inventory::remove);
   gh_new_procedure1_0 ("c:inventory:has", &Inventory::has);
   gh_new_procedure0_0 ("c:inventory:show", &Inventory::static_show);
+  gh_new_procedure0_0 ("c:inventory:get-objects", &Inventory::get_objects);
   //gh_new_procedure0_0 ("inventory:hide", &Inventory::static_show);
 }
 
@@ -169,6 +153,7 @@ Inventory::show ()
 {
   puts ("Inventory showing show...");
   inventory->visible = true;
+  input_mode = MODE_INVENTORY;
 }
 
 SCM 
@@ -228,17 +213,58 @@ Inventory::mouse_over (int x_pos, int y_pos)
       && y_pos > 400 && y_pos < 400 + (int) icon.get_height ();
 }
 
-bool 
-Inventory::on_mouse_click (const CL_Key& key)
+bool
+Inventory::on_mouse_release (const CL_Key& key)
 {
-  std::cout << "INVENTORY: GOT CLICK" << key.id << std::endl;
-  if (key.id == CL_MOUSE_LEFTBUTTON || key.id == 0)
+  if (key.id == CL_MOUSE_LEFTBUTTON 
+      && input_mode == MODE_INVENTORY
+      && !ignore_release)
     {
-      std::cout << "Got click event..." << std::endl;
-      show ();
+      int size = 80;
+      int width = 6;
+      int height = 4;
+
+      input_mode = MODE_NORMAL;
+      for (int y = 0; y < height; ++y)
+	for (int x = 0; x < width; ++x)
+	  {
+	    if (CL_Mouse::get_x () > x*size + size
+		&& CL_Mouse::get_x () < x*size + size + size
+		&& CL_Mouse::get_y () > y*size + size 
+		&& CL_Mouse::get_y () < y*size + size + size)
+	      {
+		int index = width * y + x;
+		coin->set_current_obj(objects[index]);
+
+		if (objects[index] == NULL)
+		  input_mode = MODE_NORMAL;
+		else
+		  input_mode = MODE_OBJECT;
+	      }
+	  }
+      visible = false;
+      ignore_release = false;
       return true;
     }
-  
+  ignore_release = false;
+  return false;
+}
+
+bool 
+Inventory::on_mouse_press (const CL_Key& key)
+{
+  if (input_mode != MODE_INVENTORY)
+    {
+      std::cout << "INVENTORY: GOT CLICK" << key.id << std::endl;
+      if (key.id == CL_MOUSE_LEFTBUTTON)
+	{
+	  ignore_release = true;
+	  std::cout << "Got click event..." << std::endl;
+	  show ();
+	  input_mode = MODE_INVENTORY;
+	  return true;
+	}
+    }
   // We eat all clicks so we avoid confusion
   return true;
 }
@@ -246,10 +272,27 @@ Inventory::on_mouse_click (const CL_Key& key)
 float 
 Inventory::priority ()
 {
-  if (!visible)
-    return 1.0f;
-  else
-    return 100.0f;
+  //if (!visible)
+  //    return 1.0f;
+  //else
+  return 100.0f;
+}
+
+SCM 
+Inventory::get_objects ()
+{
+  SCM lst = SCM_EOL;
+  std::vector<AdventObj*>& objects = inventory->objects;
+  for (ObjIter i = objects.begin (); i != objects.end (); ++i)
+    {
+      GuileAdventObj* guile_obj = dynamic_cast<GuileAdventObj*>(*i);
+      if (guile_obj)
+	lst = gh_cons (guile_obj->get_scm (), lst);
+    }
+
+  // FIXME: BUG?
+
+  return lst;
 }
 
 /* EOF */

@@ -1,4 +1,4 @@
-//  $Id: View.hh,v 1.1 2001/03/16 00:53:41 grumbel Exp $
+//  $Id: View.hh,v 1.2 2001/07/11 08:03:26 grumbel Exp $
 // 
 //  Pingus - A free Lemmings clone
 //  Copyright (C) 2000 Ingo Ruhnke <grumbel@gmx.de>
@@ -20,16 +20,63 @@
 #ifndef VIEW_HH
 #define VIEW_HH
 
+#include <ClanLib/core.h>
+#include <guile/gh.h>
+#include "Guy.hh"
+
+class View;
+
+extern View* the_view;
+
+/** Yet Another View implementation... FIXME: Would multiple views be
+ a good idea? Probally usefull for splitscreen... */
 class View
 {
 private:
-
+  // We follow this person if != 0
+  Guy* guy;
+  
 public:
+
+  // Information what should be drawn
+  Scenario* scenario;
+  
   int x_offset;
   int y_offset;
-};
+  //end
 
-extern View view;
+  View ();
+  ~View ();
+
+  void draw ();
+  void update (float delta);
+  void look_at (CL_Vector pos);
+  void scroll_to (CL_Vector pos);
+  void follow (Guy*);
+  //void fade_out ();
+
+  /***************/
+  /* Guile Stuff */
+  /***************/
+  
+  /** Init guile functions and smob staff */
+  static void init ();
+  
+  /** Set the view to the given position */
+  static SCM look_at (SCM x, SCM y);
+
+  /** Scroll slowly to the given coordinates */
+  static SCM scroll_to (SCM x, SCM y);
+
+  /** Set the viem onto the given scenario */
+  static SCM set_scenario (SCM scenario);
+
+  /** Follow a person */
+  static SCM follow (SCM person);
+
+  /** Fadeout the screen */
+  static SCM fade_out ();
+};
 
 #endif
 

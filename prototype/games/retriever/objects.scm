@@ -53,6 +53,9 @@
 ;;(adv:set-scenario game-scenario:scenario12)
 ;;(c:guy:set-position 310 330)
 
+;; Create the person to control
+(define my-person (person:make mogli-gfx))
+
 ;; Gateway
 (adv:set-scenario game-scenario:gateway)
 (c:guy:set-position 310 330)

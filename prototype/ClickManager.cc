@@ -1,4 +1,4 @@
-//  $Id: ClickManager.cc,v 1.6 2001/03/28 21:59:57 grumbel Exp $
+//  $Id: ClickManager.cc,v 1.7 2001/07/07 20:00:11 grumbel Exp $
 //
 //  Pingus - A free Lemmings clone
 //  Copyright (C) 2000 Ingo Ruhnke <grumbel@gmx.de>
@@ -18,6 +18,8 @@
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "ClickManager.hh"
+
+bool ClickManager::input_enabled = true;
 
 static bool prio_sort (Clickable* a, Clickable* b)
 {
@@ -52,6 +54,8 @@ ClickManager::get_active (int x_pos, int y_pos)
 void
 ClickManager::on_button_press(CL_InputDevice *device, const CL_Key &key)
 {
+  if (!input_enabled) return;
+
   clickables.sort (prio_sort);
   //std::cout << "CLICKMANAGER: press" << std::endl;
 
@@ -71,6 +75,8 @@ ClickManager::on_button_press(CL_InputDevice *device, const CL_Key &key)
 void
 ClickManager::on_button_release(CL_InputDevice *device, const CL_Key &key)
 {
+  if (!input_enabled) return;
+
   clickables.sort (prio_sort);
   //  std::cout << "CLICKMANAGER: release" << std::endl;
 
@@ -106,6 +112,8 @@ ClickManager::add (Clickable* a)
 void 
 ClickManager::keep_alive ()
 {
+  if (!input_enabled) return;
+
   if (doubleclick_timeout != -1)
     {
       if (doubleclick_timeout < (int) CL_System::get_time ())
@@ -121,6 +129,27 @@ ClickManager::keep_alive ()
 	  doubleclick_timeout = -1;
 	}
     }
+}
+
+void 
+ClickManager::init ()
+{
+  gh_new_procedure0_0 ("c:input:disable", &ClickManager::disable_input);
+  gh_new_procedure0_0 ("c:input:enable", &ClickManager::enable_input);
+}
+
+SCM 
+ClickManager::disable_input ()
+{
+  input_enabled = false;
+  return SCM_UNSPECIFIED;
+}
+
+SCM 
+ClickManager::enable_input ()
+{
+  input_enabled = true;
+  return SCM_UNSPECIFIED;
 }
 
 /* EOF */

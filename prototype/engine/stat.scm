@@ -1,4 +1,4 @@
-;; $Id: stat.scm,v 1.1 2001/07/02 10:27:13 grumbel Exp $                                                             
+;; $Id: stat.scm,v 1.2 2001/08/21 20:38:43 grumbel Exp $                                                             
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Routines for handling loading and saveing of the game status.
 ;;
@@ -37,11 +37,12 @@
 	;; Save guy position
 	(println "(c:guy:set-position " (c:guy:get-x-pos) " " (c:guy:get-y-pos) ")")
 	(println "(c:guy:set-direction " (c:guy:get-direction) ")")
-	;;	()
+	(inventory:save-stat)
 	))
     (close-port port)))
 
 (define (adv:load-stat filename)
+  (println "Loading stat file: " filename)
   (load filename))
   ;;(println "Loading gamestat from '" filename "'")
 ;;  (with-input-from-file filename

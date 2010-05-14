@@ -1,4 +1,4 @@
-//  $Id: Dialog.cc,v 1.6 2001/04/27 20:42:57 grumbel Exp $
+//  $Id: Dialog.cc,v 1.12 2001/08/21 20:38:43 grumbel Exp $
 //
 //  Pingus - A free Lemmings clone
 //  Copyright (C) 2000 Ingo Ruhnke <grumbel@gmx.de>
@@ -34,6 +34,11 @@ Dialog::draw ()
       CL_Display::fill_rect (320 - 200, 150 - 40, 320 + 200, 150 + 50,
 			     0.0, 0.0, 0.0, 0.5);
       font ("font")->print_center (320, 150, message.text.c_str ());
+
+      if (!speaker.empty ())
+	{
+	  font ("font")->print_left (320-200, 110, speaker.c_str ());
+	}
     }
 }
 
@@ -49,8 +54,23 @@ Dialog::update (float delta)
 	{	
 	  //std::cout << "Poping: " << message.text << std::endl;
 	  texts.pop_front ();
+	  if (texts.empty()) call_hooks ();
 	}
     }
+}
+
+void 
+Dialog::call_hooks ()
+{
+  // Create a temporary object to avoid that the iterators get
+  // invalideded on a pushback event inside the gh_call0()
+  std::vector<SCM> tmp_hooks (hooks);
+  hooks.clear ();
+  for (std::vector<SCM>::iterator i = tmp_hooks.begin (); i != tmp_hooks.end (); ++i)
+    {
+      gh_call0 (*i);
+      //scm_unprotect_object (*i);
+    }  
 }
 
 void 
@@ -62,10 +82,16 @@ Dialog::add (const DialogMessage& message)
 SCM 
 Dialog::dialog_push (SCM text)
 {
-  char * char_str = SCM_CHARS (text);
-  std::string str (char_str);
-
-  dialog.texts.push_back (DialogMessage (str, 2000));
+  if (SCM_STRINGP (text))
+    {
+      char * char_str = SCM_CHARS (text);
+      std::string str (char_str);
+      dialog.texts.push_back (DialogMessage (str, str.length () * 50 + 1000));
+    }
+  else if (SCM_SYMBOLP (text))
+    {
+      std::cout << "feeling expressions are not supported" << std::endl;
+    }
 
   return SCM_UNSPECIFIED;
 }
@@ -78,12 +104,43 @@ Dialog::dialog_clear ()
   return SCM_UNSPECIFIED;
 }
 
+SCM
+Dialog::dialog_add_hook (SCM lambda)
+{
+  scm_protect_object (lambda);
+  dialog.hooks.push_back (lambda);
+  return SCM_UNSPECIFIED;
+}
+
+void 
+Dialog::set_speaker (std::string arg_speaker)
+{
+  speaker = arg_speaker;
+}
+    
+SCM 
+Dialog::dialog_set_speaker (SCM arg_speaker)
+{
+  if (SCM_STRINGP(arg_speaker))
+    {
+      dialog.set_speaker(SCM_CHARS (arg_speaker));
+    }
+  else
+    {
+      assert (!"Dialog: Invalide argument type to dialog_set_speaker");
+    }
+  return SCM_UNSPECIFIED;
+}
+
 void 
 Dialog::init ()
 {
-  std::cout << "Registering guile stuff..." << std::endl;
+  std::cout << "Dialog: Registering guile stuff..." << std::endl;
+  gh_new_procedure1_0 ("c:dialog:set-speaker", &Dialog::dialog_set_speaker);
   gh_new_procedure1_0 ("c:dialog:push", &Dialog::dialog_push);
   gh_new_procedure0_0 ("c:dialog:clear", &Dialog::dialog_clear);
+
+  gh_new_procedure1_0 ("c:dialog:add-hook", &Dialog::dialog_add_hook);
   std::cout << "Registering guile stuff...done" << std::endl;
 }
 

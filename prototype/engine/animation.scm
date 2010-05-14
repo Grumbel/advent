@@ -17,15 +17,17 @@
   (display-time #:accessor display-time
 		#:init-value #f
 		#:init-keyword #:display-time)
+
   (surface-name #:accessor surface-name
 		#:init-value #f
 		#:init-keyword #:surface-name)
-  (position     #:accessor position
-		#:init-value (list 320 200 150)
-		#:init-keyword #:position)
   (sub-frame    #:accessor sub-frame
 		#:init-value 0
-		#:init-keyword #:sub-frame))
+		#:init-keyword #:sub-frame)
+
+  (position     #:accessor position
+		#:init-value (list 320 200 150)
+		#:init-keyword #:position))
 
 (define-method (adv:frame surface-name position display-time sub-frame)
   (make <frame>

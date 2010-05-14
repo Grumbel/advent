@@ -1,4 +1,4 @@
-//  $Id: ClickManager.hh,v 1.4 2001/03/28 21:59:57 grumbel Exp $
+//  $Id: ClickManager.hh,v 1.5 2001/07/07 20:00:11 grumbel Exp $
 // 
 //  Pingus - A free Lemmings clone
 //  Copyright (C) 2000 Ingo Ruhnke <grumbel@gmx.de>
@@ -21,6 +21,7 @@
 #define CLICKMANAGER_HH
 
 #include <list>
+#include <guile/gh.h>
 #include <ClanLib/core.h>
 #include <ClanLib/display.h>
 #include "Clickable.hh"
@@ -46,6 +47,12 @@ public:
   void on_button_release(CL_InputDevice *device, const CL_Key &key);
 
   void keep_alive ();
+
+  static bool input_enabled;
+
+  static void init ();
+  static SCM disable_input ();
+  static SCM enable_input ();
 
 private:
   Clickable* get_active (int x_pos, int y_pos);

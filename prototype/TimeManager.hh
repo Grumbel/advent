@@ -1,4 +1,4 @@
-//  $Id: TimeManager.hh,v 1.2 2001/04/27 20:42:57 grumbel Exp $
+//  $Id: TimeManager.hh,v 1.3 2001/07/03 06:44:12 grumbel Exp $
 // 
 //  Pingus - A free Lemmings clone
 //  Copyright (C) 2000 Ingo Ruhnke <grumbel@gmx.de>
@@ -30,6 +30,10 @@ struct TimedLambda
       lambda (arg_lambda)
   {
   }
+
+  ~TimedLambda () {
+  }
+
   unsigned int triger_time;
   SCM lambda;
 };

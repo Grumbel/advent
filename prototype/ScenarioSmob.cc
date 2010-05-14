@@ -1,4 +1,4 @@
-//  $Id: ScenarioSmob.cc,v 1.13 2001/03/03 22:55:34 grumbel Exp $
+//  $Id: ScenarioSmob.cc,v 1.16 2001/07/15 21:00:31 grumbel Exp $
 //
 //  Pingus - A free Lemmings clone
 //  Copyright (C) 2000 Ingo Ruhnke <grumbel@gmx.de>
@@ -28,12 +28,6 @@
 
 long ScenarioSmob::tag;
 
-struct ScenarioSmobStruct
-{
-  int i;
-  Scenario* scenario;
-};
-
 void 
 ScenarioSmob::init ()
 {
@@ -45,8 +39,9 @@ ScenarioSmob::init ()
   scm_set_smob_print (tag, ScenarioSmob::print);
 
   gh_new_procedure5_0("c:scenario:make-bind", &ScenarioSmob::make_bind);
-  gh_new_procedure1_0("c:scenario:set-current", &ScenarioSmob::set_current_scenario);
+  //gh_new_procedure1_0("c:scenario:set-current", &ScenarioSmob::set_current_scenario);
   gh_new_procedure1_0("c:scenario:remove", &ScenarioSmob::remove);
+  gh_new_procedure1_0("c:scenario:add", &ScenarioSmob::add);
 }
 
 SCM
@@ -111,11 +106,11 @@ ScenarioSmob::make_bind (SCM scenario_name,
   //    << " " << obj->i << std::endl;
 
   Scenario::scenario_list.push_back (obj->scenario);
-  Scenario::current = obj->scenario;
+  //Scenario::current = obj->scenario;
   //  std::cout << "Returning new smob" << std::endl;
   SCM_RETURN_NEWSMOB (tag, obj);
 }
-
+/*
 SCM
 ScenarioSmob::set_current_scenario (SCM scenario_bind)
 {
@@ -124,13 +119,21 @@ ScenarioSmob::set_current_scenario (SCM scenario_bind)
   //std::cout << "+++ Scenario Pointer: " << p->scenario
   //	    << " " << p->i << std::endl;
   Scenario::set_current_scenario (p->scenario);
+  Guy::get_current ()->scenario = p->scenario;
+  return SCM_UNSPECIFIED;
+}
+*/
+SCM
+ScenarioSmob::remove (SCM obj)
+{
+  Scenario::get_current ()->remove (scm2AdventObj (obj));
   return SCM_UNSPECIFIED;
 }
 
 SCM
-ScenarioSmob::remove (SCM obj)
+ScenarioSmob::add (SCM obj)
 {
-  Scenario::current->remove (scm2AdventObj (obj));
+  Scenario::get_current ()->add (scm2AdventObj (obj));
   return SCM_UNSPECIFIED;
 }
 

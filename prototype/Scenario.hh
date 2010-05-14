@@ -1,4 +1,4 @@
-//  $Id: Scenario.hh,v 1.9 2001/04/27 20:42:57 grumbel Exp $
+//  $Id: Scenario.hh,v 1.12 2001/07/12 09:23:16 grumbel Exp $
 // 
 //  Pingus - A free Lemmings clone
 //  Copyright (C) 2000 Ingo Ruhnke <grumbel@gmx.de>
@@ -23,12 +23,13 @@
 #include <list>
 #include <libguile.h>
 
+#include "View.hh"
 #include "AdventObj.hh"
 #include "Background.hh"
 #include "CollisionMap.hh"
 
 class AdventObj;
-
+class View;
 class Scenario
 {
 protected:
@@ -47,29 +48,34 @@ protected:
 
   void init ();
   
+  int adv_list_lock;
+  int drawable_list_lock;
+
+  bool need_list_update;
+  std::list<AdventObj*> adv_add_list;
 public:
   ///
   static std::list<Scenario*> scenario_list;
-  ///
-  static Scenario* current;
 
   Scenario (SCM name, 
 	    std::string background, std::string colmap,
 	    std::list<AdventObj*> objects, bool with_guy = true);
   virtual ~Scenario ();
   
-  static void set_current_scenario (std::string name);
-  static void set_current_scenario (Scenario* scenario);
-
   virtual std::string get_name () { return name; }
 
-  virtual void draw ();
+  static Scenario* get_current ();
+  virtual void draw (View* view);
   virtual void update (float delta);
   virtual CollisionMap* get_colmap ();
   virtual AdventObj* get_object (int x, int y);
   virtual void add (AdventObj* obj);
   virtual void remove (AdventObj* obj);
   virtual void add (Drawable* obj);
+
+  /** Since add and remove are proxied, we need an extra call to
+      update the lists */
+  virtual void update_list ();
 };
 
 #endif

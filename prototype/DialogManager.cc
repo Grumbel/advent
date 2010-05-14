@@ -1,4 +1,4 @@
-//  $Id: DialogManager.cc,v 1.3 2001/04/27 20:42:57 grumbel Exp $
+//  $Id: DialogManager.cc,v 1.4 2001/07/15 18:54:58 grumbel Exp $
 //
 //  Pingus - A free Lemmings clone
 //  Copyright (C) 2000 Ingo Ruhnke <grumbel@gmx.de>
@@ -96,6 +96,9 @@ DialogManager::dialog_show (SCM arg_sentences, SCM arg_lambda)
     {
       std::cout << "Sentence: " <<  *i << std::endl;
     }
+
+  input_mode = MODE_DIALOG;
+
   return SCM_UNSPECIFIED;
 }
 
@@ -162,6 +165,8 @@ DialogManager::eval (int selection)
       sentences.clear ();
       //assert(!"DialogManager: NO lambda given");
     }
+  std::cout << "Leaving dialog" << std::endl;
+  input_mode = MODE_NORMAL;
 }
 
 float

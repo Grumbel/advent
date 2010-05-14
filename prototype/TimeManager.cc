@@ -1,4 +1,4 @@
-//  $Id: TimeManager.cc,v 1.2 2001/04/27 20:42:57 grumbel Exp $
+//  $Id: TimeManager.cc,v 1.4 2001/07/07 10:51:13 grumbel Exp $
 //
 //  Pingus - A free Lemmings clone
 //  Copyright (C) 2000 Ingo Ruhnke <grumbel@gmx.de>
@@ -31,6 +31,7 @@ TimeManager::init ()
 SCM
 TimeManager::add (SCM time, SCM lambda)
 {
+  scm_protect_object (lambda); 
   lambdas.push_back(TimedLambda (CL_System::get_time () + SCM_INUM (time),
 				 lambda));
   return SCM_UNSPECIFIED;
@@ -57,10 +58,13 @@ TimeManager::update (float delta)
   for (std::list<TimedLambda>::iterator i = lambdas.begin ();
        i != lambdas.end (); ++i)
     {
-      if (i->triger_time <= current_time)
-	gh_call0 (i->lambda);
+      if (i->triger_time <= current_time) 
+	{
+	  gh_call0 (i->lambda);
+	  scm_unprotect_object (i->lambda);
+	}
     }
-
+  
   lambdas.remove_if (to_old (current_time));
 }
 

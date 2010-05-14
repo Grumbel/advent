@@ -1,1 +1,1 @@
-Using set! on a goops object inside a adv:timed does not work!
+Error handling of non-existing resources is extremly bad.

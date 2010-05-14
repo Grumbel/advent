@@ -57,6 +57,8 @@
 
 
 (define-method (use (obj <scenario1:odd>))
+  (c:guy:set-emotion 1)
+  (adv:timed 1000   (c:guy:set-emotion 0))
   (cond ((not (touched obj))
 	 (scenario1:odd-explosion)
 	 (adv:timed 1000
@@ -75,7 +77,8 @@
   (repeat (lambda ()
 	    (c:draw "odd" (list (random 640) (random 480)
 				(random 255))))
-	  250)
+	  2)
+  (c:guy:set-emotion 2)
   (dialog:add "The crystal is flowting in the air..."
 	      "...weird device")
   (adv:timed 2000

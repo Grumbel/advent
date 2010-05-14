@@ -1,4 +1,4 @@
-//  $Id: GuileAdventObj.cc,v 1.22 2001/04/27 20:42:57 grumbel Exp $
+//  $Id: GuileAdventObj.cc,v 1.24 2001/07/16 17:44:10 grumbel Exp $
 //
 //  Pingus - A free Lemmings clone
 //  Copyright (C) 2000 Ingo Ruhnke <grumbel@gmx.de>
@@ -27,6 +27,7 @@ GuileAdventObj::GuileAdventObj (SCM arg_name,
 				std::string arg_surname, CL_Vector arg_pos)
   : counter (0), is_init (false)
 {
+  empty_object = false;
   if (SCM_STRINGP (arg_name))
     {
       scm_object = SCM_BOOL_F;
@@ -66,6 +67,7 @@ GuileAdventObj::GuileAdventObj (SCM arg_name,
   : pos (arg_pos), width (arg_width), height (arg_height),
     counter (0), is_init (true)
 {
+  empty_object = false;
   if (SCM_STRINGP (arg_name))
     {
       scm_object = SCM_BOOL_F;
@@ -170,12 +172,14 @@ GuileAdventObj::draw_inventory (int x, int y)
 bool 
 GuileAdventObj::is_at (int x, int y)
 {
-  if (!is_init) init ();
+  if (empty_object) return false;
 
-  if (pos.x + view.x_offset <= x
-      && pos.x + width + view.x_offset > x
-      && pos.y + view.y_offset  <= y
-      && pos.y + view.y_offset  + height > y)
+  if (!is_init) init ();
+  
+  if (pos.x + the_view->x_offset <= x
+      && pos.x + width + the_view->x_offset > x
+      && pos.y + the_view->y_offset  <= y
+      && pos.y + the_view->y_offset  + height > y)
     {
       return true;
     }

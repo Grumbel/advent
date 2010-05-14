@@ -6,6 +6,13 @@
   (number-of #:init-value 1
 	     #:accessor number-of))
 
+(println "LKW: Testing hook")
+(define test-hook (c:adv:hook:make))
+(c:adv:hook:add-finish test-hook (lambda ()
+				   (println "Testing the hook...")))
+(c:adv:hook:call-finish test-hook)
+(println "LKW: Testing hook done")
+
 (define scenario:lkw:coin-group (make <scenario:lkw:coin> #:number-of 0))
 (define scenario:lkw:coin1 (make <scenario:lkw:coin>))
 (define scenario:lkw:coin2 (make <scenario:lkw:coin>))
@@ -20,13 +27,38 @@
 (adv:bind-surface scenario:lkw:coin3 "lkwcoin" 492 435 245)
 (adv:bind-surface scenario:lkw:coin4 "lkwcoin" 595 373 225)
 
-(adv:set-hotspot! scenario:lkw:coin1  385 443 0)
-(adv:set-hotspot! scenario:lkw:coin2  434 387 0)
-(adv:set-hotspot! scenario:lkw:coin3  492 435 0)
-(adv:set-hotspot! scenario:lkw:coin4  595 373 0)
+(adv:set-hotspot! scenario:lkw:coin1  385 443 'south)
+(adv:set-hotspot! scenario:lkw:coin2  434 387 'south)
+(adv:set-hotspot! scenario:lkw:coin3  492 435 'south)
+(adv:set-hotspot! scenario:lkw:coin4  595 373 'south)
 
 (define-method (combine (coin <scenario:lkw:coin>) (obj <advent:object>))
   (dialog:add (string-append "Don't know of to use " (name coin) " with " (name obj))))
+
+
+(adv:defmets <scenario:lkw:coin>
+	     (look (adv:seq
+		    (dialog:add "A coin, cool")
+		    (adv:walk scenario:lkw:coin1)
+		    (dialog:add "Yet another coin")
+		    (adv:walk scenario:lkw:coin2)
+		    (dialog:add "Let us sleep 3 seconds")
+		    (adv:sleep 3000)
+		    (dialog:add "...wake up again"
+				"Even more coins...")
+		    (adv:walk scenario:lkw:coin3)
+		    (dialog:add "Wow... there are more and more")
+		    (adv:walk scenario:lkw:coin4)
+		    (adv:walk scenario:lkw:coin3)
+		    (adv:walk scenario:lkw:cockpit)
+		    (adv:walk scenario:lkw:fluid)
+		    )
+		   ;;(let ((hook (c:guy:set-target 605 446 (lambda () 
+		   ;;(println "CALLBACK")))))
+		   ;;(c:adv:hook:add-finish hook (lambda ()
+		   ;; (dialog:add "Calling a hook!")))
+		   ;;  )
+		   ))
 
 (define-method (pickup (coin <scenario:lkw:coin>))
   (scenario:remove coin)
@@ -68,7 +100,7 @@
  lkw:cockpit:dialog:help:window
  (list "<smash the window>" lkw:cockpit:smashwindow)
  (list "Sorry, I can't do this." (lambda ()
-				   (dialog:add "Cockpit: Hey! Come on I need you help")
+				   (adv:seq (dialog:add "Cockpit: Hey! Come on I need you help"))
 				   (dialog:show lkw:cockpit:dialog:help:window:really))))
 
 (define (lkw:cockpit:fluid)
@@ -78,8 +110,8 @@
  lkw:cockpit:dialog:help:question:2
  (list "What is that fluid you transported?" lkw:cockpit:fluid)
  (list "Who are you working for?" (lambda ()
-				    (dialog:add "Cockpit: General Gene...")
-				    (dialog:show lkw:cockpit:dialog:help:question:2)
+				    (adv:seq (dialog:add "Cockpit: General Gene...")
+					     (dialog:show lkw:cockpit:dialog:help:question:2))
 				    )))
 
 (adv:define-dialog 
@@ -91,12 +123,12 @@
 (adv:define-dialog 
  lkw:cockpit:dialog:help
  (list "How can I help you?" (lambda ()
-			       (dialog:add "Cockpit: Try to smash the window!")
-			       (dialog:show lkw:cockpit:dialog:help:window)))
+			       (adv:seq (dialog:add "Cockpit: Try to smash the window!")
+					(dialog:show lkw:cockpit:dialog:help:window))))
  (list "Before I can help you, you first have to answer me some questions!"
        (lambda ()
-	 (dialog:add "Cockpit: No way!")
-	 (dialog:show lkw:cockpit:dialog:help:question)))
+	 (adv:seq (dialog:add "Cockpit: No way!")
+		  (dialog:show lkw:cockpit:dialog:help:question))))
  (list "Sorry, no time for helping you..." #f))
 
 
@@ -104,8 +136,9 @@
 (adv:define-dialog 
  lkw:cockpit:dialog 
  (list "Hello, anybody there?" (lambda ()
-				 (dialog:add "Cockpit: Yes, I am traped under the seat.")
-				 (dialog:show lkw:cockpit:dialog:help)))
+				 (adv:seq (adv:sleep 2000)
+					  (dialog:add "Cockpit: Yes, I am traped under the seat.")
+					  (dialog:show lkw:cockpit:dialog:help))))
  (list "Where are you" 'lkw:cockpit:where-are-you)
  (list "<Leave>"   #f))
 
@@ -144,8 +177,8 @@
 	   (adv:set-hotspot!  495 357 0))
 
 (adv:defmets <scenario:lkw:lamp2>
-	     (look   (dialog:add "The lamp is lose."))
-	     (use    (dialog:add "Its lose, probally I should pick it up."))
+	     (look   (dialog:add 'angry "The lamp is lose."))
+	     (use    (dialog:add 'question "Its lose, probally I should pick it up."))
 	     (pickup (dialog:add "I got a lamp.")))
 
 ;; Define the scenario

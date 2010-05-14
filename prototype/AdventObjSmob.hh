@@ -1,4 +1,4 @@
-//  $Id: AdventObjSmob.hh,v 1.9 2001/03/08 01:08:00 grumbel Exp $
+//  $Id: AdventObjSmob.hh,v 1.10 2001/07/16 17:44:10 grumbel Exp $
 // 
 //  Pingus - A free Lemmings clone
 //  Copyright (C) 2000 Ingo Ruhnke <grumbel@gmx.de>
@@ -52,6 +52,7 @@ public:
   static SCM set_surface (SCM obj, SCM name);
   static SCM set_inventory_surface (SCM obj, SCM name);
   static SCM set_surface_pos (SCM smob, SCM x_pos, SCM y_pos, SCM z_pos);
+  static SCM mark_empty (SCM smob);
 };
 
 #endif

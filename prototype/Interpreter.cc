@@ -1,4 +1,4 @@
-//  $Id: Interpreter.cc,v 1.1 2001/06/25 07:39:57 grumbel Exp $
+//  $Id: Interpreter.cc,v 1.3 2001/08/21 20:38:43 grumbel Exp $
 //
 //  Pingus - A free Lemmings clone
 //  Copyright (C) 2000 Ingo Ruhnke <grumbel@gmx.de>
@@ -49,7 +49,15 @@ Interpreter::launch ()
 	quit = true;
       else
 	{
-	  gh_eval_str (line.c_str ());
+	  line = "(catch #t (lambda () "
+	    + line 
+	    + ") (lambda stuff (display \"Error: \") (display stuff) (newline)))";
+	  SCM ret = gh_eval_str (line.c_str ());
+	  if (ret != SCM_UNSPECIFIED)
+	    {
+	      gh_display(ret);
+	      gh_newline ();
+	    }
 	}
     }
   std::cout << "Interpreter quited" << std::endl;

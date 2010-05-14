@@ -67,7 +67,24 @@
   (c:dialog:clear)
   (for-each (lambda (x) 
 	      (c:dialog:push x))
-	    lst))
+	    lst)
+  ;; FIXME: This is probally incompatible with older code
+  (let ((hook (c:adv:hook:make)))
+    (c:dialog:add-hook (lambda () (c:adv:hook:call-finish hook)))
+    hook))
 
+(define (adv:say person . lst)
+  (println "person: " person "lst: " lst)
+  (c:dialog:set-speaker person)
+  (apply dialog:add lst))
+
+(define-syntax dialog:add-hook 
+  (syntax-rules ()
+    ((_ body ...)
+     (c:dialog:add-hook (lambda () body ...)))))
+
+#!
+(adv:say *current-person* 'normal "This is" 'angry "fucking stupid!")
+!#
 
 ;; EOF ;;
