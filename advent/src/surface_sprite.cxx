@@ -28,15 +28,15 @@ SurfaceSprite::SurfaceSprite (std::string arg_filename)
   //std::cout << "SurfaceSprite::SurfaceSprite" << std::endl;
   try {
     // FIXME: Replace this with a resource handler
-    CL_PixelBuffer* provider;
+    CL_PixelBuffer provider;
     if (filename.substr (filename.length () - 4) == ".png")
-      provider = new CL_PNGProvider (filename.c_str ());
+      provider = CL_PNGProvider (filename.c_str ());
     else if (filename.substr (filename.length () - 4) == ".jpg")
-      provider = new CL_JPEGProvider (filename.c_str ());
+      provider = CL_JPEGProvider (filename.c_str ());
     else if (filename.substr (filename.length () - 4) == ".tga")
-      provider = new CL_TargaProvider (filename.c_str (), NULL);
+      provider = CL_TargaProvider (filename.c_str (), NULL);
     else if (filename.substr (filename.length () - 4) == ".pcx")
-      provider = new CL_PCXProvider (filename.c_str (), NULL);
+      provider = CL_PCXProvider (filename.c_str (), NULL);
     else 
       {
 	std::cout << "Unknown imagefile extension: '"
@@ -44,28 +44,28 @@ SurfaceSprite::SurfaceSprite (std::string arg_filename)
 	assert (0);
       }
 
-    provider->lock();
+    provider.lock();
     std::cout << "Sprite: " << filename << ": "
-              << provider->get_width() << "x" << provider->get_height() << std::endl;
+              << provider.get_width() << "x" << provider.get_height() << std::endl;
 
-    if (provider->get_width() >= 1024)
+    if (provider.get_width() >= 1024)
       {
         std::cout << "SurfaceSprite: Warning sprite '" << filename 
                   << "' will get truncated to 1024 pixels" << std::endl;
         // FIXME: Little hack to make large backgrounds loadable
         CL_SpriteDescription desc;
         // FIXME: Memory leak, add resource manager here
-        desc.add_gridclipped_frames(provider, 0, 0, 1024, provider->get_height());
+        desc.add_gridclipped_frames(provider, 0, 0, 1024, provider.get_height());
         sprite = CL_Sprite (desc);        
       }
     else
       {
         CL_SpriteDescription desc;
-        desc.add_frame(provider, false); // FIXME: Memory leak, add resource manager here
+        desc.add_frame(provider);
         sprite = CL_Sprite (desc);
       }
 
-    provider->unlock();
+    provider.unlock();
   } catch (const CL_Error& err) {
     std::cout << "CL_Error: " << err.message << std::endl;
     assert (0);
@@ -80,15 +80,15 @@ SurfaceSprite::SurfaceSprite (std::string arg_filename, int frames)
   //std::cout << "SurfaceSprite::SurfaceSprite" << std::endl;
   try {
     // FIXME: Replace this with a resource handler
-    CL_PixelBuffer* provider = new CL_PNGProvider (filename.c_str ());
-    provider->lock ();
+    CL_PixelBuffer provider = CL_PNGProvider (filename.c_str ());
+    provider.lock ();
 
-    if (provider->get_width () % frames)
+    if (provider.get_width () % frames)
       {
 	std::cout << "---------------------------------------------" << std::endl;
 	std::cout << "SurfaceSprite: Width not divideable by frames" << std::endl;
-	std::cout << "SurfaceSprite: width=" << provider->get_width () 
-		  << " frames=" << provider->get_height () << std::endl;
+	std::cout << "SurfaceSprite: width=" << provider.get_width () 
+		  << " frames=" << provider.get_height () << std::endl;
 	std::cout << "---------------------------------------------" << std::endl;
       }
 
@@ -96,11 +96,11 @@ SurfaceSprite::SurfaceSprite (std::string arg_filename, int frames)
     // FIXME: Memory leak, add resource manager here
     desc.add_gridclipped_frames(provider, 
                                 0, 0, // x, y
-                                provider->get_width()/frames, provider->get_height(), // width, height
+                                provider.get_width()/frames, provider.get_height(), // width, height
                                 frames, 1); // xarray, yarray
     sprite = CL_Sprite (desc);
 
-    provider->unlock ();
+    provider.unlock ();
   } catch (const CL_Error& err) {
     std::cout << "CL_Error: " << err.message << std::endl;
     assert (0);

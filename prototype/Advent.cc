@@ -19,8 +19,6 @@
 
 #include <ClanLib/application.h>
 #include <ClanLib/display.h>
-#include <ClanLib/png.h>
-#include <ClanLib/jpeg.h>
 
 // Static
 extern "C" {

@@ -27,7 +27,7 @@ class Clickable
 {
 public:
   /// @return true if the click got catched, false if the click was not used
-  virtual bool  on_mouse_press (const CL_Key&) { return false; }
+  virtual bool  on_mouse_press (const CL_InputEvent&) { return false; }
 
   /// @return true if the click got catched, false if the click was not used
   virtual bool  on_mouse_click (const CL_Key&) { return false; }

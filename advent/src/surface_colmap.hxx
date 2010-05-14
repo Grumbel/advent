@@ -35,7 +35,7 @@ namespace Advent {
 class SurfaceColMap : public ColMap
 {
 private:
-  CL_PixelBuffer* provider;  
+  CL_PixelBuffer provider;  
   double scale;
 public:
   SurfaceColMap (const std::string&);

@@ -28,17 +28,17 @@ SurfaceColMap::SurfaceColMap (const std::string& filename)
 {
   try {
     std::cout << "Extension: " << filename.substr (filename.length () - 4) << std::endl;
-    provider = new CL_PNGProvider (filename.c_str ());
+    provider = CL_PNGProvider (filename.c_str ());
   } catch (const CL_Error& err) {
     std::cout << "CL_Error: " << err.message << std::endl;
     assert (0);
   }
-  provider->lock ();
+  provider.lock ();
 }
   
 SurfaceColMap::~SurfaceColMap ()
 {
-  provider->unlock ();
+  provider.unlock ();
 }
 
 float 
@@ -47,12 +47,12 @@ SurfaceColMap::get_depth (float x_pos, float y_pos)
   int x = int(x_pos);
   int y = int(y_pos);
 
-  if (x > 0 && x < provider->get_width () &&
-      y > 0 && y < provider->get_height ())
+  if (x > 0 && x < provider.get_width () &&
+      y > 0 && y < provider.get_height ())
     {
       // FIXME: Lets hope that the format is correct 
-      unsigned char* buffer = static_cast<unsigned char*>(provider->get_data());
-      return buffer[provider->get_width()*y + x]/255.0f / scale;
+      unsigned char* buffer = static_cast<unsigned char*>(provider.get_data());
+      return buffer[provider.get_width()*y + x]/255.0f / scale;
     }
   else
     {
