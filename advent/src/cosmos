@@ -1,4 +1,4 @@
-#!/usr/bin/guile \
+#!/usr/bin/guile-1.6 \
 -e main -s
 !#
 
