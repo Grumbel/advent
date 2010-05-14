@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+<resources>
+  <sprite name="font_glyphs">
+    <image name="image1" file="images/verdana20_cyan.png"><alpha /></image>
+  </sprite>
+
+  <font name="font">
+    <bitmap glyphs="font_glyphs" letters="!_#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~" />
+  </font>
+
+  <sprite name="background">
+    <image file="images/background.jpg" />
+  </sprite>
+
+  <sprite name="background_depth">
+    <image file="images/background_depth.png" />
+  </sprite>
+
+  <sprite name="background2">
+    <image file="images/background2.jpg" />
+  </sprite>
+
+  <sprite name="person">
+    <image file="images/person.png" />
+    <translation origin="bottom_center" />
+  </sprite>
+
+  <sprite name="tree">
+    <image file="images/tree.png" />
+  </sprite>
+  <sprite name="button">
+    <image file="images/button.png" />
+  </sprite>
+  <sprite name="button_down">
+    <image file="images/button_down.png" />
+  </sprite>
+  <sprite name="button_h">
+    <image file="images/button_h.png" />
+  </sprite>
+  <sprite name="cursor">
+    <translation origin="center" />
+    <image file="images/cursor.png">
+      <grid array="8,1" size="48,48" />
+    </image>
+  </sprite>
+
+  <sprite name="cursor_glow">
+    <translation origin="center" />
+    <image file="images/cursor_glow.png">
+      <grid array="6,1" size="64,64" />
+    </image>
+  </sprite>
+</resources>

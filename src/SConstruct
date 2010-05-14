@@ -1,0 +1,115 @@
+env = Environment(CXX = 'g++',
+                  CXXFLAGS = '-g -O0 -Wall',
+                  SWIGFLAGS='-c++ -python',
+                  SHLIBPREFIX='')
+
+env.ParseConfig("pkg-config --cflags --libs " +
+                "clanCore-1.0 " +
+                "clanDisplay-1.0 " +
+                "clanGL-1.0 " +
+                "clanSDL-1.0 " +
+                "clanSignals-1.0 " +
+                " | sed 's/-I/-isystem/'")
+
+env.Program("advent",
+            ["advent_main.cxx",
+            "drawable_group.cxx",
+            "drawable_clickable.cxx",
+            "font_drawable.cxx",
+            "drawable.cxx",
+            "detachable_drawable.cxx",
+            "detachable_clickable.cxx",
+            "depth_drawable.cxx",
+            "drawable_manager.cxx",
+            "sprite_drawable.cxx",
+            "resource_manager.cxx",
+            "graphic_context.cxx",
+            "callback_timeable.cxx",
+            "timeable_manager.cxx",
+            "clickable_group.cxx",
+            "clickable_manager.cxx",
+            "mouse_timeable.cxx",
+            "person_timeable.cxx",
+            "rect_drawable.cxx",
+            "rect_clickable.cxx",
+            "scm_functor.cxx",
+            "view.cxx",
+            "rect_optimizier.cxx",
+            "depth_map.cxx",
+            "mark_context.cxx",
+            "scroll_timeable.cxx"])
+
+if False:
+    env.SharedLibrary(
+        target = 'libadvent.so',
+        source = [
+          'drawable_group.cxx', 
+          'drawable_clickable.cxx', 
+          'font_drawable.cxx', 
+          'drawable.cxx', 
+          'detachable_drawable.cxx', 
+          'detachable_clickable.cxx', 
+          'depth_drawable.cxx', 
+          'drawable_manager.cxx', 
+          'sprite_drawable.cxx', 
+          'resource_manager.cxx', 
+          'graphic_context.cxx', 
+          'callback_timeable.cxx', 
+          'timeable_manager.cxx', 
+          'clickable_group.cxx', 
+          'clickable_manager.cxx', 
+          'mouse_timeable.cxx', 
+          'person_timeable.cxx', 
+          'rect_drawable.cxx', 
+          'rect_clickable.cxx', 
+          'view.cxx', 
+          'rect_optimizier.cxx', 
+          'depth_map.cxx', 
+          'mark_context.cxx', 
+          'scroll_timeable.cxx',
+          'scripting.cxx'
+          ],
+        CPPPATH=['..'],
+        LINKFLAGS = ['-Wl,-rpath'],
+        LIBS=['clanCore',
+              'clanDisplay',
+              'clanGL',
+              'clanSDL',
+              'clanSignals'])
+
+### Lua Bindings
+    # 2010-05-14: Currently broken, thus disabled
+    env.Depends('luabindings.cxx', ['scripting.hxx'])
+
+    env.Command('luabindings.cxx', 'advent.pkg',
+                "tolua++5.1 -n advent -o $TARGET $SOURCE")
+
+    env.ParseConfig('lua-config50 --include --libs')
+    env.Append(LIBPATH=['.'])
+    env.Prepend(LIBS=['tolua++5.1', 'advent'])
+    env.Program('luaadvent', ['luaadvent.cxx', 'luabindings.cxx'])
+
+env.Program('luatest',
+             ['luatest.cxx',
+              'lua_value.cxx'],
+             CPPPATH=['.',
+                      '/usr/include/lua50'],
+            LIBPATH=['.'],
+            LIBS=['lualib50', 'lua50', 'dl'])
+
+# env.SharedLibrary(
+#     target = '_flexlay_ruby_wrap.so',
+#     source = [
+#     'flexlay_ruby_wrap.cxx',
+#     'ruby_functor.cxx',
+#     'ruby_meta_data.cxx',
+#     'ruby_sexpr_parser.cxx',
+#     'ruby_object.cxx'
+#     ],
+#     CPPPATH=['/home/ingo/run/ClanLib-0.7-current//include/ClanLib-0.7/',
+#             '/usr/lib/ruby/1.8/i386-linux/',
+#             '..'],
+#     LIBPATH=['.', '/home/ingo/run/ClanLib-0.7-current//lib/'],
+#     LIBS=['flexlay'])
+
+# EOF #

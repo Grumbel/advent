@@ -1,3 +1,0 @@
-SUBDIRS = cosmos retriever
-
-# EOF #

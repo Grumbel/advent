@@ -1,3 +1,0 @@
-Every scheme function defined in C should be prefixed with a "c:"
-
-Every advent specific scheme function should be prefixed with "adv:"
