@@ -1,4 +1,4 @@
-//  $Id: Background.hh,v 1.1 2000/12/28 20:00:48 grumbel Exp $
+//  $Id: Background.hh,v 1.4 2001/04/27 20:42:57 grumbel Exp $
 // 
 //  Pingus - A free Lemmings clone
 //  Copyright (C) 2000 Ingo Ruhnke <grumbel@gmx.de>
@@ -27,11 +27,14 @@ class Background
 private:
   CL_Surface sur;
 public:
-  Background ();
+  Background (std::string);
   virtual ~Background ();
 
-  virtual void draw ();
-  virtual void update () {}
+  virtual void draw (int x_offset, int y_offset);
+  virtual void update (float delta) {}
+
+  virtual int get_width () { return sur.get_width (); }
+  virtual int get_height () { return sur.get_height (); }
 };
 
 #endif

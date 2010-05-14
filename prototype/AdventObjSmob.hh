@@ -1,4 +1,4 @@
-//  $Id: AdventObjSmob.hh,v 1.1 2000/12/28 20:00:50 grumbel Exp $
+//  $Id: AdventObjSmob.hh,v 1.9 2001/03/08 01:08:00 grumbel Exp $
 // 
 //  Pingus - A free Lemmings clone
 //  Copyright (C) 2000 Ingo Ruhnke <grumbel@gmx.de>
@@ -20,6 +20,17 @@
 #ifndef ADVENTOBJSMOB_HH
 #define ADVENTOBJSMOB_HH
 
+#include "GuileAdventObj.hh"
+
+struct AdventObjP
+{
+  AdventObj* obj;
+
+  AdventObjP () 
+    : obj (0) {
+  }
+};
+
 class AdventObjSmob
 {
 private:
@@ -27,13 +38,20 @@ private:
   
 public:
   static void init ();
-  static SCM       mark_obj (SCM smob);
-  static scm_sizet free_obj (SCM smob);
-  static int       print_obj (SCM smob, SCM port, scm_print_state *pstate);
 
-  static SCM make_obj (SCM name, SCM surface, 
-		       SCM x_pos, SCM y_pos, SCM z_pos);
+  static scm_sizet free (SCM smob);
+  static SCM mark (SCM smob);
+  static int print (SCM image_smob, SCM port, scm_print_state *pstate);
+
+  static SCM makeobj_surface (SCM name, SCM surface, 
+			      SCM x_pos, SCM y_pos, SCM z_pos);
+  static SCM scm_makeobj_empty (SCM obj, SCM x_pos, SCM y_pos,
+				SCM width, SCM height);
+  static SCM makeobj_empty (SCM name, SCM x_pos, SCM y_pos,
+			    SCM width, SCM height);
   static SCM set_surface (SCM obj, SCM name);
+  static SCM set_inventory_surface (SCM obj, SCM name);
+  static SCM set_surface_pos (SCM smob, SCM x_pos, SCM y_pos, SCM z_pos);
 };
 
 #endif

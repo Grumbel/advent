@@ -1,4 +1,4 @@
-//  $Id: AdventObjSmob.cc,v 1.1 2000/12/28 20:00:50 grumbel Exp $
+//  $Id: AdventObjSmob.cc,v 1.15 2001/06/28 08:32:23 grumbel Exp $
 //
 //  Pingus - A free Lemmings clone
 //  Copyright (C) 2000 Ingo Ruhnke <grumbel@gmx.de>
@@ -20,6 +20,8 @@
 #include <libguile.h>
 #include <guile/gh.h>
 #include <string.h>
+
+#include "helper.hh"
 #include "Advent.hh"
 #include "AdventObj.hh"
 #include "GuileAdventObj.hh"
@@ -28,51 +30,47 @@
 
 long AdventObjSmob::tag;
 
-struct AdventObjP
-{
-  int i;
-  GuileAdventObj* obj;
-};
-
 void AdventObjSmob::init ()
 {
   tag = scm_make_smob_type ("AdventObj", sizeof (AdventObjP));
-  scm_set_smob_mark (tag,  &AdventObjSmob::mark_obj);
-  scm_set_smob_free (tag,  &AdventObjSmob::free_obj);
-  scm_set_smob_print (tag, &AdventObjSmob::print_obj);
+  scm_set_smob_mark (tag,  &AdventObjSmob::mark);
+  scm_set_smob_free (tag,  &AdventObjSmob::free);
+  scm_set_smob_print (tag, &AdventObjSmob::print);
 
-  gh_new_procedure5_0("advent:makeobj", AdventObjSmob::make_obj);
+  gh_new_procedure5_0("advent:makeobj-surface", AdventObjSmob::makeobj_surface);
+  gh_new_procedure5_0 ("advent:makeobj-empty", AdventObjSmob::makeobj_empty);
+  gh_new_procedure5_0 ("c:adv:makeobj-empty", AdventObjSmob::makeobj_empty);
   gh_new_procedure2_0("advent:set-surface", AdventObjSmob::set_surface);
+  gh_new_procedure4_0("c:advent:set-surface-pos", AdventObjSmob::set_surface_pos);
+  gh_new_procedure2_0("advent:set-inventory-surface", AdventObjSmob::set_inventory_surface);
 }
 
 SCM       
-AdventObjSmob::mark_obj (SCM smob)
+AdventObjSmob::mark (SCM smob)
 {
+  //std::cout << ">>Marking AdventObjSmob<<" << std::endl;
   return SCM_UNSPECIFIED;
 }
 
 scm_sizet 
-AdventObjSmob::free_obj (SCM smob)
+AdventObjSmob::free (SCM smob)
 {
-  std::cout << "Freeing object..." << std::endl;
+  GuileAdventObj* obj = scm2GuileAdventObj (smob);
+  std::cout << ">>Freeing AdventObjSmob: " << obj->get_name () << "<<"<< std::endl;
 
-  //AdventObjP* obj = reinterpret_cast<AdventObjP*>(SCM_CDR (smob));
 
-  // delete obj;
-
-  // do nothing
   return 0;
 }
 
 int       
-AdventObjSmob::print_obj (SCM smob, SCM port, scm_print_state *pstate)
+AdventObjSmob::print (SCM smob, SCM port, scm_print_state *pstate)
 {
-  std::cout << "Printing object..." << std::endl;
+  std::cout << ">>Printing AdventObjSmob<<" << std::endl;
 
   AdventObjP* obj = reinterpret_cast<AdventObjP*>(SCM_CDR (smob));
   if (obj)
     {
-      std::cout << "STR: " << obj->obj->get_name () << std::endl;
+      //std::cout << "STR: " << obj->obj->get_name () << std::endl;
       scm_puts ("#<AdventObj ", port);
       scm_puts (">", port);
     }
@@ -85,43 +83,113 @@ AdventObjSmob::print_obj (SCM smob, SCM port, scm_print_state *pstate)
 }
 
 SCM
-AdventObjSmob::make_obj (SCM name, SCM surface, 
-			 SCM x_pos, SCM y_pos, SCM z_pos)
+AdventObjSmob::makeobj_empty (SCM arg_name, SCM arg_x_pos, SCM arg_y_pos,
+			      SCM arg_width, SCM arg_height)
 {
-  AdventObjP* obj = (AdventObjP*)scm_must_malloc (sizeof (AdventObjP), "AdventObjP");
+  // FIXMME: Error checking is missing
+  //AdventObjP* obj = (AdventObjP*)scm_must_malloc (sizeof (AdventObjP), "AdventObjP");
+  AdventObjP* obj = new AdventObjP ();
 
-  obj->obj = new GuileAdventObj (0, SCM_CHARS(name), 1,
-				 CL_Surface (SCM_CHARS(surface), app.get_resource ()),
-				 CL_Vector (SCM_INUM(x_pos), SCM_INUM(y_pos),
-					    SCM_INUM(z_pos)));
-
-  obj->i = 42;
-  std::cout << "Makeing object: " << obj << " "<< obj->obj << std::endl;
- 
-  current_scenario->add (obj->obj);
+  obj->obj = new GuileAdventObj (arg_name,
+				 CL_Vector (SCM_INUM(arg_x_pos), SCM_INUM(arg_y_pos)),
+				 SCM_INUM (arg_width), SCM_INUM (arg_height));
   SCM_RETURN_NEWSMOB (tag, obj);
+}
+
+SCM
+AdventObjSmob::scm_makeobj_empty (SCM obj, SCM arg_x_pos, SCM arg_y_pos,
+				  SCM arg_width, SCM arg_height)
+{
+  AdventObjP* advobj = new AdventObjP ();
+  advobj->obj = new GuileAdventObj (obj, 
+				    CL_Vector (SCM_INUM(arg_x_pos), SCM_INUM(arg_y_pos)),
+				    SCM_INUM (arg_width), SCM_INUM (arg_height));
+  SCM_RETURN_NEWSMOB (tag, advobj);  
+}
+
+SCM
+AdventObjSmob::makeobj_surface (SCM arg_name, SCM arg_surface, 
+				SCM arg_x_pos, SCM arg_y_pos, SCM arg_z_pos)
+{
+  // FIXMME: Error checking is missing
+  //AdventObjP* obj = (AdventObjP*)scm_must_malloc (sizeof (AdventObjP), "AdventObjP");
+
+  AdventObjP* obj = new AdventObjP ();
+
+  if (strcmp(SCM_CHARS (arg_surface), "") != 0)
+    {
+      obj->obj = new GuileAdventObj (arg_name, 
+				     SCM_CHARS(arg_surface),
+				     CL_Vector (SCM_INUM(arg_x_pos), SCM_INUM(arg_y_pos),
+						SCM_INUM(arg_z_pos)));
+    }
+  else
+    {
+      assert (false);
+    }
+
+  SCM_RETURN_NEWSMOB (tag, obj);
+}
+
+SCM 
+AdventObjSmob::set_surface_pos (SCM smob, SCM x_pos, SCM y_pos, SCM z_pos)
+{
+  // GuileAdventObj* obj = scm2GuileAdventObj(smob);
+
+  AdventObjP* advobj = reinterpret_cast<AdventObjP*>(SCM_CDR (smob));
+  
+  std::cout << "POINTER: " << advobj->obj << std::endl;
+
+  GuileAdventObj* obj = dynamic_cast<GuileAdventObj*>(advobj->obj);
+
+
+  std::cout << "SET_SURFACE_POS" << std::endl;
+
+  if (obj)
+    {
+      obj->set_surface_pos (SCM_INUM(x_pos), SCM_INUM(y_pos), SCM_INUM(z_pos));
+    }  
+  else
+    {
+      std::cout << "KAPUTT@2" << std::endl;
+    }
+  return SCM_UNSPECIFIED;
 }
 
 SCM 
 AdventObjSmob::set_surface (SCM smob, SCM name)
 {
-  std::cout << "Setting surface" << std::endl;
+  //std::cout << "Setting surface" << std::endl;
   
-  AdventObjP* advobj = reinterpret_cast<AdventObjP*>(SCM_CDR (smob));
-  
-  if (advobj)
+  //  AdventObjP* advobj = reinterpret_cast<AdventObjP*>(SCM_CDR (smob));
+  //GuileAdventObj* obj = dynamic_cast<GuileAdventObj*>(advobj->obj);
+  GuileAdventObj* obj = scm2GuileAdventObj (smob);
+
+  if (obj)
     {
       char* str = SCM_CHARS(name);
       puts ("set_surface...");
       puts (str);
-      std::cout << "int: " << advobj->i << std::endl;
-      std::cout << "Pointer: " << advobj << " " << advobj->obj << std::endl;
-      advobj->obj->set_surface (str);
+      //std::cout << "Pointer: " << obj << " " << obj->obj << std::endl;
+      obj->set_surface (str);
     }
   else
     {
       std::cout << "KAPUTT" << std::endl;
     }
+  return SCM_UNSPECIFIED;
+}
+
+SCM
+AdventObjSmob::set_inventory_surface (SCM smob, SCM name)
+{
+  std::cout << "AdventObjSmob::set_inventory_surface" << std::endl;
+  
+  std::cout << "name: " << SCM_CHARS (name) << std::endl;
+  //std::cout << "Pointer: " << SCM_CDR(smob) << std::endl;
+  GuileAdventObj* advobj = scm2GuileAdventObj (smob);
+  std::cout << "Pointer: " << advobj << std::endl;
+  advobj->set_inventory_surface (SCM_CHARS (name));
   return SCM_UNSPECIFIED;
 }
 

@@ -1,4 +1,4 @@
-//  $Id: Scenario.hh,v 1.1 2000/12/28 20:00:49 grumbel Exp $
+//  $Id: Scenario.hh,v 1.9 2001/04/27 20:42:57 grumbel Exp $
 // 
 //  Pingus - A free Lemmings clone
 //  Copyright (C) 2000 Ingo Ruhnke <grumbel@gmx.de>
@@ -20,10 +20,12 @@
 #ifndef SCENARIO_HH
 #define SCENARIO_HH
 
+#include <list>
+#include <libguile.h>
+
 #include "AdventObj.hh"
 #include "Background.hh"
 #include "CollisionMap.hh"
-#include <list>
 
 class AdventObj;
 
@@ -31,18 +33,43 @@ class Scenario
 {
 protected:
   std::list<AdventObj*> objects;
-  Background background;
-  CollisionMap colmap;
+  Background* background;
+  CollisionMap* colmap;
+  std::string name;
+  SCM scm_object;
+ 
+  // Stuff for on-demand loading
+  bool is_init;
+  std::string background_name;
+  std::string colmap_name;
 
+  std::list<Drawable*> drawables;
+
+  void init ();
+  
 public:
-  Scenario ();
+  ///
+  static std::list<Scenario*> scenario_list;
+  ///
+  static Scenario* current;
+
+  Scenario (SCM name, 
+	    std::string background, std::string colmap,
+	    std::list<AdventObj*> objects, bool with_guy = true);
   virtual ~Scenario ();
   
+  static void set_current_scenario (std::string name);
+  static void set_current_scenario (Scenario* scenario);
+
+  virtual std::string get_name () { return name; }
+
   virtual void draw ();
-  virtual void update ();
+  virtual void update (float delta);
   virtual CollisionMap* get_colmap ();
   virtual AdventObj* get_object (int x, int y);
   virtual void add (AdventObj* obj);
+  virtual void remove (AdventObj* obj);
+  virtual void add (Drawable* obj);
 };
 
 #endif

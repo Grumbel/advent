@@ -8,8 +8,14 @@
 #undef PATCH_VERSION
 #undef VERSION_STRING
 
+/* Define if you have the clanApp library (-lclanApp).  */
+#undef HAVE_LIBCLANAPP
+
 /* Define if you have the clanCore library (-lclanCore).  */
 #undef HAVE_LIBCLANCORE
+
+/* Define if you have the clanDisplay library (-lclanDisplay).  */
+#undef HAVE_LIBCLANDISPLAY
 
 /* Define if you have the clanJPEG library (-lclanJPEG).  */
 #undef HAVE_LIBCLANJPEG

@@ -1,4 +1,4 @@
-//  $Id: AdventObj.hh,v 1.1 2000/12/28 20:00:49 grumbel Exp $
+//  $Id: AdventObj.hh,v 1.6 2001/04/27 20:42:57 grumbel Exp $
 // 
 //  Pingus - A free Lemmings clone
 //  Copyright (C) 2000 Ingo Ruhnke <grumbel@gmx.de>
@@ -22,18 +22,20 @@
 
 #include <ClanLib/core.h>
 #include "Position.hh"
+#include "Drawable.hh"
 
 class Scenario;
 
-class AdventObj
+class AdventObj : public Drawable
 {
 protected:
-  Scenario* scenario;
+  //Scenario* scenario;
   
 public:
   /// Empty default constructor
+  AdventObj () {}
   AdventObj (Scenario* s) {
-    scenario = s;
+    //scenario = s;
   }
 
   /// Empty default destructor
@@ -41,10 +43,7 @@ public:
 
   /// Update the status of the object, this function is called once an
   /// event loop
-  virtual void update () {}
-
-  /// Draw the object to the world
-  virtual void draw_world () {}
+  virtual void update (float delta) {}
 
   /// Draw the object into the inventory
   virtual void draw_inventory (int x, int y) {}
@@ -52,14 +51,12 @@ public:
   virtual bool is_at (int x, int y) { return false; }
   
   virtual std::string get_name () { return "-- unset --"; }
-
-  virtual float get_z_pos () { return 0.0; }
 };
 
 // Little helper class for sort()
-struct AdventObj_less : public binary_function<AdventObj*, AdventObj*, bool>
+struct AdventObj_less : public std::binary_function<Drawable*, Drawable*, bool>
 {
-  bool operator() (AdventObj* a, AdventObj* b) const
+  bool operator() (Drawable* a, Drawable* b) const
     {
       return a->get_z_pos () < b->get_z_pos ();
     }
@@ -75,37 +72,8 @@ public:
   SurfaceAdvObj (Scenario* s, const CL_Surface& arg_sur, const CL_Vector& arg_pos);
   ~SurfaceAdvObj () {}
 
-  void  draw_world ();
+  void  draw_world (int x_offset = 0, int y_offset = 0);
   float get_z_pos () { return pos.z; }
-};
-
-class Mogli : public AdventObj
-{
-private:
-  CL_Surface sur_left;
-  CL_Surface sur_right;
-  CL_Surface sur_front;
-  CL_Surface sur_back;
-
-  int counter;
-  thSlot on_button_press_slot;
-
-  CL_Vector direction;
-  CL_Vector pos;
-  CL_Vector target;
-  float delta;
-
-public: 
-  Mogli (Scenario* s);
-  ~Mogli ();
-  
-  bool on_target ();
-  void update ();
-  void draw_world ();
-  void on_button_press(CL_InputDevice *device, const CL_Key &key);
-  float  get_z_pos () { return pos.z; }
-  bool is_at (int x, int y);
-  std::string get_name () { return "Mogli"; }
 };
 
 #endif

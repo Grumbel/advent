@@ -1,0 +1,1 @@
+Using set! on a goops object inside a adv:timed does not work!

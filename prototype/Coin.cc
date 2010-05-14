@@ -1,4 +1,4 @@
-//  $Id: Coin.cc,v 1.1 2000/12/28 20:00:49 grumbel Exp $
+//  $Id: Coin.cc,v 1.17 2001/07/02 10:27:13 grumbel Exp $
 //
 //  Pingus - A free Lemmings clone
 //  Copyright (C) 2000 Ingo Ruhnke <grumbel@gmx.de>
@@ -24,108 +24,170 @@
 #include "Advent.hh"
 #include "Coin.hh"
 
-Coin::Coin (Scenario* s)
+Coin* coin;
+
+Coin::Coin ()
 {
-  scenario = s;  
   visible = false;
-  sur = CL_Surface ("coin", app.get_resource ());
-  on_button_press_slot = CL_Input::sig_button_press.connect (thCreateSlot(this, &Coin::on_button_press));
-  on_button_release_slot = CL_Input::sig_button_release.connect (thCreateSlot(this, &Coin::on_button_release));
+  sur = CL_Surface ("retriever_coin", app.get_resource ());
+  q_mark = CL_Surface ("q_mark", app.get_resource ());
   marked_obj = 0;
+  current_obj = 0;
+  ignore_press = false;
 }
 
 void 
 Coin::draw ()
 {
+  if (current_obj)
+    {
+      current_obj->draw_inventory (CL_Mouse::get_x (), CL_Mouse::get_y ());
+    }
+
   if (visible)
     {
-      //std::cout << "Drawing..." << x_pos << " " << y_pos << std::endl;
       sur.put_screen (x_pos - sur.get_width ()/2,
 		      y_pos - sur.get_height ()/2);
     }
 
-  AdventObj* obj = scenario->get_object (CL_Mouse::get_x (), CL_Mouse::get_y ());
+  AdventObj* obj = Scenario::current->get_object (CL_Mouse::get_x (), CL_Mouse::get_y ());
 
   if (obj)
     {
       font ("font")->print_center (320, 460, obj->get_name ().c_str ());
+      if (!visible)
+	q_mark.put_screen (CL_Mouse::get_x () - q_mark.get_width ()/2,
+			   CL_Mouse::get_y () - q_mark.get_height ()/2);
     }
 }
 
 void
-Coin::update ()
+Coin::update (float delta)
 {
 
 }
 
-void
-Coin::on_button_press(CL_InputDevice *device, const CL_Key &key)
+void 
+Coin::set_current_obj (AdventObj* obj)
 {
-  std::cout << "Coin pressed: " << key.id << std::endl;	
-  if (key.id == 1)
+  std::cout << "Setting current_obj" << std::endl;
+  current_obj = obj;
+}
+
+bool
+Coin::on_mouse_press(const CL_Key& key)
+{
+  if (key.id == CL_MOUSE_RIGHTBUTTON || key.id == 2)
     {
-      std::cout << "Point Color: " << scenario->get_colmap ()->get_pixel (key.x, key.y) 
-		<< " " << key.x << "x" << key.y << std::endl;
-    }
-  else if (key.id == 2)
-    {
-      marked_obj = scenario->get_object (CL_Mouse::get_x (), CL_Mouse::get_y ());
+      marked_obj = Scenario::current->get_object (CL_Mouse::get_x (), CL_Mouse::get_y ());
       if (marked_obj)
 	{
 	  visible = true;
 	  x_pos = (int) key.x;
 	  y_pos = (int)key.y;
 	}
+      return true;
     }
+  return false;
 }
 
-void 
-Coin::on_button_release (CL_InputDevice *device, const CL_Key &key)
+bool 
+Coin::on_mouse_release (const CL_Key& key)
 {
-  //std::cout << "Coin released: " << key.id << std::endl;
-  if (key.id == 2)
+  if ((key.id == 2 || key.id == CL_MOUSE_RIGHTBUTTON) 
+      && current_obj)
+    {
+      if (ignore_press)
+	ignore_press = false;
+      else
+	{
+	  AdventObj* marked_obj = Scenario::current->get_object (CL_Mouse::get_x (), CL_Mouse::get_y ());
+	  if (marked_obj)
+	    {
+	      GuileAdventObj* obj = dynamic_cast<GuileAdventObj*>(marked_obj);
+	      GuileAdventObj* cobj = dynamic_cast<GuileAdventObj*>(current_obj);
+
+	      if (!obj)
+		{
+		  std::cout << "Don't know what to do with non GuileObj." << std::endl;
+		  current_obj = 0;
+		}
+	      else
+		{
+		  std::cout << "Use: " << current_obj->get_name () << " with " << obj->get_name () << std::endl;
+		  gh_call2 (gh_lookup ("adv:combine"), 
+			    cobj->get_scm (),  // Object from the inventory
+			    obj->get_scm ()); // the object somewhere in the scenario
+		  
+			    
+		  current_obj = 0;
+		}
+	    }
+	  else
+	    {
+	      current_obj = 0;
+	    }
+	}
+      return true;
+    }
+  else if (key.id == 2 || key.id == CL_MOUSE_RIGHTBUTTON)
     {
       visible = false;
 
-      if (marked_obj)
+      GuileAdventObj* obj = dynamic_cast<GuileAdventObj*>(marked_obj);
+
+      if (!obj)
 	{
-	  std::cout << "Action on: " << marked_obj->get_name () << std::endl;
-	  
-	  if (key.x > x_pos - sur.get_width ()/2
-	      && key.x < x_pos + sur.get_width ()/2
-	      && key.y > y_pos - sur.get_height ()/2
-	      && key.y < y_pos + sur.get_height ()/2)
+	  std::cout << "Don't know what to do with non GuileObj." << std::endl;
+	}
+      else
+	{
+	  /*std::cout << "Action on: " << marked_obj->get_name () << std::endl;
+	  std::cout << "Key: " << key.x << " " << key.y << std::endl;
+	  std::cout << "Pos: " << x_pos << " " << y_pos << std::endl;
+	  std::cout << "Width: " << sur.get_width () << " "
+	  << "Height: " << sur.get_height() << std::endl;*/
+
+	  if (key.x > x_pos - ((int)sur.get_width ()/2)
+	      && key.x < x_pos + ((int) sur.get_width ()/2)
+	      && key.y > y_pos - ((int) sur.get_height ()/2)
+	      && key.y < y_pos + ((int) sur.get_height ()/2))
 	    {
 	      if (key.x < x_pos && key.y < y_pos)
 		{
-		  std::cout << "Use" << std::endl;
-		  //gh_eval_str ("(advent:eval \"use whip\")");
-		  GuileAdventObj* obj = dynamic_cast<GuileAdventObj*>(marked_obj);
-		  obj->call ("use", obj->get_name ());
+		  gh_call1 (gh_lookup ("adv:use"), obj->get_scm ());
 		}
 	      else if (key.x > x_pos && key.y < y_pos)
 		{
-		  std::cout << "Open/Close" << std::endl;
-		  //gh_eval_str ("(advent:eval \"use whip box\")");
-		  GuileAdventObj* obj = dynamic_cast<GuileAdventObj*>(marked_obj);
-		  obj->call ("open", obj->get_name ());
+		  gh_call1 (gh_lookup ("adv:look"), obj->get_scm ());
 		}
 	      else if (key.x < x_pos && key.y > y_pos)
 		{
-		  std::cout << "Pickup" << std::endl;
-		  //gh_eval_str ("(advent:eval \"pickup whip\")");
-		  GuileAdventObj* obj = dynamic_cast<GuileAdventObj*>(marked_obj);
-		  obj->call ("pickup", obj->get_name ());
+		  gh_call1 (gh_lookup("adv:pickup"), obj->get_scm ());
 		}
 	      else if (key.x > x_pos && key.y > y_pos)
 		{
-		  std::cout << "Inventory" << std::endl;
-		  gh_eval_str ("(advent:eval \"inventory\")");
-		  //obj->call ("pickup", obj->get_name ());
+		  gh_call1 (gh_lookup("adv:speak"), obj->get_scm ());
+		}
+	      else
+		{
+		  std::cout << "Coin: don't know what to do, !@#$" << std::endl;
 		}
 	    }
+	  else
+	    {
+	      std::cout << "Coin: left coin region" << std::endl;
+	    }
 	}
+      return true;
     }
+  return false;
+}
+
+float
+Coin::priority ()
+{
+  return 0.5;
 }
 
 /* EOF */

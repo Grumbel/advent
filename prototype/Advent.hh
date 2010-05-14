@@ -1,4 +1,4 @@
-//  $Id: Advent.hh,v 1.1 2000/12/28 20:00:48 grumbel Exp $
+//  $Id: Advent.hh,v 1.6 2001/03/28 21:59:57 grumbel Exp $
 // 
 //  Pingus - A free Lemmings clone
 //  Copyright (C) 2000 Ingo Ruhnke <grumbel@gmx.de>
@@ -20,10 +20,9 @@
 #ifndef ADVENT_HH
 #define ADVENT_HH
 
+#include <ClanLib/application.h>
 #include <ClanLib/core.h>
 #include "Inventory.hh"
-
-extern Scenario* current_scenario;
 
 void inner_main (void* closure, int argc, char* argv[]);
 
@@ -31,6 +30,7 @@ class Advent : public CL_ClanApplication
 {
 private:
   CL_ResourceManager* resource;
+
 public:
   Advent ();
   char* get_title ();
@@ -39,7 +39,7 @@ public:
   int   main (int argc, char* argv[]);
 };
 
-extern Inventory inventory;
+extern Inventory* inventory;
 extern Advent app;
 
 #endif

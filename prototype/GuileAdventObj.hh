@@ -1,4 +1,4 @@
-//  $Id: GuileAdventObj.hh,v 1.1 2000/12/28 20:00:49 grumbel Exp $
+//  $Id: GuileAdventObj.hh,v 1.12 2001/04/27 20:42:57 grumbel Exp $
 // 
 //  Pingus - A free Lemmings clone
 //  Copyright (C) 2000 Ingo Ruhnke <grumbel@gmx.de>
@@ -20,6 +20,7 @@
 #ifndef GUILEADVENTOBJ_HH
 #define GUILEADVENTOBJ_HH
 
+#include <guile/gh.h>
 #include <ClanLib/core.h>
 #include "AdventObj.hh"
 
@@ -27,31 +28,49 @@ class GuileAdventObj : public AdventObj
 {
 private: 
   std::string name;
+  SCM scm_object;
 
   /// The uniq id of this object instance
   int id; 
   
+  bool surface_visible;
+
   CL_Surface sur;
+  CL_Surface inventory_sur;
   CL_Vector pos;
+
+  int width;
+  int height;
+  int counter;
+
+  std::string surname;
+  bool is_init;
+
+  void init ();
 public:
   /// Empty default constructor
-  GuileAdventObj (Scenario* s, std::string arg_name, int arg_id,
-		  CL_Surface arg_sur, CL_Vector pos);
+  GuileAdventObj (SCM arg_name, 
+		  std::string arg_surname, CL_Vector pos);
+
+  GuileAdventObj (SCM arg_name, 
+		  CL_Vector pos, int arg_width, int arg_height);
 
   /// Empty default destructor
   virtual ~GuileAdventObj () {}
 
   /// Update the status of the object, this function is called once an
   /// event loop
-  virtual void update () {}
+  virtual void update (float delta);
 
   /// Draw the object to the world
-  virtual void draw_world ();
+  virtual void draw_world (int x_offset = 0, int y_offset = 0);
 
   /// Draw the object into the inventory
-  virtual void draw_inventory (int x, int y) {}
+  virtual void draw_inventory (int x, int y);
 
   virtual void call (std::string func, std::string id);
+  SCM call (std::string func);
+  SCM get_scm () { return scm_object; }
 
   virtual bool is_at (int x, int y);
   
@@ -60,6 +79,8 @@ public:
   virtual float get_z_pos () { return pos.z; }
 
   virtual void set_surface (std::string str);
+  virtual void set_surface_pos (int x_pos, int y_pos, int z_pos);
+  virtual void set_inventory_surface (std::string str);
 };
 
 #endif

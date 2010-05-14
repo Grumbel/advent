@@ -1,4 +1,4 @@
-//  $Id: Coin.hh,v 1.1 2000/12/28 20:00:49 grumbel Exp $
+//  $Id: Coin.hh,v 1.6 2001/04/27 20:42:57 grumbel Exp $
 // 
 //  Pingus - A free Lemmings clone
 //  Copyright (C) 2000 Ingo Ruhnke <grumbel@gmx.de>
@@ -22,26 +22,35 @@
 
 #include <ClanLib/core.h>
 #include "Scenario.hh"
-class Coin
+#include "Clickable.hh"
+
+class Coin : public Clickable
 {
 private:
-  thSlot on_button_press_slot;
-  thSlot on_button_release_slot;
   CL_Surface sur;
+  CL_Surface q_mark;
   bool visible;
   int x_pos, y_pos;
-  Scenario* scenario;
   AdventObj* marked_obj;
-  
+  // The object which the guy helds in his hands
+  AdventObj* current_obj;
+  bool ignore_press;
+
 public:
-  Coin (Scenario* s);
-  ~Coin () {}
+  Coin ();
+  virtual ~Coin () {}
+
+  void set_current_obj (AdventObj* obj);
 
   void draw ();
-  void update ();
-  void on_button_press (CL_InputDevice *device, const CL_Key &key);
-  void on_button_release (CL_InputDevice *device, const CL_Key &key);
+  void update (float delta);
+  bool on_mouse_press (const CL_Key&);
+  bool on_mouse_release (const CL_Key&);
+  float priority ();
+  bool mouse_over (int, int) { return true; }
 };
+
+extern Coin* coin;
 
 #endif
 

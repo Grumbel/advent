@@ -1,4 +1,4 @@
-//  $Id: Background.cc,v 1.1 2000/12/28 20:00:48 grumbel Exp $
+//  $Id: Background.cc,v 1.3 2001/03/16 00:53:41 grumbel Exp $
 //
 //  Pingus - A free Lemmings clone
 //  Copyright (C) 2000 Ingo Ruhnke <grumbel@gmx.de>
@@ -21,9 +21,9 @@
 #include "Position.hh"
 #include "Background.hh"
 
-Background::Background ()
+Background::Background (std::string name)
 {
-  sur = CL_Surface ("background", app.get_resource ());
+  sur = CL_Surface (name.c_str (), app.get_resource ());
 }
 
 Background::~Background ()
@@ -31,9 +31,9 @@ Background::~Background ()
 }
 
 void 
-Background::draw ()
+Background::draw (int x_offset, int y_offset)
 {
-  sur.put_screen (0,0);
+  sur.put_screen (x_offset, y_offset);
 }
 
 /* EOF */

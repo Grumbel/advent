@@ -1,4 +1,4 @@
-//  $Id: Font.hh,v 1.1 2000/12/28 20:00:48 grumbel Exp $
+//  $Id: Font.hh,v 1.3 2001/03/28 21:59:57 grumbel Exp $
 // 
 //  Pingus - A free Lemmings clone
 //  Copyright (C) 2000 Ingo Ruhnke <grumbel@gmx.de>
@@ -23,6 +23,7 @@
 #include <map>
 #include <string>
 #include <ClanLib/core.h>
+#include <ClanLib/display.h>
 
 class Font
 {

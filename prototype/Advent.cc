@@ -1,4 +1,4 @@
-//  $Id: Advent.cc,v 1.1 2000/12/28 20:00:48 grumbel Exp $
+//  $Id: Advent.cc,v 1.25 2001/07/02 10:27:13 grumbel Exp $
 //
 //  Pingus - A free Lemmings clone
 //  Copyright (C) 2000 Ingo Ruhnke <grumbel@gmx.de>
@@ -17,20 +17,38 @@
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
+#include <ClanLib/application.h>
+#include <ClanLib/display.h>
 #include <ClanLib/png.h>
 #include <ClanLib/jpeg.h>
+
+// Static
+extern "C" {
+void scm_init_oop_goops_goopscore_module (void);
+}
 #include <guile/gh.h>
 
+#include <sys/stat.h>
+#include <sys/types.h>
+
+#include "Interpreter.hh"
 #include "Scenario.hh"
 #include "Coin.hh"
+#include "System.hh"
 #include "Advent.hh"
 #include "Font.hh"
 #include "AdventObjSmob.hh"
+#include "ScenarioSmob.hh"
+#include "Dialog.hh"
+#include "DialogManager.hh"
+#include "Inventory.hh"
+#include "Guy.hh"
+#include "ClickManager.hh"
+#include "TimeManager.hh"
+#include "Animation.hh"
+#include "DeltaManager.hh"
 
 Advent app;
-Inventory inventory;
-
-Scenario* current_scenario;
 
 // Wrapper to call the member func
 void inner_main (void* closure, int argc, char* argv[])
@@ -51,20 +69,46 @@ Advent::get_title ()
 int
 Advent::main (int argc, char* argv[])
 {
-  std::cout << "Starting guile..." << std::endl;
   scm_boot_guile (argc, argv,::inner_main, 0);
-  std::cout << "this should never be reached..." << std::endl;
   return 0;
 }
 
 void   
 Advent::inner_main (void* closure, int argc, char* argv[])
 {
+  std::string game_init_file = "games/retriever/objects.scm";
   bool fullscreen = false;
-  std::cout << "Loading guile code..." << std::endl;
-  AdventObjSmob::init ();
+  
+  if (argc == 2)
+    {
+      game_init_file = argv[1];
+    }
 
-  std::cout << "Loading guile code...done" << std::endl;
+  // Debuging on
+  SCM_DEVAL_P = 1;
+  SCM_BACKTRACE_P = 1;
+  SCM_RECORD_POSITIONS_P = 1;
+  SCM_RESET_DEBUG_MODE;
+
+  // This is used for the static binary
+#ifdef ADVENT_STATIC
+  std::cout << "..:: Static binary ::.." << std::endl;
+  scm_init_oop_goops_goopscore_module ();
+#endif
+
+  //std::cout << "Loading guile code..." << std::endl;
+  AdventObjSmob::init ();
+  ScenarioSmob::init ();
+  Dialog::init ();
+  DialogManager::init ();
+  Inventory::init ();
+  Guy::init_guile ();
+  TimeManager::init ();
+  DrawableSmob::init ();
+  Animation::init ();
+  System::init ();
+
+  //std::cout << "Loading guile code...done" << std::endl;
 
   if (argc == 2)
     {
@@ -76,40 +120,105 @@ Advent::inner_main (void* closure, int argc, char* argv[])
   
   try 
     {
+      //std::cout << "Advent: Init ClanLib..." << std::endl;
       CL_SetupCore::init ();
-      CL_SetupCore::init_display ();
+      CL_SetupDisplay::init ();
       CL_SetupPNG::init ();
       CL_SetupJPEG::init ();
   
       CL_Display::set_videomode (640, 480, 16, fullscreen, false);
 
-      resource = CL_ResourceManager::create("data/resources.scr", false);
+      resource = new CL_ResourceManager("data/resources.scr", false);
 
-      Scenario scenario;
-      Coin coin (&scenario);
+      DialogManager dialog_manager;
 
-      current_scenario = &scenario;
+      {
+	std::string advent_save_path;
+	
+	char* home = getenv ("HOME");
+	if (home) 
+	  {
+	    advent_save_path = home;
+	    advent_save_path += "/.advent/";
+	  }
+	else
+	  {
+	    std::cout << "Error: Couldn't get $HOME" << std::endl;
+	    exit (EXIT_FAILURE);
+	  }
 
-      gh_load ("guile/adventure.scm");
+	if (mkdir (advent_save_path.c_str (),
+		   S_IRUSR | S_IWUSR | S_IXUSR | S_IRGRP | S_IXGRP) != 0)
+	  {
+	    std::cout << "Failed to make: " << advent_save_path << std::endl;
+	  }
+      }
+      
+      //Scenario scenario;
+      coin = new Coin ();
+
+      // FIXME: wrong place to create this...
+      the_guy = new Guy ();    
+
+      gh_load ("engine/adventure.scm");
+      gh_load (game_init_file.c_str ());
 
       int time = CL_System::get_time ();
       int count = 0;
       char str[256] = {"Calculation"};
 
-      gh_eval_str("(let ((obj (advent:makeobj \"testobj\" \"takeme\" 400 100 100))) (println obj))");
+      ClickManager click_manager;
+      
+      inventory = new Inventory ();
 
+      click_manager.add (inventory);
+      click_manager.add (coin);
+      click_manager.add (the_guy);
+      click_manager.add (&dialog_manager);
+
+      
+      assert (Scenario::current);
+
+      
+      /** Main Loop */
+      DeltaManager delta_manager;
       while (CL_Keyboard::get_keycode (CL_KEY_ESCAPE) == 0)
 	{
-	  //std::cout << "Looping..." << std::endl;
-	  //CL_Display::fill_rect (CL_Mouse::get_x (), CL_Mouse::get_y (),
-	  //CL_Mouse::get_x () + 16, CL_Mouse::get_y () + 16,
-	  //1.0, 1.0, 1.0, 1.0);
-	  //CL_Display::clear_display (1.0, 1.0, 0.0, 0.01);
-	  scenario.update ();
-	  coin.update ();
-	  scenario.draw ();
-	  coin.draw ();
+	  if (CL_Keyboard::get_keycode (CL_KEY_SPACE)) 
+	    {
+	      while (CL_Keyboard::get_keycode (CL_KEY_SPACE))
+		CL_System::keep_alive ();
+	      interpreter.launch ();
+	    }
+
+	  if (CL_Keyboard::get_keycode (CL_KEY_F5)) 
+	    {
+	      while (CL_Keyboard::get_keycode (CL_KEY_F5))
+		CL_System::keep_alive ();
+	      gh_eval_str ("(adv:quick-save)");
+	    }
+
+	  if (CL_Keyboard::get_keycode (CL_KEY_F6)) 
+	    {
+	      while (CL_Keyboard::get_keycode (CL_KEY_F6))
+		CL_System::keep_alive ();
+	      gh_eval_str ("(adv:quick-load)");
+	    }
+
+	  float delta = delta_manager.getset ();
+	  
+	  Scenario::current->update (delta);
+	  dialog_manager.update (delta);
+	  coin->update (delta);
+	  dialog.update (delta);
+	  inventory->update (delta);
+
+	  Scenario::current->draw ();
+	  coin->draw ();
+	  inventory->draw ();
 	  font ("font")->print_left (0, 0, str);
+	  dialog.draw ();
+	  TimeManager::update (delta);
 
 	  if (count > 9)
 	    {
@@ -120,14 +229,17 @@ Advent::inner_main (void* closure, int argc, char* argv[])
 	      count = 0;
 	      time = CL_System::get_time ();
 	    }
+	  dialog_manager.draw ();
+
 	  CL_Display::flip_display ();
 	  count++;
 	  CL_System::keep_alive ();
+	  CL_System::sleep (20);
 	}
 
       CL_SetupJPEG::deinit ();
       CL_SetupPNG::deinit ();
-      CL_SetupCore::deinit_display ();
+      //CL_SetupDisplay::deinit ();
       CL_SetupCore::deinit ();
     }
   

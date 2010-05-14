@@ -1,4 +1,4 @@
-//  $Id: Inventory.hh,v 1.1 2000/12/28 20:00:50 grumbel Exp $
+//  $Id: Inventory.hh,v 1.7 2001/06/28 08:32:23 grumbel Exp $
 // 
 //  Pingus - A free Lemmings clone
 //  Copyright (C) 2000 Ingo Ruhnke <grumbel@gmx.de>
@@ -20,27 +20,54 @@
 #ifndef INVENTORY_HH
 #define INVENTORY_HH
 
+#include <guile/gh.h>
 #include "AdventObj.hh"
+#include "Clickable.hh"
 
-class Inventory
+class Inventory : public Clickable
 {
 private:
-  std::list<AdventObj*> objects;
-  
+  std::vector<AdventObj*> objects;
+  bool visible;
+  CL_Surface icon;
+  CL_Surface icon_h;
 public:
   Inventory ();
   virtual ~Inventory () {}
   
   void draw ();
+  void update (float delta);
 
   /// Show the inventory and allow the user to select or manipulate it
   void show ();
 
+  bool is_visible () { return visible; }
+
   /// Add 
   void add (AdventObj*);
+
   /// Remove
   void remove (AdventObj*);  
+
+  bool has (AdventObj*);  
+  
+  // ..:: Guile Specific Stuff ::..
+  static void init ();
+  static SCM add (SCM obj);
+  static SCM remove (SCM obj);
+  static SCM has (SCM obj);
+  static SCM static_show ();
+
+  // Clickable
+  // Ignore presses when the inventory is visible
+  bool  on_mouse_press (const CL_Key&) { return visible; }
+  bool  on_mouse_release (const CL_Key&) { return visible; }
+  bool  on_mouse_click (const CL_Key& key);
+  float priority ();
+  bool  mouse_over (int, int);
 };
+
+extern Inventory* inventory;
 
 #endif
 
