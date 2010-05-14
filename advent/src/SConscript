@@ -8,7 +8,7 @@ env.ParseConfig("pkg-config --cflags --libs " +
                 "clanSound-1.0 " +
                 "| sed 's/-I/-isystem/'")
 
-env = SharedLibrary(
+env.SharedLibrary(
     target = "advent",
     source = [
     "adv_hook.cxx",
