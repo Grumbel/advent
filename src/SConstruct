@@ -1,9 +1,10 @@
 env = Environment(CXX = 'g++',
                   CXXFLAGS = '-g -O0 -Wall',
-                  SWIGFLAGS='-c++ -python',
+                  SWIGFLAGS='-c++ -guile',
                   SHLIBPREFIX='')
 
 env.ParseConfig("pkg-config --cflags --libs " +
+                "clanApp-1.0 " +
                 "clanCore-1.0 " +
                 "clanDisplay-1.0 " +
                 "clanGL-1.0 " +
@@ -11,33 +12,40 @@ env.ParseConfig("pkg-config --cflags --libs " +
                 "clanSignals-1.0 " +
                 " | sed 's/-I/-isystem/'")
 
-env.Program("advent",
-            ["advent_main.cxx",
-            "drawable_group.cxx",
-            "drawable_clickable.cxx",
-            "font_drawable.cxx",
-            "drawable.cxx",
-            "detachable_drawable.cxx",
-            "detachable_clickable.cxx",
-            "depth_drawable.cxx",
-            "drawable_manager.cxx",
-            "sprite_drawable.cxx",
-            "resource_manager.cxx",
-            "graphic_context.cxx",
-            "callback_timeable.cxx",
-            "timeable_manager.cxx",
-            "clickable_group.cxx",
-            "clickable_manager.cxx",
-            "mouse_timeable.cxx",
-            "person_timeable.cxx",
-            "rect_drawable.cxx",
-            "rect_clickable.cxx",
-            "scm_functor.cxx",
-            "view.cxx",
-            "rect_optimizier.cxx",
-            "depth_map.cxx",
-            "mark_context.cxx",
-            "scroll_timeable.cxx"])
+env.Append(LIBS=["guile"])
+env.Append(CPPDEFINES=["SWIGGUILE"])
+
+env.Program(
+    target = "advent",
+    source = [
+    "swig_scripting.i",
+    "advent_main.cxx",
+    "drawable_group.cxx",
+    "drawable_clickable.cxx",
+    "font_drawable.cxx",
+    "drawable.cxx",
+    "detachable_drawable.cxx",
+    "detachable_clickable.cxx",
+    "depth_drawable.cxx",
+    "drawable_manager.cxx",
+    "sprite_drawable.cxx",
+    "resource_manager.cxx",
+    "graphic_context.cxx",
+    "callback_timeable.cxx",
+    "timeable_manager.cxx",
+    "clickable_group.cxx",
+    "clickable_manager.cxx",
+    "mouse_timeable.cxx",
+    "person_timeable.cxx",
+    "rect_drawable.cxx",
+    "rect_clickable.cxx",
+    "scm_functor.cxx",
+    "view.cxx",
+    "rect_optimizier.cxx",
+    "depth_map.cxx",
+    "mark_context.cxx",
+    'scripting.cxx',
+    "scroll_timeable.cxx"])
 
 if False:
     env.SharedLibrary(
@@ -66,8 +74,8 @@ if False:
           'rect_optimizier.cxx', 
           'depth_map.cxx', 
           'mark_context.cxx', 
-          'scroll_timeable.cxx',
-          'scripting.cxx'
+          'scripting.cxx',
+          'scroll_timeable.cxx'
           ],
         CPPPATH=['..'],
         LINKFLAGS = ['-Wl,-rpath'],

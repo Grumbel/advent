@@ -23,9 +23,9 @@
 #include <ClanLib/gl.h>
 #include <ClanLib/sdl.h>
 
-#include "scripting/display.hxx"
-#include "scripting/graphics.hxx"
-#include "scripting/input.hxx"
+//#include "scripting/display.hxx"
+//#include "scripting/graphics.hxx"
+//#include "scripting/input.hxx"
 
 #include "view.hxx"
 #include "timeable_manager.hxx"

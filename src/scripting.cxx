@@ -474,3 +474,4 @@ void clickable_register_mouse_leave(int drawable_id, SCM func)
 #endif
 
 /* EOF */
+
