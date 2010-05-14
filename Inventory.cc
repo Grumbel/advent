@@ -1,4 +1,4 @@
-//  $Id$
+//  $Id: Inventory.cc,v 1.1.1.1 2000/12/28 20:00:50 grumbel Exp $
 //
 //  Pingus - A free Lemmings clone
 //  Copyright (C) 2000 Ingo Ruhnke <grumbel@gmx.de>

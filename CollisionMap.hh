@@ -1,4 +1,4 @@
-//  $Id$
+//  $Id: CollisionMap.hh,v 1.2 2000/12/29 10:08:16 grumbel Exp $
 // 
 //  Pingus - A free Lemmings clone
 //  Copyright (C) 2000 Ingo Ruhnke <grumbel@gmx.de>
@@ -25,7 +25,7 @@ class CollisionMap
 private:
   CL_SurfaceProvider* provider;
 public:
-  CollisionMap ();
+  CollisionMap (std::string);
   virtual ~CollisionMap ();
   void update () {}
   int  get_pixel (int x, int y);

@@ -1,4 +1,4 @@
-//  $Id$
+//  $Id: CollisionMap.cc,v 1.2 2000/12/29 10:08:16 grumbel Exp $
 //
 //  Pingus - A free Lemmings clone
 //  Copyright (C) 2000 Ingo Ruhnke <grumbel@gmx.de>
@@ -20,9 +20,9 @@
 #include "Advent.hh"
 #include "CollisionMap.hh"
 
-CollisionMap::CollisionMap ()
+CollisionMap::CollisionMap (std::string colmap)
 {
-  provider =  CL_SurfaceProvider::load ("background_cmap", app.get_resource ());
+  provider =  CL_SurfaceProvider::load (colmap.c_str (), app.get_resource ());
   provider->lock ();
 }
 

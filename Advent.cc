@@ -1,4 +1,4 @@
-//  $Id$
+//  $Id: Advent.cc,v 1.3 2000/12/29 15:57:50 grumbel Exp $
 //
 //  Pingus - A free Lemmings clone
 //  Copyright (C) 2000 Ingo Ruhnke <grumbel@gmx.de>
@@ -26,11 +26,11 @@
 #include "Advent.hh"
 #include "Font.hh"
 #include "AdventObjSmob.hh"
+#include "ScenarioSmob.hh"
+#include "Dialog.hh"
 
 Advent app;
 Inventory inventory;
-
-Scenario* current_scenario;
 
 // Wrapper to call the member func
 void inner_main (void* closure, int argc, char* argv[])
@@ -63,7 +63,8 @@ Advent::inner_main (void* closure, int argc, char* argv[])
   bool fullscreen = false;
   std::cout << "Loading guile code..." << std::endl;
   AdventObjSmob::init ();
-
+  ScenarioSmob::init ();
+  Dialog::init ();
   std::cout << "Loading guile code...done" << std::endl;
 
   if (argc == 2)
@@ -76,6 +77,7 @@ Advent::inner_main (void* closure, int argc, char* argv[])
   
   try 
     {
+      std::cout << "Advent: Init ClanLib..." << std::endl;
       CL_SetupCore::init ();
       CL_SetupCore::init_display ();
       CL_SetupPNG::init ();
@@ -85,19 +87,19 @@ Advent::inner_main (void* closure, int argc, char* argv[])
 
       resource = CL_ResourceManager::create("data/resources.scr", false);
 
-      Scenario scenario;
-      Coin coin (&scenario);
+      //Scenario scenario;
+      Coin coin;
 
-      current_scenario = &scenario;
-
+      std::cout << "Loading guile code..." << std::endl;
       gh_load ("guile/adventure.scm");
+      std::cout << "Loading guile code...done" << std::endl;
 
       int time = CL_System::get_time ();
       int count = 0;
       char str[256] = {"Calculation"};
 
-      gh_eval_str("(let ((obj (advent:makeobj \"testobj\" \"takeme\" 400 100 100))) (println obj))");
-
+      //gh_eval_str("(let ((obj (advent:makeobj \"testobj\" \"takeme\" 400 100 100))) (println obj))");
+      assert (Scenario::current);
       while (CL_Keyboard::get_keycode (CL_KEY_ESCAPE) == 0)
 	{
 	  //std::cout << "Looping..." << std::endl;
@@ -105,11 +107,13 @@ Advent::inner_main (void* closure, int argc, char* argv[])
 	  //CL_Mouse::get_x () + 16, CL_Mouse::get_y () + 16,
 	  //1.0, 1.0, 1.0, 1.0);
 	  //CL_Display::clear_display (1.0, 1.0, 0.0, 0.01);
-	  scenario.update ();
+	  Scenario::current->update ();
 	  coin.update ();
-	  scenario.draw ();
+	  dialog.update ();
+	  Scenario::current->draw ();
 	  coin.draw ();
 	  font ("font")->print_left (0, 0, str);
+	  dialog.draw ();
 
 	  if (count > 9)
 	    {

@@ -4,8 +4,8 @@
 
 (use-modules (ice-9 getopt-long)
 	     (ice-9 string-fun)
-	     (ice-9 syncase)
 	     (oop goops))
+
 
 
 (define *current-scenario* '())
@@ -22,7 +22,19 @@
 
 (define-class <advent:object> ()
   (adv:bind #:accessor adv:bind #:init-value #t #:init-keyword #:adv:bind))
+
 (define-method name ((obj <advent:object>)) "<unset>")
+
+(define-class <scenario> ()
+  ;; The bind object contains a pointer back to the C++ Scenario class
+  (adv:bind #:init-value #f 
+	#:init-keyword #:adv:bind
+	#:accessor adv:bind)
+
+  ;; The list of objects in this scenario
+  (adv:objs #:init-value '()
+	#:init-keyword #:adv:objs
+	#:accessor adv:objs))
 
 ;;(define (printf fmt . lst)
 ;;  (display (format #f fmt lst)))
@@ -49,11 +61,12 @@
 (define (advent:help-command args)
   (cond ((equal? (length args) 1)
 	 (cond ((string=? (car args) "look")
-		(println "look object - and here what you see."))
+		(dialog:add "look object - and here what you see."))
 	       (else
-		(println "Can't help you with " (car args)))))
+		(dialog:add (string-append
+			     "Can't help you with " (car args))))))
 	(else
-	 (println "Commands: help, look, walk, pickup, open, close"))
+	 (dialog:add "Commands: help, look, walk, pickup, open, close"))
 	))
 
 (define (advent:tokenize command-line)
@@ -71,12 +84,10 @@
 
 ;; Verbs
 (define (advent:look args)
-;;  (println "LookAt: " args)
   (cond ((equal? (length args) 1)
-;;	 (println "Object is a: " (get-obj (car args)))
 	 (look (get-obj (car args))))
 	(else
-	 (println "Where should I look at?"))))
+	 (dialog:add "Where should I look at?"))))
 
 (define (advent:pickup args)
   (for-each (lambda (x) (pickup (get-obj x)))
@@ -86,9 +97,8 @@
   (cond ((equal? (length args) 1)
 	 (walk (get-obj (car args))))
 	(else
-	 (println "Don't know where to walk."))))
+	 (dialog:add "Don't know where to walk."))))
   
-
 (define (advent:use args)
   (cond ((equal? (length args) 1)
 	 (use (get-obj (car args))))
@@ -96,41 +106,41 @@
 	 (use (get-obj (car args))
 	      (get-obj (cadr args))))
 	(else
-	 (println "Don't know what you mean"))))
+	 (dialog:add "Don't know what you mean"))))
 
 (define (advent:open args)
   (cond ((equal? (length args) 1)
 	 (gopen (get-obj (car args))))
 	(else
-	 (println "Don't know what you mean."))
+	 (dialog:add "Don't know what you mean."))
 	))
 
 (define-method walk ((obj <boolean>))
-  (println "Don't know what you mean. So I am still here."))
+  (dialog:add "Don't know what you mean. So I am still here."))
 
 (define-method walk ((obj <advent:object>))
-  (println "I am already there."))
+  (dialog:add "I am already there."))
 
 (define-method gopen ((obj <boolean>))
-  (println "Don't know what you mean."))
+  (dialog:add "Don't know what you mean."))
 
 (define-method gopen ((obj <advent:object>))
-  (println "I can't open this ")); (name obj)))
+  (dialog:add "I can't open this ")); (name obj)))
 
 (define-method gclose ((obj <boolean>))
-  (println "Don't know what you mean."))
+  (dialog:add "Don't know what you mean."))
 
 (define-method gclose ((obj <advent:object>))
-  (println "I can't close this " (name obj)))
+  (dialog:add (string-append "I can't close this " (name obj))))
 
 (define *inventory* '())
 
 (define-method add-inventory ((obj <advent:object>))
   (cond ((not (inventory-has obj))
 	 (set! *inventory* (cons obj *inventory*))
-	 (println "You picked up a " (name obj)))
+	 (dialog:add (string-append "You picked up a " (name obj))))
 	(else
-	 (println "You already have this " (name obj)))))
+	 (dialog:add (string-append "You already have this " (name obj))))))
 
 (define-method inventory-has ((obj <advent:object>))
   (member obj *inventory*))
@@ -139,13 +149,12 @@
   (cond ((equal? (length args) 1)
 	 (gclose (get-obj (car args))))
 	(else
-	 (println "Don't know what you mean." args))
+	 (dialog:add "Don't know what you mean." args))
 	))
 
 (define (advent:eval command-line)
   (let ((token (advent:tokenize command-line)))
     (cond ((eof-object? command-line)
-	   (println)
 	   (exit 0))
 	  ((null? token)
 	   '())
@@ -153,7 +162,7 @@
 	   (let ((command (car token))
 		 (args    (cdr token)))
 	     (cond ((string=? command "quit")
-		    (println "Bye, bye")
+		    (dialog:add "Bye, bye")
 		    (exit 0))
 		   ((string=? command "help")
 		    (advent:help-command args))
@@ -168,12 +177,18 @@
 		   ((string=? command "open")
 		    (advent:open args))
 		   ((string=? command "inventory")
-		    (println "Invectory: ")
+		    (dialog:add "Invectory: ")
 		    (println *inventory*))
 		   (else
 		    (println "- unknown command: " command))))))))
-  
+
 (load "helper.scm")
+
+(define (dialog:add str)
+  (dialog:add2 str)
+  (println str))
+
+(load "syntax-ext.scm")
 (load "objects.scm")
 (println "Adventure V0.0")
 

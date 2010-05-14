@@ -1,4 +1,4 @@
-//  $Id$
+//  $Id: Background.hh,v 1.2 2000/12/29 10:08:16 grumbel Exp $
 // 
 //  Pingus - A free Lemmings clone
 //  Copyright (C) 2000 Ingo Ruhnke <grumbel@gmx.de>
@@ -27,7 +27,7 @@ class Background
 private:
   CL_Surface sur;
 public:
-  Background ();
+  Background (std::string);
   virtual ~Background ();
 
   virtual void draw ();

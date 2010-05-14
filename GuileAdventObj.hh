@@ -1,4 +1,4 @@
-//  $Id$
+//  $Id: GuileAdventObj.hh,v 1.3 2000/12/30 14:56:04 grumbel Exp $
 // 
 //  Pingus - A free Lemmings clone
 //  Copyright (C) 2000 Ingo Ruhnke <grumbel@gmx.de>
@@ -31,12 +31,20 @@ private:
   /// The uniq id of this object instance
   int id; 
   
+  bool surface_visible;
+
   CL_Surface sur;
   CL_Vector pos;
+
+  int width;
+  int height;
 public:
   /// Empty default constructor
-  GuileAdventObj (Scenario* s, std::string arg_name, int arg_id,
+  GuileAdventObj (std::string arg_name, 
 		  CL_Surface arg_sur, CL_Vector pos);
+
+  GuileAdventObj (std::string arg_name, 
+		  CL_Vector pos, int arg_width, int arg_height);
 
   /// Empty default destructor
   virtual ~GuileAdventObj () {}

@@ -1,4 +1,4 @@
-//  $Id$
+//  $Id: Coin.hh,v 1.3 2000/12/30 13:11:56 grumbel Exp $
 // 
 //  Pingus - A free Lemmings clone
 //  Copyright (C) 2000 Ingo Ruhnke <grumbel@gmx.de>
@@ -28,13 +28,13 @@ private:
   thSlot on_button_press_slot;
   thSlot on_button_release_slot;
   CL_Surface sur;
+  CL_Surface q_mark;
   bool visible;
   int x_pos, y_pos;
-  Scenario* scenario;
   AdventObj* marked_obj;
   
 public:
-  Coin (Scenario* s);
+  Coin ();
   ~Coin () {}
 
   void draw ();

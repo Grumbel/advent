@@ -1,3 +1,5 @@
+(println "Loading objects.scm...")
+
 
 (define-class <takeme>   (<advent:object>))
 (define-method name ((obj <takeme>)) "takeme")
@@ -29,22 +31,6 @@
 (define-class <chest>   (<advent:object>)
   (closed #:init-value #t #:accessor closed))
 
-(define-method name ((obj <chest>)) "chest")
-
-(define-method gopen ((obj <chest>))
-  (println "name: " (name obj))
-  (println "gopen1: " obj)
-  (println "gopen2: " (adv:bind obj))
-	 
-  (cond ((closed obj)
-	 (advent:set-surface (adv:bind obj) "chest_opened")
-	 (set! (closed obj) #f)
-	 (println "Open chest"))
-	(else
-	 (advent:set-surface (adv:bind obj) "chest_closed")
-	 (println "Closed chest")
-	 (set! (closed obj) #t))
-	 ))
 
 (define-method name ((obj <tree>)) "tree") 
 (define-method name ((obj <forest>)) "forest") 
@@ -64,13 +50,12 @@
 (define-method name ((obj <inhouse-around>)) "around")
 
 (define-method look ((obj <tree>))
-  (println "A large mamut tree, wow!"))
+  (dialog:add "A large mamut tree, wow!"))
   
-
 (define-method look ((obj <window>))
   (if (broken obj)
-      (println "You see a broken window, looks like you broke it.")
-      (println "A beatifull large window")))
+      (dialog:add "You see a broken window, looks like you broke it.")
+      (dialog:add "A beatifull large window")))
 
 (define-method look ((obj <inhouse-around>))
   (println "You see: ")
@@ -193,6 +178,13 @@
   (println "You walk into the house.")
   (scenario:set *in-house*))
 
+(define-method use ((obj <door>))
+  (cond ((not (closed obj))
+	 (scenario:set-current game-scenario:outdoor-bind)
+	 (set! *current-scenario* game-scenario:outdoor-objects))
+	(else
+	 (println "Door is closed."))))
+
 (define-method gopen ((obj <door>))
   (cond ((closed obj)
 	 (advent:set-surface (adv:bind obj) "door_opened")
@@ -205,42 +197,38 @@
 ;;  (println "You walk out of the door, you are outsite again.")
 ;;  (scenario:set *before-house*))
     
+(define-class <gateway:gateway> (<advent:object>))
+(define-method name ((obj <gateway:gateway>)) "Gateway")
+(define-method use ((obj <gateway:gateway>))
+  (scenario:set-current game-scenario:outdoor3-bind)
+  (set! *current-scenario* game-scenario:outdoor3-objects))
+
 (define-method use ((obj <whip>))
   (println "You use your whip and slap yourself, stupid!"))
 
-(define *before-house* 
-  (list 
-   (make <around>)
-   (make <indy>)
-   (make <whip>)
-   (make <house>)
-   (make <box>)
-   (make <switch>)
-   (make <book>)
-   (make <forest>)
-   ))
+(define (adv:load file)
+  (println "Loading file: " file)
+  (load file))
 
-(define *in-house* 
-  (list 
-   (make <inhouse-around>)
-   (make <window>)
-   (make <door>)
-   ))
+(adv:load "scenario1.scm")
+(adv:load "scenario2.scm")
+(adv:load "scenario3.scm")
+(adv:load "scenario4.scm")
+(adv:load "scenario5.scm")
 
-(define *forest* 
-  (list
-   (make <tree>))
-  )
+;;;;;;;;;
+;; END ;;
+;;;;;;;;;
 
-(define *gateway*
-  (list (make <takeme>)
-;	(make <takeme> #:adv:bind (advent:makeobj "takeme2" "takeme" 320 100 150))
-	(make <chest> #:adv:bind (advent:makeobj "chest" "chest_closed" 
-						 214 331 230))
-	(make <door> #:adv:bind (advent:makeobj "door" "door_closed" 
-						 198 211 0))
-	))
 
-(scenario:set *gateway*)
+(define game-scenario:gateway
+  (make <scenario> 
+    #:adv:bind game-scenario:gateway-bind
+    #:adv:objs game-scenario:gateway-objects
+    ))
+
+(println "Scenario: " game-scenario:gateway)
+(scenario:set-current game-scenario:gateway-bind)
+(set! *current-scenario* game-scenario:gateway-objects)
 
 ;; EOF ;;

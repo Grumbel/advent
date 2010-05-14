@@ -1,4 +1,4 @@
-//  $Id$
+//  $Id: Scenario.cc,v 1.3 2000/12/29 15:57:50 grumbel Exp $
 //
 //  Pingus - A free Lemmings clone
 //  Copyright (C) 2000 Ingo Ruhnke <grumbel@gmx.de>
@@ -19,12 +19,54 @@
 
 #include "Advent.hh"
 #include "GuileAdventObj.hh"
+#include "Guy.hh"
 #include "Position.hh"
 #include "Scenario.hh"
 
+///
+std::list<Scenario*> Scenario::scenario_list;
+///
+Scenario* Scenario::current;
+
+void
+Scenario::set_current_scenario (std::string name)
+{
+  for (std::list<Scenario*>::iterator i = scenario_list.begin ();
+       i != scenario_list.end ();
+       i++)
+    {
+      if ((*i)->get_name () == name)
+	{
+	  set_current_scenario (*i);
+	  return;
+	}
+    }
+  assert (false);
+}
+
+void
+Scenario::set_current_scenario (Scenario* scenario)
+{
+  assert (scenario);
+  current = scenario;
+}
+
+Scenario::Scenario (std::string name, 
+		    std::string background, std::string colmap,
+		    std::list<AdventObj*> objects)
+{
+  this->name = name;
+  this->background = new Background (background);
+  this->colmap = new CollisionMap (colmap);
+  this->objects = objects;
+  this->objects.push_back (new Guy ());
+  std::cout << "Objects: " << objects.size() << std::endl;
+  std::cout << "Objects this: " << this->objects.size() << std::endl;
+}
+
+/*
 Scenario::Scenario ()
 {
-  objects.push_back (new Mogli (this));
   objects.push_back (new GuileAdventObj (this, "odd" , 3,
 					CL_Surface ("odd", app.get_resource ()),
 					CL_Vector (340, 216, 230)));
@@ -35,6 +77,7 @@ Scenario::Scenario ()
 					 CL_Surface ("takeme", app.get_resource ()),
 					 CL_Vector (236, 300, 240)));
 }
+  */
 
 Scenario::~Scenario ()
 {
@@ -43,7 +86,7 @@ Scenario::~Scenario ()
 void
 Scenario::draw ()
 {
-  background.draw ();
+  background->draw ();
   // CL_Display::clear_display ();
   objects.sort (AdventObj_less ());
 
@@ -62,19 +105,20 @@ Scenario::update ()
     {
       (*i)->update ();
     }
-  background.update ();
-  colmap.update ();
+  background->update ();
+  colmap->update ();
 }
 
 CollisionMap* 
 Scenario::get_colmap ()
 {
-  return &colmap;
+  return colmap;
 }
 
 AdventObj* 
 Scenario::get_object (int x, int y)
 {
+  //std::cout << "Objects: " << objects.size() << std::endl;
   AdventObj* obj = 0;
   for (std::list<AdventObj*>::iterator i = objects.begin (); 
        i != objects.end (); i++)

@@ -1,4 +1,4 @@
-//  $Id$
+//  $Id: AdventObj.hh,v 1.2 2000/12/29 10:08:16 grumbel Exp $
 // 
 //  Pingus - A free Lemmings clone
 //  Copyright (C) 2000 Ingo Ruhnke <grumbel@gmx.de>
@@ -28,12 +28,13 @@ class Scenario;
 class AdventObj
 {
 protected:
-  Scenario* scenario;
+  //Scenario* scenario;
   
 public:
   /// Empty default constructor
+  AdventObj () {}
   AdventObj (Scenario* s) {
-    scenario = s;
+    //scenario = s;
   }
 
   /// Empty default destructor
@@ -77,35 +78,6 @@ public:
 
   void  draw_world ();
   float get_z_pos () { return pos.z; }
-};
-
-class Mogli : public AdventObj
-{
-private:
-  CL_Surface sur_left;
-  CL_Surface sur_right;
-  CL_Surface sur_front;
-  CL_Surface sur_back;
-
-  int counter;
-  thSlot on_button_press_slot;
-
-  CL_Vector direction;
-  CL_Vector pos;
-  CL_Vector target;
-  float delta;
-
-public: 
-  Mogli (Scenario* s);
-  ~Mogli ();
-  
-  bool on_target ();
-  void update ();
-  void draw_world ();
-  void on_button_press(CL_InputDevice *device, const CL_Key &key);
-  float  get_z_pos () { return pos.z; }
-  bool is_at (int x, int y);
-  std::string get_name () { return "Mogli"; }
 };
 
 #endif

@@ -1,4 +1,4 @@
-//  $Id$
+//  $Id: Advent.hh,v 1.2 2000/12/29 10:08:16 grumbel Exp $
 // 
 //  Pingus - A free Lemmings clone
 //  Copyright (C) 2000 Ingo Ruhnke <grumbel@gmx.de>
@@ -22,8 +22,6 @@
 
 #include <ClanLib/core.h>
 #include "Inventory.hh"
-
-extern Scenario* current_scenario;
 
 void inner_main (void* closure, int argc, char* argv[]);
 

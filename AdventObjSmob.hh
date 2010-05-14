@@ -1,4 +1,4 @@
-//  $Id$
+//  $Id: AdventObjSmob.hh,v 1.3 2000/12/30 13:11:56 grumbel Exp $
 // 
 //  Pingus - A free Lemmings clone
 //  Copyright (C) 2000 Ingo Ruhnke <grumbel@gmx.de>
@@ -20,6 +20,13 @@
 #ifndef ADVENTOBJSMOB_HH
 #define ADVENTOBJSMOB_HH
 
+#include "GuileAdventObj.hh"
+
+struct AdventObjP
+{
+  AdventObj* obj;
+};
+
 class AdventObjSmob
 {
 private:
@@ -31,8 +38,10 @@ public:
   static scm_sizet free_obj (SCM smob);
   static int       print_obj (SCM smob, SCM port, scm_print_state *pstate);
 
-  static SCM make_obj (SCM name, SCM surface, 
-		       SCM x_pos, SCM y_pos, SCM z_pos);
+  static SCM makeobj_surface (SCM name, SCM surface, 
+			      SCM x_pos, SCM y_pos, SCM z_pos);
+  static SCM makeobj_empty (SCM name, SCM x_pos, SCM y_pos,
+			    SCM width, SCM height);
   static SCM set_surface (SCM obj, SCM name);
 };
 

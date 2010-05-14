@@ -1,4 +1,4 @@
-//  $Id$
+//  $Id: Scenario.hh,v 1.2 2000/12/29 10:08:16 grumbel Exp $
 // 
 //  Pingus - A free Lemmings clone
 //  Copyright (C) 2000 Ingo Ruhnke <grumbel@gmx.de>
@@ -31,13 +31,26 @@ class Scenario
 {
 protected:
   std::list<AdventObj*> objects;
-  Background background;
-  CollisionMap colmap;
+  Background* background;
+  CollisionMap* colmap;
+  std::string name;
 
 public:
-  Scenario ();
+  ///
+  static std::list<Scenario*> scenario_list;
+  ///
+  static Scenario* current;
+
+  Scenario (std::string name, 
+	    std::string background, std::string colmap,
+	    std::list<AdventObj*> objects);
   virtual ~Scenario ();
   
+  static void set_current_scenario (std::string name);
+  static void set_current_scenario (Scenario* scenario);
+
+  virtual std::string get_name () { return name; }
+
   virtual void draw ();
   virtual void update ();
   virtual CollisionMap* get_colmap ();

@@ -1,4 +1,4 @@
-//  $Id$
+//  $Id: Background.cc,v 1.2 2000/12/29 10:08:16 grumbel Exp $
 //
 //  Pingus - A free Lemmings clone
 //  Copyright (C) 2000 Ingo Ruhnke <grumbel@gmx.de>
@@ -21,9 +21,9 @@
 #include "Position.hh"
 #include "Background.hh"
 
-Background::Background ()
+Background::Background (std::string name)
 {
-  sur = CL_Surface ("background", app.get_resource ());
+  sur = CL_Surface (name.c_str (), app.get_resource ());
 }
 
 Background::~Background ()

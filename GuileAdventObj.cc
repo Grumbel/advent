@@ -1,4 +1,4 @@
-//  $Id$
+//  $Id: GuileAdventObj.cc,v 1.3 2000/12/30 14:56:04 grumbel Exp $
 //
 //  Pingus - A free Lemmings clone
 //  Copyright (C) 2000 Ingo Ruhnke <grumbel@gmx.de>
@@ -22,15 +22,24 @@
 #include "Advent.hh"
 #include "GuileAdventObj.hh"
 
-GuileAdventObj::GuileAdventObj (Scenario* s, std::string arg_name, int arg_id,
+GuileAdventObj::GuileAdventObj (std::string arg_name,
 				CL_Surface arg_sur, CL_Vector arg_pos)
-  : AdventObj (s)
 {
   name = arg_name;
-  id = arg_id;
-
+  surface_visible = true;
   sur = arg_sur;
   pos = arg_pos;
+
+  width = sur.get_width ();
+  height = sur.get_height ();
+}
+
+GuileAdventObj::GuileAdventObj (std::string arg_name, 
+				CL_Vector arg_pos, 
+				int arg_width, int arg_height)
+  : name (arg_name), pos (arg_pos), width (arg_width), height (arg_height)
+{
+  surface_visible = true;
 }
 
 void 
@@ -52,16 +61,17 @@ GuileAdventObj::call (std::string func, std::string id)
 void
 GuileAdventObj::draw_world ()
 {
-  sur.put_screen (pos.x, pos.y);
+  if (sur && surface_visible)
+    sur.put_screen (pos.x, pos.y);
 }
 
 bool 
 GuileAdventObj::is_at (int x, int y)
 {
-  if (pos.x < x
-      && pos.x + sur.get_width() > x
-      && pos.y < y
-      && pos.y + sur.get_height () > y)
+  if (pos.x <= x
+      && pos.x + width > x
+      && pos.y <= y
+      && pos.y + height > y)
     {
       return true;
     }
@@ -71,8 +81,27 @@ GuileAdventObj::is_at (int x, int y)
 void
 GuileAdventObj::set_surface (std::string str)
 {
-  std::cout << "GuileAdventObj: set_surface: " << str << std::endl;
-  sur = CL_Surface (str.c_str (), app.get_resource ()); 
+  if (!str.empty ())
+    {
+      try
+	{
+	  std::cout << "GuileAdventObj: set_surface: " << str << std::endl;
+	  sur = CL_Surface (str.c_str (), app.get_resource ()); 
+	  surface_visible = true;
+	  width = sur.get_width ();
+	  height = sur.get_height ();
+	}
+      catch (CL_Error err)
+	{
+	  std::cout << "CL_Error: " << err.message << std::endl;
+	}
+    }
+  else
+    {
+      surface_visible = false;
+      // ClanLib BUG
+      // sur = CL_Surface ();
+    }
 }
 
 /* EOF */
