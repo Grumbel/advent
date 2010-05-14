@@ -1,0 +1,24 @@
+background = data/images/background.jpg (type=surface, x=0, y=0, width=640, height=480);
+background_cmap = data/images/background_cmap.png (type=surface, x=0, y=0, width=640, height=480);
+
+mogli_back  = data/images/lmogli_back.png (type=surface, x=0, y=0, width=52, height=86, array=5x1);
+mogli_front = data/images/lmogli_front.png (type=surface, x=0, y=0, width=52, height=86, array=8x1);
+mogli_left  = data/images/lmogli_left.png (type=surface, x=0, y=0, width=52, height=86, array=8x1);
+mogli_right = data/images/lmogli_right.png (type=surface, x=0, y=0, width=52, height=86, array=8x1);
+
+tree = data/images/tree.png (type=surface, x=0, y=0, width=198, height=219);
+
+odd = data/images/odd.png (type=surface, x=0, y=0, width=84, height=166);
+coin = data/images/coin.png (type=surface, x=0, y=0, width=128, height=128);
+
+font = data/images/font.png (type=font, alphafont=1, spacelen=8, trans_limit=0.25, subtract_width=0,letters="!""#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~");
+
+takeme = data/images/takeme.png (type=surface, x=0, y=0, width=40, height=36);
+
+chest_closed = data/images/chest_closed.png (type=surface, x=0, y=0, width=89, height=51);
+chest_opened = data/images/chest_opened.png (type=surface, x=0, y=0, width=92, height=64);
+
+door_opened = data/images/door_opened.png (type=surface, x=0, y=0, width=88, height=58);
+door_closed = data/images/door_closed.png (type=surface, x=0, y=0, width=88, height=58);
+
+// EOF //
