@@ -1,3 +1,4 @@
 *~
 *.os
 .sconsign.dblite
+libadvent.so

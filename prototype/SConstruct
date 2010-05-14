@@ -1,0 +1,15 @@
+env = Environment()
+
+env.ParseConfig("pkg-config --cflags --libs " +
+                "clanApp-1.0 " +
+                "clanCore-1.0 " +
+                "clanDisplay-1.0 " +
+                "clanGL-1.0 " +
+                "clanSDL-1.0 " +
+                "clanSignals-1.0 " +
+                " | sed 's/-I/-isystem/'")
+
+env.Program(target = "advent",
+            source = Glob("*.cc"))
+
+# EOF #
