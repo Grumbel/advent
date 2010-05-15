@@ -67,7 +67,7 @@ KeyMapHandler::on_button_release (const CL_InputEvent&)
 bool 
 KeyMapHandler::is_a (SCM smob)
 {
-  return (int(SCM_CAR (smob)) == get_smob_tag ());
+  return (long(SCM_CAR (smob)) == get_smob_tag ());
 }
 
 void 

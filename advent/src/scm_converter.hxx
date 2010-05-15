@@ -70,7 +70,7 @@ T* checked_smob_cast(SCM smob)
     {
       // Sun Feb 23 17:08:38 2003 might crash
       //puts ("99333 might crash"); seems to work
-      if (int(SCM_CAR (smob)) == T::get_smob_tag ())
+      if (long(SCM_CAR(smob)) == T::get_smob_tag ())
 	{
 	  T* obj = reinterpret_cast<T*>(SCM_CDR (smob));
 	  return obj;
@@ -138,7 +138,7 @@ T* smobbox_cast (SCM smob)
 template<class T>
 bool smobbox_check (SCM smob)
 {
-  if (SCM_NIMP (smob) && (int)(SCM_CAR (smob)) == T::get_smob_tag ())
+  if (SCM_NIMP (smob) && (long)(SCM_CAR (smob)) == T::get_smob_tag ())
     {
       T* t = dynamic_cast<T*>(T::cast(smob)->get_child ());
 

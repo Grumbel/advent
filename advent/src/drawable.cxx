@@ -29,7 +29,7 @@ Drawable::cast (SCM smob)
 {
   if (SCM_NIMP (smob))
     {
-      if (DrawableSmob::get_smob_tag () == int(SCM_CAR(smob)))
+      if (DrawableSmob::get_smob_tag () == long(SCM_CAR(smob)))
 	{
 	  return reinterpret_cast<DrawableSmob*>(SCM_CDR (smob));
 	}
