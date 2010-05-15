@@ -1,7 +1,6 @@
 DESTDIR  = 
 PREFIX   = "/usr/local"
 DATADIR  = "${PREFIX}/share/advent"
-GUILEDIR = "${PREFIX}/share/guile/site/advent"
 LIBDIR   = "${PREFIX}/lib"
 MANDIR   = "${PREFIX}/share/man"
 BINDIR   = "${PREFIX}/bin"
@@ -22,9 +21,10 @@ install-exec: src/libadvent.so
 	install -d ${DESTDIR}${BINDIR}
 	echo \
 	'#!/usr/bin/guile-1.6 \\\n-s\n!#\n\n'\
-	'(set! %load-path (cons "'${LIBDIR}/advent/'" %load-path))\n'\
+	'(set! %load-path (cons "'${LIBDIR}/advent'" %load-path))\n'\
+	'(set! %load-path (cons "'${DATADIR}'" %load-path))\n'\
 	'(chdir "'"${DATADIR}/cosmos"'")\n'\
-	'(load "cosmos.scm")\n'\
+	'(primitive-load "cosmos.scm")\n'\
 	'\n;; EOF ;;'\
 	> ${DESTDIR}${BINDIR}/advent-cosmos
 	chmod 755 ${DESTDIR}${BINDIR}/advent-cosmos
@@ -37,7 +37,12 @@ install-data:
 	-name "*.scm" -o \
 	-name "*.png" -o \
 	-name "*.jpg" \) \
-	-exec install -D {} ${DESTDIR}${DATADIR}/{} \;
+	-exec install -m 644 -D {} ${DESTDIR}${DATADIR}/{} \;
+
+	cd src/; \
+	find advent/ -type f \( \
+	-name "*.scm" \) \
+	-exec install -m 644 -D {} ${DESTDIR}${DATADIR}/{} \;
 
 .PHONY : clean install install-exec install-man install-data
 

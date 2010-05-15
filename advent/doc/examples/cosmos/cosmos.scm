@@ -11,7 +11,7 @@
 ;;	     (advent engine)
 	     (oop goops))
 
-(load "../../../src/guile/engine.scm")
+(load-from-path "advent/engine.scm")
 
 (println "############## c:delayed-advhook:create: " c:delayed-advhook:create)
 
