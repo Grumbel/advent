@@ -1,0 +1,23 @@
+Advent
+~~~~~~
+
+Advent is a graphical adventure game development kit. Example games
+are provided in the 'doc/examples/' directory.
+
+The webpage is located at:
+
+ * http://advent.sourceforge.net
+
+You can (un)subscribe to the mailing list at or read the archive at:
+
+ * http://lists.sourceforge.net/lists/listinfo/advent-devel
+
+Please direct questions or bug reports to the mailinglist instead of
+mailing me directly.
+
+
+Have fun
+
+ Ingo Ruhnke <grumbel@gmx.de>
+
+# EOF #
