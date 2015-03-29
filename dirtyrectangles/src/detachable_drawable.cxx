@@ -49,9 +49,9 @@ DetachableDrawable::draw_marks(MarkContext& gc)
       // FIXME: Doesn't work with sprite drawables with offset
       gc.push_translate_offset(offset.x, offset.y);
       gc.mark_region(this, CL_Rect(drawable->get_pos(),
-                                   CL_Size(drawable->get_width(), 
-                                           drawable->get_height())), 
-                     reinterpret_cast<int>(drawable));
+                                   CL_Size(drawable->get_width(),
+                                           drawable->get_height())),
+                     static_cast<int>(reinterpret_cast<long>(drawable)));
       drawable->draw_marks(gc);
       gc.pop_translate_offset();
     }
