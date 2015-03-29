@@ -15,7 +15,7 @@
 //  10 Dec 99  next() and prior() templates added (Dave Abrahams)
 //  30 Aug 99  moved cast templates to cast.hpp (Beman Dawes)
 //   3 Aug 99  cast templates added
-//  20 Jul 99  name changed to utility.hpp 
+//  20 Jul 99  name changed to utility.hpp
 //   9 Jun 99  protected noncopyable default ctor
 //   2 Jun 99  Initial Version. Class noncopyable only contents (Dave Abrahams)
 

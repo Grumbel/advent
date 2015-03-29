@@ -107,7 +107,7 @@ PersonGfx::get_sprite (Person* person)
     pack = standing;
   else
     pack = walking;
-    
+
 
   CL_Vector direction (person->get_direction ());
 
@@ -136,7 +136,7 @@ PersonGfx::get_sprite (Person* person)
     }
 }
 
-void 
+void
 PersonGfx::update (float delta)
 {
   standing->update (delta);
@@ -156,20 +156,20 @@ PersonGfx::register_guile_bindings ()
   gh_new_procedure1_0 ("c:persongfx:create", &PersonGfx::scm_persongfx_create);
 }
 
-SCM 
-PersonGfx::mark (SCM smob) 
+SCM
+PersonGfx::mark (SCM smob)
 {
   return SCM_BOOL_F;
 }
 
 scm_sizet
-PersonGfx::free (SCM smob) 
+PersonGfx::free (SCM smob)
 {
   //FIXME:delete smob_cast<Scenario>(smob);
   return 0; //sizeof (Scenario);
 }
 
-int 
+int
 PersonGfx::print (SCM scm_scenario, SCM port, scm_print_state *pstate)
 {
   //Scenario* scenario = checked_smob_cast<Scenario>(scm_scenario);
@@ -185,6 +185,6 @@ PersonGfx::scm_persongfx_create (SCM lst)
   SCM_RETURN_NEWSMOB (tag, gfx);
 }
 
-} // namespace Advent 
+} // namespace Advent
 
 /* EOF */

@@ -30,7 +30,7 @@ InstantAdvHook::add (SCM scm)
     }
 }
 
-void 
+void
 InstantAdvHook::call ()
 {
   std::cout << "InstantAdvHook: call hook" << std::endl;
@@ -44,7 +44,7 @@ InstantAdvHook::register_guile_bindings ()
   gh_new_procedure0_0 ("c:instant-advhook:create", &InstantAdvHook::instant_advhook_create);
 }
 
-SCM 
+SCM
 InstantAdvHook::instant_advhook_create ()
 {
   return AdvHookSmob::create (new InstantAdvHook ());

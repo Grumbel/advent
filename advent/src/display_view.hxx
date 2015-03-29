@@ -1,5 +1,5 @@
 //  $Id: Displayview.hxx,v 1.5 2004/01/14 02:28:24 grumbel Exp $
-// 
+//
 //  Pingus - A free Lemmings clone
 //  Copyright (C) 2000 Ingo Ruhnke <grumbel@gmx.de>
 //
@@ -12,7 +12,7 @@
 //  but WITHOUT ANY WARRANTY; without even the implied warranty of
 //  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //  GNU General Public License for more details.
-// 
+//
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
@@ -59,17 +59,17 @@ public:
   void draw (CL_Surface& sur, const CL_Vector& pos);
   void draw (CL_Surface& sur, int x_pos, int y_pos);
   void draw (CL_Surface& sur, int x_pos, int y_pos, int frame);
-  void draw (CL_Surface& sur, int x_pos, int y_pos, 
+  void draw (CL_Surface& sur, int x_pos, int y_pos,
 	     float size_x, float size_y, int frame);
 
 
-  void draw_line (int x1, int y1, int x2, int y2, 
+  void draw_line (int x1, int y1, int x2, int y2,
 		  float r, float g, float b, float a = 1.0f);
-  void draw_fillrect (int x1, int y1, int x2, int y2, 
+  void draw_fillrect (int x1, int y1, int x2, int y2,
 		      float r, float g, float b, float a = 1.0f);
-  void draw_rect (int x1, int y1, int x2, int y2, 
+  void draw_rect (int x1, int y1, int x2, int y2,
 		  float r, float g, float b, float a = 1.0f);
-  void draw_pixel (int x_pos, int y_pos, 
+  void draw_pixel (int x_pos, int y_pos,
 		   float r, float g, float b, float a = 1.0f);
   void draw_circle (int x_pos, int y_pos, int radius,
 		   float r, float g, float b, float a = 1.0f);
@@ -77,7 +77,7 @@ public:
   void print (CL_Font* font, int x_pos, int y_pos, const std::string& str);
 };
 
-} // namespace Advent 
+} // namespace Advent
 
 #endif
 

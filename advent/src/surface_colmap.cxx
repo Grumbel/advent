@@ -35,13 +35,13 @@ SurfaceColMap::SurfaceColMap (const std::string& filename)
   }
   provider.lock ();
 }
-  
+
 SurfaceColMap::~SurfaceColMap ()
 {
   provider.unlock ();
 }
 
-float 
+float
 SurfaceColMap::get_depth (float x_pos, float y_pos)
 {
   int x = int(x_pos);
@@ -50,7 +50,7 @@ SurfaceColMap::get_depth (float x_pos, float y_pos)
   if (x > 0 && x < provider.get_width () &&
       y > 0 && y < provider.get_height ())
     {
-      // FIXME: Lets hope that the format is correct 
+      // FIXME: Lets hope that the format is correct
       unsigned char* buffer = static_cast<unsigned char*>(provider.get_data());
       return buffer[provider.get_width()*y + x]/255.0f / scale;
     }
@@ -60,44 +60,44 @@ SurfaceColMap::get_depth (float x_pos, float y_pos)
     }
 }
 
-void 
+void
 SurfaceColMap::register_guile_bindings ()
 {
   puts ("SurfaceColMap::register_guile_bindings ()");
 
-  gh_new_procedure1_0 ("c:surfacecolmap:create", 
+  gh_new_procedure1_0 ("c:surfacecolmap:create",
 		       &SurfaceColMap::scm_surfacecolmap_create);
 
-  gh_new_procedure2_0 ("c:surfacecolmap:set-scale", 
+  gh_new_procedure2_0 ("c:surfacecolmap:set-scale",
 		       &SurfaceColMap::scm_surfacecolmap_set_scale);
-  gh_new_procedure1_0 ("c:surfacecolmap:get-scale", 
+  gh_new_procedure1_0 ("c:surfacecolmap:get-scale",
 		       &SurfaceColMap::scm_surfacecolmap_get_scale);
 }
 
 /*
-  SCM 
-  SurfaceColMap::mark (SCM smob) 
+  SCM
+  SurfaceColMap::mark (SCM smob)
   {
   //FIXME:
   return SCM_BOOL_F;
   }
 
   scm_sizet
-  SurfaceColMap::free (SCM smob) 
+  SurfaceColMap::free (SCM smob)
   {
   std::cout << "ColMap: free" << std::endl;
   delete unchecked_smob_cast<ColMap>(smob);
   return 0; //sizeof (SurfaceColMap);
   }
 
-  int 
-  SurfaceColMap::print (SCM image_smob, SCM port, scm_print_state *pstate) 
+  int
+  SurfaceColMap::print (SCM image_smob, SCM port, scm_print_state *pstate)
   {
   scm_puts ("#<c:SurfaceColMap>", port);
   return 1;
   }
 */
-SCM 
+SCM
 SurfaceColMap::scm_surfacecolmap_create (SCM filename)
 {
   assert (gh_string_p (filename));
@@ -109,7 +109,7 @@ SurfaceColMap::scm_surfacecolmap_create (SCM filename)
     std::cout << "CL_Error: " << err.message << std::endl;
     assert (0);
   }
-  
+
   return ColMapSmob::create (colmap);
 }
 

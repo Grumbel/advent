@@ -51,9 +51,9 @@
 
 ;; Mouse Cursor Setup
 (define mouse-cursor (c:mousecursor:create))
-(define mouse-sprite (c:surface-sprite:set-align-center 
+(define mouse-sprite (c:surface-sprite:set-align-center
 		      (c:surface-sprite:create-anim "images/cursor.png" 8)))
-(define door-mouse-sprite (c:surface-sprite:set-align-center 
+(define door-mouse-sprite (c:surface-sprite:set-align-center
 			   (c:surface-sprite:create "images/door_cursor.png")))
 (c:surface-sprite:set-fps mouse-sprite 15)
 (c:mousecursor:set-sprite mouse-cursor mouse-sprite)
@@ -66,7 +66,7 @@
 	      (c:mousecursor:set-sprite mouse-cursor door-mouse-sprite)
 	      (c:mousecursor:set-sprite mouse-cursor mouse-sprite))
 	  ;;(println "Mouse over object: " obj)
-	  (c:font-sprite:set-text object-name 
+	  (c:font-sprite:set-text object-name
 				  (if obj
 				      (adv:name obj)
 				      "none"))))))
@@ -130,7 +130,7 @@
 (define-method (my:on-click (obj <adv:door>))
   (println "CLICK ON DOOR"))
 
-;; This one is called once 
+;; This one is called once
 (adv:set-on-click-handler my-on-click-handler)
 
 

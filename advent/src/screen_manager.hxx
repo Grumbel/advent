@@ -1,5 +1,5 @@
 //  $Id: screen_manager.hxx,v 1.7 2004/01/14 02:28:24 grumbel Exp $
-// 
+//
 //  Pingus - A free Lemmings clone
 //  Copyright (C) 2000 Ingo Ruhnke <grumbel@gmx.de>
 //
@@ -12,7 +12,7 @@
 //  but WITHOUT ANY WARRANTY; without even the implied warranty of
 //  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //  GNU General Public License for more details.
-// 
+//
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
@@ -32,7 +32,7 @@ class ScreenManager
 {
 private:
   Screen* current_screen;
-  
+
   CL_Slot on_key_press_slot;
   CL_Slot on_key_release_slot;
 
@@ -46,7 +46,7 @@ public:
   ScreenManager ();
   void update (float delta);
   void draw ();
-  
+
   /** FIXME: We should probally use a Controller interface here (could
       be usefull for two player mode or something like that [Spy vs.
       Spy])*/

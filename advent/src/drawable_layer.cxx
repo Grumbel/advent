@@ -26,14 +26,14 @@ namespace Advent {
 
 DrawableLayer::DrawableLayer (SCM d)
   : drawable (d)
-{  
+{
 }
 
 DrawableLayer::~DrawableLayer ()
 {
 }
 
-void 
+void
 DrawableLayer::register_guile_bindings ()
 {
   puts ("DrawableLayer::register_guile_bindings ()");
@@ -42,18 +42,18 @@ DrawableLayer::register_guile_bindings ()
   gh_new_procedure1_0("c:drawable-layer:get-drawable", &DrawableLayer::scm_drawable_layer_get_drawable);
 }
 
-SCM 
+SCM
 DrawableLayer::scm_drawable_layer_create (SCM scm_drawable)
 {
   return LayerSmob::create (new DrawableLayer (scm_drawable));
 }
 
-SCM 
+SCM
 DrawableLayer::scm_drawable_layer_get_drawable (SCM scm_drawable)
 {
   return smobbox_cast<DrawableLayer>(scm_drawable)->drawable.get_scm ();
 }
 
-} // namespace Advent 
+} // namespace Advent
 
 /* EOF */

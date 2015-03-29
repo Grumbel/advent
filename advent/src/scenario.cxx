@@ -54,7 +54,7 @@ Scenario::~Scenario ()
   delete display;
 }
 
-void 
+void
 Scenario::add_advobj (SCM obj)
 {
   // Don't add objects multiple times
@@ -65,14 +65,14 @@ Scenario::add_advobj (SCM obj)
     std::cout << "Scenario::add_drawable:duplicated found" << std::endl;
 }
 
-void 
+void
 Scenario::remove_advobj (SCM obj)
 {
   std::cout << "Scenario::remove_advobj" << std::endl;
   advobjs.remove (SmobTuple<AdvObj>(obj));
 }
 
-void 
+void
 Scenario::add_drawable (SCM drawable)
 {
   DrawableList::iterator i = find(drawables.begin(), drawables.end(),
@@ -83,20 +83,20 @@ Scenario::add_drawable (SCM drawable)
     std::cout << "Scenario::add_drawable:duplicated found" << std::endl;
 }
 
-void 
+void
 Scenario::remove_drawable (SCM drawable)
 {
   drawables.remove (SmobTuple<Drawable>(drawable));
 }
 
-ColMap* 
+ColMap*
 Scenario::get_colmap ()
 {
   //std::cout << "ColMap: " << colmap << std::endl;
   return colmap.get ();
 }
 
-void 
+void
 Scenario::update_all (float delta)
 {
   for (std::list<Scenario*>::iterator i = scenarios.begin (); i != scenarios.end (); ++i)
@@ -105,7 +105,7 @@ Scenario::update_all (float delta)
     }
 }
 
-void 
+void
 Scenario::update (float delta)
 {
   if (lock_count == false)
@@ -138,7 +138,7 @@ Scenario::update (float delta)
   get_object (CL_Mouse::get_x (), CL_Mouse::get_y ());
 }
 
-int 
+int
 Scenario::get_width ()
 {
   // FIXME: BUG: unimplemented
@@ -152,7 +152,7 @@ Scenario::get_height ()
   return height;
 }
 
-void 
+void
 Scenario::draw (boost::dummy_ptr<View> view)
 {
   // std::cout << "Scenario::draw" << std::endl;
@@ -165,7 +165,7 @@ Scenario::get_scm ()
   return bind.get_scm ();
 }
 
-AdvObj* 
+AdvObj*
 Scenario::get_object (int x_pos, int y_pos)
 {
   AdvObj* obj = NULL;
@@ -177,11 +177,11 @@ Scenario::get_object (int x_pos, int y_pos)
   	  obj = i->get ();
 	}
     }
-  
+
   return obj;
 }
 
-bool 
+bool
 Scenario::is_a (SCM smob)
 {
   puts ("304950: Crash expected"); //Sun Feb 23 17:05:34 2003
@@ -189,7 +189,7 @@ Scenario::is_a (SCM smob)
   return true;
 }
 
-void 
+void
 Scenario::register_guile_bindings ()
 {
   puts ("Scenario::register_guile_bindings ()");
@@ -210,20 +210,20 @@ Scenario::register_guile_bindings ()
   gh_new_procedure3_0("c:scenario:set-dimension", &Scenario::scm_scenario_set_dimension);
 }
 
-SCM 
-Scenario::mark (SCM smob) 
+SCM
+Scenario::mark (SCM smob)
 {
   /* FIXME:
   Scenario* scenario = smob_cast<Scenario>(smob);
 
-  for (AdvObjList::iterator i = scenario->advobjs.begin (); 
+  for (AdvObjList::iterator i = scenario->advobjs.begin ();
        i != scenario->advobjs.end (); ++i)
     i->mark ();
-  
-  for (DrawableList::iterator i = scenario->drawables.begin (); 
+
+  for (DrawableList::iterator i = scenario->drawables.begin ();
        i != scenario->drawables.end (); ++i)
     i->mark ();
-  
+
   scenario->display->mark ();
 
   return scenario->colmap.get_scm ();*/
@@ -231,13 +231,13 @@ Scenario::mark (SCM smob)
 }
 
 scm_sizet
-Scenario::free (SCM smob) 
+Scenario::free (SCM smob)
 {
   //FIXME:delete smob_cast<Scenario>(smob);
   return 0; //sizeof (Scenario);
 }
 
-int 
+int
 Scenario::print (SCM scm_scenario, SCM port, scm_print_state *pstate)
 {
   //Scenario* scenario = checked_smob_cast<Scenario>(scm_scenario);
@@ -281,7 +281,7 @@ Scenario::scm_scenario_add_advobj (SCM arg_scenario, SCM arg_obj)
 {
   Scenario* scenario = checked_smob_cast<Scenario>(arg_scenario);
   scenario->add_advobj (arg_obj);
-  
+
   return SCM_UNSPECIFIED;
 }
 
@@ -299,7 +299,7 @@ Scenario::scm_scenario_remove_advobj (SCM arg_scenario, SCM arg_obj)
 {
   Scenario* scenario = checked_smob_cast<Scenario>(arg_scenario);
   scenario->remove_advobj (arg_obj);
-  
+
   return SCM_UNSPECIFIED;
 }
 

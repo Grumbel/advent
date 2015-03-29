@@ -23,50 +23,50 @@
 
 namespace Advent {
 
-bool 
+bool
 SpriteCollideable::is_over (int x_pos, int y_pos)
 {
   return (pos.x <= x_pos && pos.x + sprite->get_width () > x_pos
 	  && pos.y <= y_pos && pos.y + sprite->get_height () > y_pos);
 }
 
-void 
+void
 SpriteCollideable::update (float delta)
 {
   // do nothing
 }
 
-void 
+void
 SpriteCollideable::register_guile_bindings ()
 {
   puts ("SpriteCollideable::register_guile_bindings ()");
 
-  gh_new_procedure1_0 ("c:sprite-collideable:create", 
+  gh_new_procedure1_0 ("c:sprite-collideable:create",
 		       &SpriteCollideable::scm_sprite_collideable_create);
 }
 
 /*
-SCM 
-SpriteCollideable::mark (SCM smob) 
+SCM
+SpriteCollideable::mark (SCM smob)
 {
   return SCM_BOOL_F;
 }
 
-scm_sizet 
-SpriteCollideable::free (SCM smob) 
+scm_sizet
+SpriteCollideable::free (SCM smob)
 {
   std::cout << "SpriteCollideable::free" << std::endl;
   delete smob_cast<SpriteCollideable>(smob);
   return 0; //sizeof (SpriteCollideable);
 }
 
-int 
-SpriteCollideable::print (SCM image_smob, SCM port, scm_print_state *pstate) 
+int
+SpriteCollideable::print (SCM image_smob, SCM port, scm_print_state *pstate)
 {
   return 1;
 }
 */
-SCM 
+SCM
 SpriteCollideable::scm_sprite_collideable_create (SCM sprite_drawable)
 {
   SpriteDrawable* drawable = smobbox_cast<SpriteDrawable>(sprite_drawable);

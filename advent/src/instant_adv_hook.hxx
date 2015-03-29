@@ -1,5 +1,5 @@
 //  $Id: instant_adv_hook.hxx,v 1.3 2001/10/15 07:26:57 grumbel Exp $
-// 
+//
 //  Pingus - A free Lemmings clone
 //  Copyright (C) 2000 Ingo Ruhnke <grumbel@gmx.de>
 //
@@ -12,7 +12,7 @@
 //  but WITHOUT ANY WARRANTY; without even the implied warranty of
 //  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //  GNU General Public License for more details.
-// 
+//
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
@@ -27,7 +27,7 @@
 class InstantAdvHook : public AdvHook
 {
 private:
-  
+
 public:
   InstantAdvHook () {}
   ~InstantAdvHook () {}
@@ -41,7 +41,7 @@ public:
 public:
   static void register_guile_bindings ();
 
-  static SCM instant_advhook_create ();  
+  static SCM instant_advhook_create ();
 };
 
 #endif

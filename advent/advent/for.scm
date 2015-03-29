@@ -12,16 +12,16 @@
 ;      <counter> will increase with each iteration.  If <start> is greater
 ;      than <finish> then <counter> will decrease, and if <start> is equal
 ;      to <finish> the <body> will be executed once for the value of
-;      <start>. 
-; 
+;      <start>.
+;
 ;  [[example]]
-;     (for (i 1 3) 
-;        (display i) 
+;     (for (i 1 3)
+;        (display i)
 ;        (display " "))
 ;            will print "1 2 3".
 ;
-;     (for (i 3 1) 
-;        (display i) 
+;     (for (i 3 1)
+;        (display i)
 ;        (display " "))
 ;            will print "3 2 1".
 ;
@@ -29,7 +29,7 @@
 ;        (display i)
 ;        (display " "))
 ;            will print "1.0 2.5 4.0".
-;     
+;
 
 ;  For the curious:
 ;
@@ -52,7 +52,7 @@
 ;       printf("%d",i);
 ;    }
 ;
-;  fortran:  
+;  fortran:
 ;    do i = 1, 10
 ;       print *, i
 ;    enddo
@@ -82,7 +82,7 @@
 ;; Add a new simple syntax (aka a "special form") to scheme to make loops a
 ;; little easier to use.  There is a more complete version with error
 ;; checking included in (ice-9 convenience)
-(define-syntax simple-for 
+(define-syntax simple-for
   (syntax-rules ()
     ;; A template for a simple-for loop.  When scheme reads the code
     ;; "(simple-for (<count> <start> <finish>) <body>)"  it will be
@@ -96,8 +96,8 @@
        <body> ...))))
 ;
 ;  Using this macro:
-;      (simple-for (i 1 10) 
-;         (display i) 
+;      (simple-for (i 1 10)
+;         (display i)
 ;         (newline))
 ;  becomes:
 ;      (do ((i 1 (+ i 1)))
@@ -111,9 +111,9 @@
 ;
 ;     (for (i 1 3) (display i))
 ;
-;  prints "123" and 
+;  prints "123" and
 ;
-;     (for (i 3 1) (display i)) 
+;     (for (i 3 1) (display i))
 ;
 ;  prints "321".  It's also good if the step size can be set so that
 ;
@@ -124,7 +124,7 @@
 ;  Here's a full implementation.  This handles both forms of syntax (with
 ;  or without a step size) for both incrementing and decrementing loops.
 ;  This is the version that is document in the executive summary at the
-;  top. 
+;  top.
 ;
 (define-syntax for
   (syntax-rules ()
@@ -136,20 +136,20 @@
 	 ((<counter>			; The name of the counter
 	   <start>			; The initial value of the counter
 	   (if (> <finish> <start>)		; The increment. This checks the
-	       (+ <counter> 1)		; sign so the loop goes the right 
+	       (+ <counter> 1)		; sign so the loop goes the right
 	       (- <counter> 1))))		; direction.
 	 ;; Decide when the loop should terminate.
 	 ((if (< <start> <finish>)
 	      (< <finish> <counter>)	; An incrementing loop.
 	      (< <counter> <finish>))	; A decrementing loop.
 	  #t)
-       ;; The code that gets executed at each iteration will go here.  
+       ;; The code that gets executed at each iteration will go here.
        <body> ...))
 
-    ;; Handle a for loop with a user defined step.  This is used when the 
+    ;; Handle a for loop with a user defined step.  This is used when the
     ;; evalulator stumbles across "(for (i 1 5 2) body)"
     ((for (<counter> <start> <finish> <step>) <body> ...)
-     (do 
+     (do
 	 ;; Set the initial conditions for the loop.
 	 ((<counter>			; The name of the counter.
 	   <start>			; The initial value of the counter.
@@ -159,8 +159,8 @@
 	      (or (< <counter> <start>)	; An incrementing loop
 		  (< <finish> <counter>))
 	      (or (> <counter> <start>)	; A decrementing loop.
-		  (> <finish> <counter>))) 
+		  (> <finish> <counter>)))
 	  #t)
-       ;; The code that gets executed at each iteration will go here.  
+       ;; The code that gets executed at each iteration will go here.
        <body> ...))))
 

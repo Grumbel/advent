@@ -16,7 +16,7 @@
   (next #:init-value #f
 	#:init-keyword #:next
 	#:accessor get-next)
-  
+
   ;; Type: symbol or list of symbols
   ;; Some mark, like read or something
   (mark #:init-value #f
@@ -47,16 +47,16 @@
   (dialog:clear)
   (let ((y-pos 70))
     (for-each (lambda (choice)
-		(let ((button (c:buttonlayer:create 
-			       (c:font-sprite:create "arialfont14_magenta" 
+		(let ((button (c:buttonlayer:create
+			       (c:font-sprite:create "arialfont14_magenta"
 						     (get-sentence choice))
 			       #f
-			       (c:font-sprite:create "arialfont14_orange" 
+			       (c:font-sprite:create "arialfont14_orange"
 						     (get-sentence choice))
 			       10 y-pos)))
 		  (c:layerscreen:push screen button)
 		  (dialog:add-button button)
-		  (c:buttonlayer:set-press-callback 
+		  (c:buttonlayer:set-press-callback
 		   button
 		   (lambda ()
 		     (adv:seq (dialog:clear)
@@ -71,7 +71,7 @@
 
 ;; Syntax:
 ;;
-;; (adv:defdialog DIALOGNAME 
+;; (adv:defdialog DIALOGNAME
 ;;                (SENTANCE EXPRESSION ...)
 ;;                ...)
 ;;
@@ -82,10 +82,10 @@
 ;;  or another dialog object and MARK-LIST is a list of marks.
 ;;
 ;; FIXME:
-;;  
+;;
 ;;  - How to do different colors for sentances (some kind of mark-up?!)
 ;;  - How can one use marks, examples of marks
-;; 
+;;
 ;; (get-mark 'counter test-dialog 5) => 3
 ;; (get-mark 'read    test-dialog 5) => #t
 
@@ -93,11 +93,11 @@
 (define-syntax adv:defdialog
   (syntax-rules ()
     ((_ dialogname (sentance next ...) ...)
-     (define dialogname 
+     (define dialogname
        (make <dialog> #:choices
 	     (list
 	      (make <dialog:choice>
-		#:sentence sentance 
+		#:sentence sentance
 		#:next (lambda () next ...)
 		)
 	      ...))))))
@@ -106,7 +106,7 @@
 #!
 Wannabe:
 
-(adv:defdialog 
+(adv:defdialog
  ("Hello? bla/blub" action)
  ("Hello how are you" "bla/blub"))
 
@@ -121,7 +121,7 @@ Wannabe:
     (2 (say bob "boaeuaou"))
     ((3 4 5)
      (show myotherdialog))])
-    
+
 
 click -> click-events -> get-action -> callback -> script
 

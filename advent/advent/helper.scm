@@ -32,7 +32,7 @@
 (export myprint)
 
 (define (println-sep . str)
-  (for-each (lambda (x) 
+  (for-each (lambda (x)
 	      (display "\"")
 	      (display x)
 	      (display "\"")) str)
@@ -71,7 +71,7 @@
 (define-public (random-ref lst)
   (list-ref lst (random (length lst))))
 
-;; 
+;;
 (define-public first car)
 (define-public rest  cdr)
 

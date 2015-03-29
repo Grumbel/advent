@@ -1,5 +1,5 @@
 //  $Id: key_map_handler.hxx,v 1.4 2003/02/23 17:07:48 grumbel Exp $
-// 
+//
 //  Pingus - A free Lemmings clone
 //  Copyright (C) 2000 Ingo Ruhnke <grumbel@gmx.de>
 //
@@ -12,7 +12,7 @@
 //  but WITHOUT ANY WARRANTY; without even the implied warranty of
 //  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //  GNU General Public License for more details.
-// 
+//
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
@@ -31,7 +31,7 @@ private:
   StaticSmobTuple<KeyMap> keymap;
   CL_Slot on_button_press_slot;
   CL_Slot on_button_release_slot;
-  
+
 public:
   KeyMapHandler ();
   ~KeyMapHandler ();

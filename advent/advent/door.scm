@@ -1,19 +1,19 @@
 ;; Special class for mantaining doors or doorlike objects which
 ;; connect two scenarios
-(define-class <adv:door> () 
+(define-class <adv:door> ()
   (adv:bind
    #:init-value #f
    #:init-keyword #:bind
    #:accessor adv:bind)
-  
+
   (adv:name
-   #:init-value "<name-not-set>" 
+   #:init-value "<name-not-set>"
    #:init-keyword #:name
    #:accessor adv:name)
 
   ;; The scenario to which the guy is transported after walking
   ;; through the door
-  (adv:scenario #:accessor adv:door:scenario 
+  (adv:scenario #:accessor adv:door:scenario
 		#:init-keyword #:scenario
 		#:init-value #f)
 
@@ -47,12 +47,12 @@
 ;; Order a person to walk to a door
 (define-method (adv:walk-to-door (person <adv:person>) (obj <adv:door>))
   (println "Door: " obj)
-  (let ((hook (person:walk-to person 
+  (let ((hook (person:walk-to person
 			      (car (adv:door:hotspot obj))
 			      (cdr (adv:door:hotspot obj))
 			      ))
 	(delayed-hook (c:delayed-advhook:create)))
-    (c:advhook:add hook 
+    (c:advhook:add hook
 		   (lambda ()
 		     (println "adv:on-click: Doing on-click action with " obj)
 		     ;;(c:scenariolayer:set-scenario scenario-layer (adv:door:scenario obj))
@@ -61,7 +61,7 @@
 		     (let ((func (lambda ()
 				   (println "Switching to: " (adv:door:scenario obj))
 				   (person:set-scenario person (adv:door:scenario obj))
-				   
+
 				   (person:set-position person
 							(car (adv:door:position obj))
 							(cdr (adv:door:position obj)))

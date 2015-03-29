@@ -1,6 +1,6 @@
 ;; $Id: serverroom.scm,v 1.8 2001/11/02 08:43:00 grumbel Exp $
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; 
+;;
 ;;
 
 (person:set-scenario person2 scenario:serverroom)
@@ -37,21 +37,21 @@
 #!
 (repeat 20
 	(lambda ()
-	  (scenario:add-drawable scenario:serverroom 
+	  (scenario:add-drawable scenario:serverroom
 				 (c:sprite-drawable:create
 				  (c:font-sprite:create "font" "Bla...")
 				  (random 640) (random 480) 1000))))
 !#
 
 
-(adv:defdoor serverroom:workplace-door 
+(adv:defdoor serverroom:workplace-door
 	     (name     "Tuer zum Arbeitsplatz")
 	     (hotspot   437 288 'north)
 	     (target-position  208 286 'south)
 	     (target-scenario scenario:workplace)
 	     (bind (c:rect-collideable:create 403 161 467 279)))
 
-(adv:defdoor serverroom:floor-door 
+(adv:defdoor serverroom:floor-door
 	     (name     "Tuer zum Flur")
 	     (hotspot    514 315 'north)
 	     (target-position  1225 398 'south)
@@ -68,7 +68,7 @@
 
 #!
  Wannabe syntax: keyword's
-(colmap #:surface-file "images/server-room_cmap.png" 
+(colmap #:surface-file "images/server-room_cmap.png"
 	#:scale 1.7)
 !#
 

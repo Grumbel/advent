@@ -39,7 +39,7 @@
 (define-public *person:current* (make-fluid))
 (define-public (person:current) (fluid-ref *person:current*))
 
-(define-public (person:set-current person) 
+(define-public (person:set-current person)
   (fluid-set! *person:current* person))
 
 (define-method (person:set-scenario (person <adv:person>) (scenario <adv:scenario>))
@@ -96,7 +96,7 @@
 (define-method (adv:talk (scenario <adv:scenario>) (pos <pair>) (text <string>))
   (if *use-festival*
       (festival:talk text))
-  
+
   (let* ((hook (c:delayed-advhook:create))
 	 (drawable (c:sprite-drawable:create
 		    (c:font-sprite:set-remove-hook
@@ -115,16 +115,16 @@
   ;; Clear a visible sentance of this person if available
   (cond ((adv:speech person)
 	 (c:drawable:remove (adv:speech person))))
-  
-  (let ((hook (adv:talk (person:get-scenario person) 
+
+  (let ((hook (adv:talk (person:get-scenario person)
 			  (person:get-position person)
 			  text)))
       (set! (adv:speech person) *adv:talk-drawable*)
       hook))
 
 (define-method (person:remove-from-inventory (person <adv:person>) object)
-  (set! (adv:inventory person) (filter (lambda (obj) 
-					 (println "Equal: " obj " " object " => " 
+  (set! (adv:inventory person) (filter (lambda (obj)
+					 (println "Equal: " obj " " object " => "
 						  (not (equal? obj object)))
 					 (not (equal? obj object)))
 				       (adv:inventory person)))
@@ -142,7 +142,7 @@
     ((west)  -1.6)
     ((east)  1.6)
     ((south) 3.14)
-    (else 
+    (else
      (println "adv:symbol->direction: unknown sym: " sym)
      0)))
 

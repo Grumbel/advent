@@ -1,4 +1,4 @@
-/** 
+/**
  */
 template<class T>
 class SmobTuple
@@ -6,7 +6,7 @@ class SmobTuple
 private:
   T* data;
   SCM scm;
-  
+
 public:
   explicit SmobTuple () {
     data = 0;
@@ -36,15 +36,15 @@ public:
 
   SmobTuple<T>& operator=(const SmobTuple<T>& obj) {
     Guile::unprotect_object (scm);
-    
+
     data = obj.data;
     scm  = obj.scm;
-    
+
     Guile::protect_object (scm);
 
     return *this;
   }
-  
+
   bool is_a (SCM smob)
   {
     return T::is_a (smob);
@@ -54,7 +54,7 @@ public:
     if (data == 0)
       {
 	std::cout << "SmobTuple: Warring data = 0: "  << typeid (T).name () << std::endl;
-	std::cout << "SmobTuple: Type: " << std::flush; 
+	std::cout << "SmobTuple: Type: " << std::flush;
 	gh_display (scm); gh_newline ();
       }
     return data;
@@ -70,10 +70,10 @@ public:
 
   void set_scm (SCM arg_scm) {
     Guile::unprotect_object (scm);
-    
+
     scm = arg_scm;
     Guile::protect_object (scm);
-    
+
     data = smobbox_cast<T>(scm);
   }
 

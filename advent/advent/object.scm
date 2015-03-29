@@ -11,7 +11,7 @@
 (define-class <adv:object> ()
   ;; The name of the object, which is shown on the screen
   (adv:name
-   #:init-value "<name-not-set>" 
+   #:init-value "<name-not-set>"
    #:init-keyword #:name
    #:accessor adv:name)
 
@@ -19,13 +19,13 @@
   (adv:bind #:accessor adv:bind
 	    #:init-value #f
 	    #:init-keyword #:bind)
-  
+
   ;; A list of hotspots associated with this object
   ;; Format: (list (list INT INT [east|west|north|south]))
   (adv:hotspots #:accessor adv:hotspots
 		#:init-value #f
 		#:init-keyword #:hotspots)
-  
+
   ;; The sprite which is shown in the inventory
   ;; FIXME: should probally on the c++ site
   (adv:inventory-sprite
@@ -47,7 +47,7 @@
   (set! adv:on-click-handler handler))
 
 (define-public (extract-members lst)
-  (map (lambda (x) (list (car x) 
+  (map (lambda (x) (list (car x)
 			 #:init-value (cadr x)
 			 #:accessor (car x)))
    (cdr (assoc 'status lst))
@@ -55,7 +55,7 @@
 
 (define-public (generate-methods classname lst)
   (if lst
-      (for-each (lambda (x) 
+      (for-each (lambda (x)
 		  (println "(define-method (" (car x) " (this " classname "))")
 		  (for-each (lambda (x) (println "  " x ")"))
 			    (cdr x)))
@@ -87,7 +87,7 @@
   (for-each (lambda (x)
 	      (let ((sym  (car x))
 		    (rest (cdr x)))
-		(case sym 
+		(case sym
 		  ((members)
 		   (println "OK"))
 		  (else

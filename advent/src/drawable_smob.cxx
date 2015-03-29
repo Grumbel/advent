@@ -37,7 +37,7 @@ DrawableSmob::~DrawableSmob ()
   //FIXME: delete drawable;
 }
 
-SCM 
+SCM
 DrawableSmob::create (Drawable* obj)
 {
   SCM_RETURN_NEWSMOB (tag, new DrawableSmob(obj));
@@ -54,7 +54,7 @@ DrawableSmob::register_guile_bindings ()
   scm_set_smob_print (tag, DrawableSmob::print);
 }
 
-SCM 
+SCM
 DrawableSmob::mark (SCM smob)
 {
   //FIXME:return unchecked_smob_cast<DrawableSmob>(smob)->sprite.get_scm ();
@@ -62,22 +62,22 @@ DrawableSmob::mark (SCM smob)
 }
 
 scm_sizet
-DrawableSmob::free (SCM smob) 
+DrawableSmob::free (SCM smob)
 {
   // FIXME: Memory leak
   //DrawableSmob* drawable = unchecked_smob_cast<DrawableSmob>(smob);
   //  delete drawable;
-  
+
   return 0; //sizeof (SpriteDrawable);
 }
 
-int 
-DrawableSmob::print (SCM image_smob, SCM port, scm_print_state *pstate) 
+int
+DrawableSmob::print (SCM image_smob, SCM port, scm_print_state *pstate)
 {
   scm_puts ("#<c:DrawableSmob>", port);
   return 1;
 }
 
-} // namespace Advent 
+} // namespace Advent
 
 /* EOF */

@@ -1,5 +1,5 @@
 //  $Id: scm_obj.hxx,v 1.1 2001/09/20 20:01:29 grumbel Exp $
-// 
+//
 //  Pingus - A free Lemmings clone
 //  Copyright (C) 2000 Ingo Ruhnke <grumbel@gmx.de>
 //
@@ -12,7 +12,7 @@
 //  but WITHOUT ANY WARRANTY; without even the implied warranty of
 //  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //  GNU General Public License for more details.
-// 
+//
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
@@ -50,7 +50,7 @@ public:
   ~SCMObj () {
     Guile::unprotect_object (obj);
   }
-  
+
   SCMObj& operator=(const SCMObj& new_obj) {
     Guile::unprotect_object (obj);
     obj = new_obj.obj;

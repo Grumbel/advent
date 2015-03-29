@@ -69,14 +69,14 @@ Person::update (float delta)
     {
       if (get_z_pos () == 0)
 	{
-	  std::cout << "Person: stuck at: " << pos.x << " " << pos.y 
+	  std::cout << "Person: stuck at: " << pos.x << " " << pos.y
 	    << " " << pos.z << std::endl;
 	  pos = target;
 	}
     }
 }
 
-void 
+void
 Person::call_hook ()
 {
   if (hook.get () != 0)
@@ -98,7 +98,7 @@ Person::set_target (const CL_Vector& newtarget)
   direction.normalize ();
 
   // Set the speed of the person
-  direction *= speed;  
+  direction *= speed;
 
   hook.set_scm (AdvHookSmob::create (new DelayedAdvHook()));
   return hook.get_scm ();
@@ -111,7 +111,7 @@ Person::draw (boost::dummy_ptr<View> view)
   gfx.get()->get_sprite (this)->draw (view, pos, get_z_pos ());
 }
 
-float 
+float
 Person::get_z_pos ()
 {
   if (scenario.get () && scenario->get_colmap ())
@@ -121,7 +121,7 @@ Person::get_z_pos ()
   return 1.0;
 }
 
-bool 
+bool
 Person::is_over(int x, int y)
 {
   int width  = gfx.get()->get_sprite (this)->get_width ();
@@ -142,20 +142,20 @@ Person::is_over(int x, int y)
     }
 }
 
-void 
+void
 Person::set_direction (float angle)
 {
   CL_Vector d (0.0, 1.0);
   direction = d.rotate (angle, CL_Vector (0, 0, 1.0));
 }
 
-bool 
+bool
 Person::on_target ()
 {
   float delta = 10.0;
-  if (pos.x - delta < target.x 
+  if (pos.x - delta < target.x
       && pos.x + delta > target.x
-      && pos.y - delta < target.y 
+      && pos.y - delta < target.y
       && pos.y + delta > target.y)
     {
       return true;
@@ -163,7 +163,7 @@ Person::on_target ()
   return false;
 }
 
-void 
+void
 Person::register_guile_bindings ()
 {
   puts ("Person::register_guile_bindings ()");
@@ -180,7 +180,7 @@ Person::register_guile_bindings ()
 }
 /*
 SCM
-Person::mark (SCM smob) 
+Person::mark (SCM smob)
 {
   if (gc_mark_enabled)
     {
@@ -194,7 +194,7 @@ Person::mark (SCM smob)
 }
 
 scm_sizet
-Person::free (SCM smob) 
+Person::free (SCM smob)
 {
   if (gc_free_enabled)
     {
@@ -207,21 +207,21 @@ Person::free (SCM smob)
     }
 }
 
-int 
-Person::print (SCM image_smob, SCM port, scm_print_state *pstate) 
+int
+Person::print (SCM image_smob, SCM port, scm_print_state *pstate)
 {
   scm_puts ("#<c:Person>", port);
   return 1;
 }
 */
-SCM 
+SCM
 Person::scm_person_create (SCM bind)
 {
   Person* person = new Person (bind);
   return DrawableSmob::create (person);
 }
 
-SCM 
+SCM
 Person::scm_person_set_gfx (SCM scm_person, SCM scm_gfx)
 {
   std::cout << "Person::scm_person_set_gfx: Not implemented" << std::endl;
@@ -230,7 +230,7 @@ Person::scm_person_set_gfx (SCM scm_person, SCM scm_gfx)
   return SCM_UNSPECIFIED;
 }
 
-SCM 
+SCM
 Person::scm_person_set_scenario (SCM scm_person, SCM scm_scenario)
 {
   //std::cout  << "scm_person_set_scenario" << std::endl;
@@ -253,13 +253,13 @@ Person::scm_person_set_scenario (SCM scm_person, SCM scm_scenario)
   return SCM_UNSPECIFIED;
 }
 
-SCM 
+SCM
 Person::scm_person_get_scenario (SCM scm_person)
 {
   return smobbox_cast<Person>(scm_person)->get_scenario ()->get_scm ();
 }
 
-SCM 
+SCM
 Person::scm_person_set_position (SCM scm_person, SCM x_pos, SCM y_pos)
 {
   Person* person = smobbox_cast<Person>(scm_person);
@@ -271,7 +271,7 @@ Person::scm_person_set_position (SCM scm_person, SCM x_pos, SCM y_pos)
   return SCM_UNSPECIFIED;
 }
 
-SCM 
+SCM
 Person::scm_person_get_position (SCM scm_person)
 {
   Person* person = smobbox_cast<Person>(scm_person);
@@ -279,7 +279,7 @@ Person::scm_person_get_position (SCM scm_person)
   return gh_cons (gh_double2scm (person->pos.x), gh_double2scm (person->pos.y));
 }
 
-SCM 
+SCM
 Person::scm_person_set_target (SCM scm_person, SCM x_pos, SCM y_pos)
 {
   Person* person = smobbox_cast<Person>(scm_person);
@@ -294,13 +294,13 @@ Person::scm_person_set_direction (SCM scm_person, SCM scm_angle)
   return SCM_UNSPECIFIED;
 }
 
-SCM 
+SCM
 Person::scm_person_set_catchable (SCM scm_person, SCM scm_catchable)
 {
   smobbox_cast<Person>(scm_person)->set_catchable (gh_scm2bool (scm_catchable));
   return scm_person;
 }
 
-} // namespace Advent 
+} // namespace Advent
 
 /* EOF */

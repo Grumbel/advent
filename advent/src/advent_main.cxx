@@ -97,13 +97,13 @@ SCM advent_main_loop ()
 
 namespace Advent {
 
-char* 
+char*
 AdventMain::get_title ()
 {
   return "Advent V0.1.0";
 }
 
-void  
+void
 AdventMain::parse_args (int argc, char* argv[])
 {
   std::cout << "Parsing Arguments..." << std::endl;
@@ -113,7 +113,7 @@ void
 AdventMain::register_guile_bindings ()
 {
   std::cout << " *** Registering: start **************" << std::endl;
-  
+
   gh_new_procedure0_0 ("advent:main-loop", &advent_main_loop);
 
   SpriteDrawable::register_guile_bindings ();
@@ -162,7 +162,7 @@ AdventMain::register_guile_bindings ()
   std::cout << " *** Registering: stop ***************" << std::endl;
 }
 
-int 
+int
 AdventMain::main (int argc, char* argv[])
 {
   if (argc != 2)
@@ -190,11 +190,11 @@ AdventMain::init_advent ()
   std::cout << "..:: Static binary ::.." << std::endl;
   scm_init_oop_goops_goopscore_module ();
 #endif
-    
+
   std::cout << "Registring Guile Bildings" << std::endl;
   register_guile_bindings ();
 
-  try { 
+  try {
     std::cout << "CL_SetupCore::init" << std::endl;
     CL_SetupCore::init ();
     std::cout << "CL_SetupDisplay::init" << std::endl;
@@ -208,7 +208,7 @@ AdventMain::init_advent ()
   }
 }
 
-void 
+void
 AdventMain::deinit_advent ()
 {
   try {
@@ -223,16 +223,16 @@ AdventMain::deinit_advent ()
   }
 }
 
-void 
+void
 AdventMain::main_loop()
 {
   // FIXME: Directory handling is stupid and broken
   std::cout << "Loading Engine" << std::endl;
   //gh_load ("../../../src/guile/engine.scm");
   //gh_load (argv[1]);
-    
+
   puts ("Entering Main loop");
-  
+
   DeltaManager delta;
 
   // Main Loop
@@ -244,7 +244,7 @@ AdventMain::main_loop()
     }
 }
 
-int 
+int
 AdventMain::inner_main (void* closure, int argc, char* argv[])
 {
   try {

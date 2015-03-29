@@ -1,5 +1,5 @@
 //  $Id: scm_converter.hxx,v 1.16 2003/02/24 22:41:55 grumbel Exp $
-// 
+//
 //  Pingus - A free Lemmings clone
 //  Copyright (C) 2000 Ingo Ruhnke <grumbel@gmx.de>
 //
@@ -12,7 +12,7 @@
 //  but WITHOUT ANY WARRANTY; without even the implied warranty of
 //  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //  GNU General Public License for more details.
-// 
+//
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
@@ -58,7 +58,7 @@ T* smob_cast(SCM smob)
   T* obj = reinterpret_cast<T*>(SCM_CDR (smob));
   return obj;
 }
-#endif 
+#endif
 
 /* Type checking doesn't work correctly when downcasting from
    inherited types, so use smob_cast for that */
@@ -119,7 +119,7 @@ SCM create_smob (T* data)
   SCM_RETURN_NEWSMOB(T::get_smob_tag (), data);
 }
 
-/** Cast a smob to the given type T or fail with an assert 
+/** Cast a smob to the given type T or fail with an assert
     FIXME: Error handling should be more tolerant (guile assertion) */
 template<class T>
 T* smobbox_cast (SCM smob)

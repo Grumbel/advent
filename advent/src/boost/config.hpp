@@ -15,12 +15,12 @@
 //    4 Oct 00  BOOST_NO_STD_MIN_MAX (Jeremy Siek)
 //   29 Sep 00  BOOST_NO_INTEGRAL_INT64_T (Jens Maurer)
 //   25 Sep 00  BOOST_NO_STD_ALLOCATOR (Jeremy Siek)
-//   18 SEP 00  BOOST_NO_SLIST, BOOST_NO_HASH, 
+//   18 SEP 00  BOOST_NO_SLIST, BOOST_NO_HASH,
 //              BOOST_NO_TEMPLATED_ITERATOR_CONSTRUCTORS
 //              BOOST_NO_LIMITS (Jeremy Siek)
 //    1 Sep 00  BOOST_NO_PRIVATE_IN_AGGREGATE added. (Mark Rodgers)
 //   23 Jul 00  Fixed spelling of BOOST_NO_INCLASS_MEMBER_INITIALIZATION in
-//              comment (Dave Abrahams). 
+//              comment (Dave Abrahams).
 //   10 Jul 00  BOOST_NO_POINTER_TO_MEMBER_CONST added (Mark Rodgers)
 //   26 Jun 00  BOOST_NO_STD_ITERATOR, BOOST_MSVC_STD_ITERATOR,
 //              BOOST_NO_STD_ITERATOR_TRAITS, BOOST_NO_USING_TEMPLATE,
@@ -40,14 +40,14 @@
 //   24 Sep 99  BOOST_DECL added (Ed Brey)
 //   10 Aug 99  Endedness flags added, GNU CC support added
 //   22 Jul 99  Initial version
- 
+
 
 #ifndef BOOST_CONFIG_HPP
 #define BOOST_CONFIG_HPP
 
 //  Conformance Flag Macros  -------------------------------------------------//
 //
-//  Conformance flag macros should identify the absence of C++ Standard 
+//  Conformance flag macros should identify the absence of C++ Standard
 //  conformance rather than its presence.  This ensures that standard conforming
 //  compilers do not require a lot of configuration flag macros.  It places the
 //  burden where it should be, on non-conforming compilers.  In the future,
@@ -57,7 +57,7 @@
 //  parameters cannot have a dependent type, for example
 //  "template<class T, typename T::type value> class X { ... };"
 
-//  BOOST_NO_INCLASS_MEMBER_INITIALIZATION: Compiler violates std::9.4.2/4. 
+//  BOOST_NO_INCLASS_MEMBER_INITIALIZATION: Compiler violates std::9.4.2/4.
 
 //  BOOST_NO_INTEGRAL_INT64_T: int64_t as defined by <boost/cstdint.hpp> is
 //  not an integral type.
@@ -74,11 +74,11 @@
 //  Probably GCC specific.  See boost/operators.hpp for example.
 
 //  BOOST_NO_POINTER_TO_MEMBER_CONST: The compiler does not correctly handle
-//  pointers to const member functions, preventing use of these in overloaded 
+//  pointers to const member functions, preventing use of these in overloaded
 //  function templates.  See boost/functional.hpp for example.
 
 //  BOOST_NO_PRIVATE_IN_AGGREGATE: The compiler misreads 8.5.1, treating classes
-//  as non-aggregate if they contain private or protected member functions. 
+//  as non-aggregate if they contain private or protected member functions.
 
 //  BOOST_NO_STD_ITERATOR: The C++ implementation fails to provide the
 //  std::iterator class.
@@ -137,10 +137,10 @@
 //  as many non-Microsoft compilers define _MSC_VER.  Thus BOOST_MSVC.
 
 //  BOOST_MSVC_STD_ITERATOR: Microsoft's broken version of std::iterator
-//  is being used. 
+//  is being used.
 
-//  BOOST_SYSTEM_HAS_STDINT_H: There are no 1998 C++ Standard headers <stdint.h> 
-//  or <cstdint>, although the 1999 C Standard does include <stdint.h>. 
+//  BOOST_SYSTEM_HAS_STDINT_H: There are no 1998 C++ Standard headers <stdint.h>
+//  or <cstdint>, although the 1999 C Standard does include <stdint.h>.
 //  If <stdint.h> is present, <boost/stdint.h> can make good use of it,
 //  so a flag is supplied (signalling presence; thus the default is not
 //  present, conforming to the current C++ standard).
@@ -346,7 +346,7 @@
 #     define BOOST_DECL __declspec(dllimport)
 #   endif
 
-# endif // Microsoft (excluding Intel/EDG frontend) 
+# endif // Microsoft (excluding Intel/EDG frontend)
 
 # ifndef BOOST_DECL
 #   define BOOST_DECL  // default for compilers not needing this decoration.
@@ -369,7 +369,7 @@
 //  Because std::size_t usage is so common, even in boost headers which do not
 //  otherwise use the C library, the <cstddef> workaround is included here so
 //  that ugly workaround code need not appear in many other boost headers.
-//  NOTE WELL: This is a workaround for non-conforming compilers; <cstddef> 
+//  NOTE WELL: This is a workaround for non-conforming compilers; <cstddef>
 //  must still be #included in the usual places so that <cstddef> inclusion
 //  works as expected with standard conforming compilers.  The resulting
 //  double inclusion of <cstddef> is harmless.

@@ -25,7 +25,7 @@
 
 namespace Advent {
 
-CollideableSmob* 
+CollideableSmob*
 Collideable::cast (SCM smob)
 {
   return checked_smob_cast<CollideableSmob>(smob);

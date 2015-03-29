@@ -29,12 +29,12 @@ LayerGroup::~LayerGroup ()
 {
 }
 
-void 
+void
 LayerGroup::add (SmobTuple<Layer>)
 {
 }
 
-void 
+void
 LayerGroup::update (float delta)
 {
   for (LayerLst::iterator i = layers.begin (); i != layers.end (); ++i)

@@ -31,7 +31,7 @@ Display::register_guile_bindings ()
   gh_new_procedure3_0 ("c:display:setup", &Display::scm_display_setup);
 }
 
-SCM 
+SCM
 Display::scm_display_setup (SCM s_width, SCM s_height, SCM fullscreen)
 {
   int width  = scm_num2int(s_width,  1, "scm_display_setup");
@@ -39,7 +39,7 @@ Display::scm_display_setup (SCM s_width, SCM s_height, SCM fullscreen)
 
   std::cout << "Display::scm_display_setup: " << width << "x" << height << std::endl;
 
-  //CL_Display::set_videomode (SCM_INUM (width), SCM_INUM (height), 32, false, false); 
+  //CL_Display::set_videomode (SCM_INUM (width), SCM_INUM (height), 32, false, false);
   // FIXME: Memory leak
   new CL_DisplayWindow("Advent Engine Test", width, height);
 
@@ -48,6 +48,6 @@ Display::scm_display_setup (SCM s_width, SCM s_height, SCM fullscreen)
   return SCM_UNSPECIFIED;
 }
 
-} // namespace Advent 
+} // namespace Advent
 
 /* EOF */

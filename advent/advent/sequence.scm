@@ -48,7 +48,7 @@
 ;; Returns a hook that will be involked in 'time' number of seconds
 (define-public (adv:sleep time)
   (let ((hook (c:delayed-advhook:create)))
-    (c:timemanager:add 
+    (c:timemanager:add
      timemanager ;; FIXME: TimeManager needs to be a global thing
      time (lambda () (c:advhook:call hook)))
     hook))

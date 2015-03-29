@@ -1,5 +1,5 @@
 //  $Id: person.hxx,v 1.19 2004/01/14 02:28:24 grumbel Exp $
-// 
+//
 //  Pingus - A free Lemmings clone
 //  Copyright (C) 2000 Ingo Ruhnke <grumbel@gmx.de>
 //
@@ -12,7 +12,7 @@
 //  but WITHOUT ANY WARRANTY; without even the implied warranty of
 //  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //  GNU General Public License for more details.
-// 
+//
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
@@ -35,21 +35,21 @@ namespace Advent {
 class Scenario;
 
 /** A class for managing the visible components of a (interactivly
-    controlled) person. 
+    controlled) person.
 
-    FIXME: Could need seperation: 
+    FIXME: Could need seperation:
     FIXME:   - InteractivePerson;
     FIXME:   - NPCPerson;
     FIXME:   - ...
     FIXME: the Inventory should probally *not* been placed here, but
     FIXME: instead it should be placed only in the scm_person.
-    
+
  */
 class Person : public AdvObj
 {
 private:
   /** A pointer to the scenario in which the person is currently */
-  boost::dummy_ptr<Scenario> scenario; 
+  boost::dummy_ptr<Scenario> scenario;
 
   /** Position inside the scenario */
   CL_Vector pos;
@@ -57,7 +57,7 @@ private:
   /** The position to which the person is walking, if it is equal to
       'pos' then the person is standing */
   CL_Vector target;
-  
+
   /** The direction to the target */
   CL_Vector direction;
 
@@ -80,14 +80,14 @@ private:
 
   /** Hook which is called once the person has reached its target */
   SmobTuple<AdvHook> hook;
-  
+
 public:
   Person (SCM bind);
   virtual ~Person ();
 
   void  update (float delta);
   void  draw (boost::dummy_ptr<View> view);
-  
+
   Scenario* get_scenario () { return scenario.get (); }
   CL_Vector get_direction () { return direction; }
   CL_Vector get_pos () { return pos; }
@@ -106,7 +106,7 @@ public:
   bool on_target ();
 
   StaticSmobTuple<PersonGfx> gfx;
-  
+
 private:
   void call_hook ();
 

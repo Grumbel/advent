@@ -35,7 +35,7 @@ RectSprite::~RectSprite ()
 {
 }
 
-void 
+void
 RectSprite::update (float delta)
 {
 }
@@ -61,38 +61,38 @@ RectSprite::get_height () const
 }
 
 
-void 
+void
 RectSprite::register_guile_bindings ()
 {
   puts ("RectSprite::register_guile_bindings ()");
-  
+
   gh_new_procedure3_0 ("c:rect-sprite:create", &RectSprite::scm_rect_sprite_create);
   gh_new_procedure2_0 ("c:rect-sprite:set-color", &RectSprite::scm_rect_sprite_set_color);
 }
 
 /*
-SCM 
-RectSprite::mark (SCM smob) 
+SCM
+RectSprite::mark (SCM smob)
 {
   return SCM_BOOL_F;
 }
 
 scm_sizet
-RectSprite::free (SCM smob) 
+RectSprite::free (SCM smob)
 {
   std::cout << "RectSprite::free" << std::endl;
   delete smob_cast<RectSprite>(smob);
   return 0; //sizeof (RectSprite);
 }
 
-int 
-RectSprite::print (SCM image_smob, SCM port, scm_print_state *pstate) 
+int
+RectSprite::print (SCM image_smob, SCM port, scm_print_state *pstate)
 {
   scm_puts ("#<c:SurfaseSprite>", port);
   return 1;
 }
 */
-SCM 
+SCM
 RectSprite::scm_rect_sprite_create (SCM width, SCM height, SCM scm_color)
 {
   return SpriteSmob::create(new RectSprite (gh_scm2int (width), gh_scm2int (height),
@@ -107,6 +107,6 @@ RectSprite::scm_rect_sprite_set_color (SCM scm_rect, SCM scm_color)
   return SCM_UNSPECIFIED;
 }
 
-} // namespace Advent 
+} // namespace Advent
 
 /* EOF */

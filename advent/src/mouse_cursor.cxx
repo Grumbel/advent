@@ -26,28 +26,28 @@ MouseCursor::MouseCursor ()
 {
   z_pos = 1000.0f;
 }
-  
-void 
+
+void
 MouseCursor::draw (boost::dummy_ptr<View> view)
 {
   if (sprite.get ())
     sprite.get ()->draw (view, CL_Vector (CL_Mouse::get_x (), CL_Mouse::get_y ()));
 }
 
-void 
+void
 MouseCursor::update (float delta)
 {
   if (sprite.get ())
     sprite.get ()->update (delta);
 }
 
-void 
+void
 MouseCursor::set_sprite (SCM s)
 {
   sprite.set_scm (s);
 }
 
-void 
+void
 MouseCursor::register_guile_bindings ()
 {
   puts ("MouseCursor::register_guile_bindings ()");
@@ -55,8 +55,8 @@ MouseCursor::register_guile_bindings ()
   gh_new_procedure0_0("c:mousecursor:create", &MouseCursor::scm_mousecursor_create);
   gh_new_procedure2_0("c:mousecursor:set-sprite", &MouseCursor::scm_mousecursor_set_sprite);
 }
-    
-SCM 
+
+SCM
 MouseCursor::scm_mousecursor_create ()
 {
   return LayerSmob::create (new MouseCursor ());

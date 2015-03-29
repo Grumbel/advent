@@ -49,7 +49,7 @@ SpriteSmob::register_guile_bindings ()
   scm_set_smob_print (tag, SpriteSmob::print);
 }
 
-SCM 
+SCM
 SpriteSmob::mark (SCM smob)
 {
   //FIXME:return unchecked_smob_cast<SpriteSmob>(smob)->sprite.get_scm ();
@@ -57,16 +57,16 @@ SpriteSmob::mark (SCM smob)
 }
 
 scm_sizet
-SpriteSmob::free (SCM smob) 
+SpriteSmob::free (SCM smob)
 {
   SpriteSmob* sprite_smob = unchecked_smob_cast<SpriteSmob>(smob);
   //delete sprite_smob;
-  
+
   return 0; //sizeof (SpriteDrawable);
 }
 
-int 
-SpriteSmob::print (SCM image_smob, SCM port, scm_print_state *pstate) 
+int
+SpriteSmob::print (SCM image_smob, SCM port, scm_print_state *pstate)
 {
   scm_puts ("#<c:SpriteSmob>", port);
   return 1;

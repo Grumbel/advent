@@ -1,5 +1,5 @@
 //  $Id: mouse_cursor.hxx,v 1.8 2004/01/14 02:28:24 grumbel Exp $
-// 
+//
 //  Pingus - A free Lemmings clone
 //  Copyright (C) 2000 Ingo Ruhnke <grumbel@gmx.de>
 //
@@ -12,7 +12,7 @@
 //  but WITHOUT ANY WARRANTY; without even the implied warranty of
 //  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //  GNU General Public License for more details.
-// 
+//
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
@@ -32,7 +32,7 @@ class MouseCursor : public Layer
 {
 private:
   SmobTuple<Sprite> sprite;
-  
+
 public:
   MouseCursor ();
   virtual ~MouseCursor () {}
@@ -47,7 +47,7 @@ public:
   void on_button_release(const CL_InputEvent&) {}
 
   void set_sprite (SCM sprite);
-  
+
   // static guile bindings
 public:
   static void register_guile_bindings ();
@@ -56,7 +56,7 @@ public:
   static SCM scm_mousecursor_set_sprite (SCM scm_cursor, SCM scm_sprite);
 };
 
-} // namespace Advent 
+} // namespace Advent
 
 #endif
 

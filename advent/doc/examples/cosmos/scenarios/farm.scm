@@ -29,14 +29,14 @@
   (adv:talk scenario:farm (cons 485 71) text))
 
 (adv:defdialog  window-dialog
-		("Hello, is anybody there?"           
-		 (adv:seq (farm-window-talk "No.") 
+		("Hello, is anybody there?"
+		 (adv:seq (farm-window-talk "No.")
 			  (dialog:show game-screen anybody-there?-dialog)))
-		
+
 		("Open the door! Here is the police."
 		 (adv:seq (farm-window-talk "NOOOOOO, the POLICE!")
 			  (dialog:show game-screen police-dialog)))
-		
+
 		("Sorry, for bothering you."
 		 #f #f))
 

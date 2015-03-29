@@ -1,6 +1,6 @@
 ;; $Id: workplace.scm,v 1.21 2003/02/26 23:11:44 grumbel Exp $
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; 
+;;
 ;;
 
 (define bottle-of-wine-sprite  (c:surface-sprite:set-align-center
@@ -26,11 +26,11 @@
 		       (person:add-to-inventory obj)
 		       (scenario:remove-advobj scenario:workplace obj))))
 
-(set! (adv:inventory-sprite workplace:calendar) 
+(set! (adv:inventory-sprite workplace:calendar)
       (c:surface-sprite:set-align-center
        (c:surface-sprite:create "images/calendar.png")))
 
-(adv:defobj 
+(adv:defobj
  bottle-of-wine
  (name "Bottle of Wine")
  (hotspot 245 338 'south)
@@ -62,7 +62,7 @@
  (status (game:burning #t)
 	 (game:has-calendar #f))
  (methods
-  (game:look 
+  (game:look
    (println "Calendar Debug: " obj)
    (cond ((game:burning obj)
 	  (cond ((game:has-calendar obj)
@@ -83,7 +83,7 @@
 		      (person:add-to-inventory obj)
 		      (scenario:remove-advobj scenario:workplace obj))))))
 
-(set! (adv:inventory-sprite workplace:burning-trash) 
+(set! (adv:inventory-sprite workplace:burning-trash)
       (c:surface-sprite:set-align-center
        (c:surface-sprite:create "images/burningtrashcanout_inv.png")))
 
@@ -96,8 +96,8 @@
   (cond ((game:burning obj1)
 	 (set! (game:burning obj1) #f)
 	 (person:talk "The fire is out now")
-	 (c:drawable-advobj:set-drawable 
-	  (adv:bind obj1) 
+	 (c:drawable-advobj:set-drawable
+	  (adv:bind obj1)
 	  (sprite-drawable:create "images/burningtrashcanout.png" 390 230 0.70)))
 	(else
 	 (person:talk "Its already out."))))
@@ -111,7 +111,7 @@
                                     (person:talk "The calendar is now burned and destroyed.")
                                     (set! (game:burned ,obj2) #t)
                                     (set! (game:has-calendar ,obj1) #t)
-                                    (set! (adv:inventory-sprite workplace:calendar) 
+                                    (set! (adv:inventory-sprite workplace:calendar)
                                           (c:surface-sprite:set-align-center
                                            (c:surface-sprite:create "images/calendar_burned_inv.png")))))))
 	(else
@@ -125,15 +125,15 @@
 (adv:defobj workspace-window
 	    (name "Window")
 	    (hotspot 511 330 'east)
-	    (bind (c:empty-advobj:create workspace-window 
+	    (bind (c:empty-advobj:create workspace-window
 					 (c:rect-collideable:create 518 152 587 259)))
 	    (methods (game:speak
 		      (person:talk "I see the street..."))
 
-		     (game:use 
+		     (game:use
 		      (person:talk "I don't want to open the window.\nI would be getting cold."))
 
-		     (game:pickup 
+		     (game:pickup
 		      (person:set-position 326 365)
 		      (person:set-scenario scenario:park)
 		      )
@@ -187,7 +187,7 @@
 			    (adv:drawable:create "images/bottle.png"   400 330 30)
 			    (adv:drawable:create "images/bottle.png"   450 300 30)
 			    (adv:drawable:create "images/workplace-room.jpg" 0 0 0))
-		 (advobjs light-switch 
+		 (advobjs light-switch
 			  bottle-of-wine
 			  workspace-window
 			  workplace:calendar

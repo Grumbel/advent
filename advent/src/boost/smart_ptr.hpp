@@ -9,7 +9,7 @@
 //  See http://www.boost.org for most recent version including documentation.
 
 //  Revision History
-//  19 Oct 00  Make shared_ptr ctor from auto_ptr explicit. (Robert Vugts) 
+//  19 Oct 00  Make shared_ptr ctor from auto_ptr explicit. (Robert Vugts)
 //  24 Jul 00  Change throw() to // never throws.  See lib guidelines
 //             Exception-specification rationale. (Beman Dawes)
 //  22 Jun 00  Remove #if continuations to fix GCC 2.95.2 problem (Beman Dawes)
@@ -79,7 +79,7 @@ template<typename T> class scoped_ptr : noncopyable {
   T* get() const                { return ptr; }  // never throws
 #ifdef BOOST_SMART_PTR_CONVERSION
   // get() is safer! Define BOOST_SMART_PTR_CONVERSION at your own risk!
-  operator T*() const           { return ptr; }  // never throws 
+  operator T*() const           { return ptr; }  // never throws
 #endif
   };  // scoped_ptr
 
@@ -105,7 +105,7 @@ template<typename T> class scoped_array : noncopyable {
 #ifdef BOOST_SMART_PTR_CONVERSION
   // get() is safer! Define BOOST_SMART_PTR_CONVERSION at your own risk!
   operator T*() const                { return ptr; }  // never throws
-#else 
+#else
   T& operator[](std::size_t i) const { return ptr[i]; }  // never throws
 #endif
   };  // scoped_array
@@ -122,7 +122,7 @@ template<typename T> class shared_ptr {
 
    explicit shared_ptr(T* p =0) : px(p) {
       try { pn = new long(1); }  // fix: prevent leak if new throws
-      catch (...) { delete p; throw; } 
+      catch (...) { delete p; throw; }
    }
 
    shared_ptr(const shared_ptr& r) : px(r.px) { ++*(pn = r.pn); }  // never throws
@@ -136,19 +136,19 @@ template<typename T> class shared_ptr {
 
 #if !defined( BOOST_NO_MEMBER_TEMPLATES )
    template<typename Y>
-      shared_ptr(const shared_ptr<Y>& r) : px(r.px) {  // never throws 
-         ++*(pn = r.pn); 
+      shared_ptr(const shared_ptr<Y>& r) : px(r.px) {  // never throws
+         ++*(pn = r.pn);
       }
 #ifndef BOOST_NO_AUTO_PTR
    template<typename Y>
-      explicit shared_ptr(std::auto_ptr<Y>& r) { 
+      explicit shared_ptr(std::auto_ptr<Y>& r) {
          pn = new long(1); // may throw
          px = r.release(); // fix: moved here to stop leak if new throws
       }
-#endif 
+#endif
 
    template<typename Y>
-      shared_ptr& operator=(const shared_ptr<Y>& r) { 
+      shared_ptr& operator=(const shared_ptr<Y>& r) {
          share(r.px,r.pn);
          return *this;
       }
@@ -163,16 +163,16 @@ template<typename T> class shared_ptr {
            --*pn; // only decrement once danger of new throwing is past
            pn = tmp;
          } // allocate new reference counter
-         px = r.release(); // fix: moved here so doesn't leak if new throws 
+         px = r.release(); // fix: moved here so doesn't leak if new throws
          return *this;
       }
 #endif
 #else
 #ifndef BOOST_NO_AUTO_PTR
-      explicit shared_ptr(std::auto_ptr<T>& r) { 
+      explicit shared_ptr(std::auto_ptr<T>& r) {
          pn = new long(1); // may throw
          px = r.release(); // fix: moved here to stop leak if new throws
-      } 
+      }
 
       shared_ptr& operator=(std::auto_ptr<T>& r) {
          // code choice driven by guarantee of "no effect if new throws"
@@ -182,7 +182,7 @@ template<typename T> class shared_ptr {
            --*pn; // only decrement once danger of new throwing is past
            pn = tmp;
          } // allocate new reference counter
-         px = r.release(); // fix: moved here so doesn't leak if new throws 
+         px = r.release(); // fix: moved here so doesn't leak if new throws
          return *this;
       }
 #endif
@@ -194,7 +194,7 @@ template<typename T> class shared_ptr {
       else { // allocate new reference counter
         try { pn = new long; }  // fix: prevent leak if new throws
         catch (...) {
-          ++*pn;  // undo effect of --*pn above to meet effects guarantee 
+          ++*pn;  // undo effect of --*pn above to meet effects guarantee
           delete p;
           throw;
         } // catch
@@ -208,7 +208,7 @@ template<typename T> class shared_ptr {
    T* get() const                { return px; }  // never throws
  #ifdef BOOST_SMART_PTR_CONVERSION
    // get() is safer! Define BOOST_SMART_PTR_CONVERSION at your own risk!
-   operator T*() const           { return px; }  // never throws 
+   operator T*() const           { return px; }  // never throws
  #endif
 
    long use_count() const        { return *pn; }  // never throws
@@ -246,7 +246,7 @@ template<typename T> class shared_ptr {
 template<typename T, typename U>
   inline bool operator==(const shared_ptr<T>& a, const shared_ptr<U>& b)
     { return a.get() == b.get(); }
-  /* grumbel uncommented because: 
+  /* grumbel uncommented because:
 ObjectManager.cc:426:   instantiated from here
 /usr/lib/gcc-lib/i386-linux/2.95.2/../../../../include/g++-3/stl_algo.h:94: ambiguous overload for `boost::shared_ptr<EditorObj> & != const boost::shared_ptr<EditorObj> &'
 /usr/lib/gcc-lib/i386-linux/2.95.2/../../../../include/g++-3/stl_relops.h:37: candidates are: bool operator !=<boost::shared_ptr<EditorObj> >(const boost::shared_ptr<EditorObj> &, const boost::shared_ptr<EditorObj> &)
@@ -268,7 +268,7 @@ template<typename T> class shared_array {
 
    explicit shared_array(T* p =0) : px(p) {
       try { pn = new long(1); }  // fix: prevent leak if new throws
-      catch (...) { delete [] p; throw; } 
+      catch (...) { delete [] p; throw; }
    }
 
    shared_array(const shared_array& r) : px(r.px)  // never throws
@@ -291,7 +291,7 @@ template<typename T> class shared_array {
       else { // allocate new reference counter
         try { pn = new long; }  // fix: prevent leak if new throws
         catch (...) {
-          ++*pn;  // undo effect of --*pn above to meet effects guarantee 
+          ++*pn;  // undo effect of --*pn above to meet effects guarantee
           delete [] p;
           throw;
         } // catch
@@ -304,7 +304,7 @@ template<typename T> class shared_array {
  #ifdef BOOST_SMART_PTR_CONVERSION
    // get() is safer! Define BOOST_SMART_PTR_CONVERSION at your own risk!
    operator T*() const                { return px; }  // never throws
- #else 
+ #else
    T& operator[](std::size_t i) const { return px[i]; }  // never throws
  #endif
 

@@ -24,47 +24,47 @@ namespace Advent {
 
 EmptyAdvObj::EmptyAdvObj (SCM b, SCM scm_collideable)
   : AdvObj (b), collideable (scm_collideable)
-{ 
+{
 }
 
-bool 
+bool
 EmptyAdvObj::is_over (int x_pos, int y_pos)
 {
-  return collideable.get ()->is_over (x_pos, y_pos); 
+  return collideable.get ()->is_over (x_pos, y_pos);
 }
 
-void 
+void
 EmptyAdvObj::register_guile_bindings ()
 {
   puts ("EmptyAdvObj::register_guile_bindings ()");
-    
+
   gh_new_procedure2_0 ("c:empty-advobj:create", &EmptyAdvObj::scm_empty_advobj_create);
 }
 /*
-SCM 
-EmptyAdvObj::mark (SCM smob) 
+SCM
+EmptyAdvObj::mark (SCM smob)
 {
   //FIXME:EmptyAdvObj* empty = smob_cast<EmptyAdvObj>(smob);
   return SCM_BOOL_F;//FIXME:empty->collideable.get_scm ();
 }
 
 scm_sizet
-EmptyAdvObj::free (SCM smob) 
+EmptyAdvObj::free (SCM smob)
 {
   //FIXME:std::cout << "EmptyAdvObj::free" << std::endl;
   //FIXME:delete smob_cast<EmptyAdvObj>(smob);
   return 0; //sizeof (EmptyAdvObj);
 }
 
-int 
-EmptyAdvObj::print (SCM image_smob, SCM port, scm_print_state *pstate) 
+int
+EmptyAdvObj::print (SCM image_smob, SCM port, scm_print_state *pstate)
 {
   scm_puts ("#<c:EmptyAdvObj>", port);
   return 1;
 }
 */
 
-SCM 
+SCM
 EmptyAdvObj::scm_empty_advobj_create (SCM bind, SCM scm_collideable)
 {
   return DrawableSmob::create (new EmptyAdvObj(bind, scm_collideable));

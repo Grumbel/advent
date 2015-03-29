@@ -35,7 +35,7 @@ AdvHookSmob::~AdvHookSmob ()
   //delete child;
 }
 
-void 
+void
 AdvHookSmob::register_guile_bindings ()
 {
   puts ("AdvHookSmob::register_guile_bindings ()");
@@ -46,7 +46,7 @@ AdvHookSmob::register_guile_bindings ()
   scm_set_smob_print (tag, AdvHookSmob::print);
 }
 
-SCM 
+SCM
 AdvHookSmob::mark (SCM smob)
 {
   //FIXME:return unchecked_smob_cast<DrawableSmob>(smob)->sprite.get_scm ();
@@ -54,22 +54,22 @@ AdvHookSmob::mark (SCM smob)
 }
 
 scm_sizet
-AdvHookSmob::free (SCM smob) 
+AdvHookSmob::free (SCM smob)
 {
   AdvHookSmob* drawable = unchecked_smob_cast<AdvHookSmob>(smob);
   //delete drawable;
-  
+
   return 0; //sizeof (SpriteDrawable);
 }
 
-int 
-AdvHookSmob::print (SCM image_smob, SCM port, scm_print_state *pstate) 
+int
+AdvHookSmob::print (SCM image_smob, SCM port, scm_print_state *pstate)
 {
   scm_puts ("#<c:AdvHookSmob>", port);
   return 1;
 }
 
-SCM 
+SCM
 AdvHookSmob::create (AdvHook* obj)
 {
   SCM_RETURN_NEWSMOB (tag, new AdvHookSmob (obj));

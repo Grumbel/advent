@@ -34,7 +34,7 @@ FontSprite::FontSprite (const std::string& font_str, const std::string& m)
     std::cout << "CL_Error: " << err.message << std::endl;
   }
   start_time = CL_System::get_time ();
-  
+
   // Calculate of long this text should be displayed
   // FIXME: should be changeable from guile
   display_time = message.length () * 50 + 1000;
@@ -45,13 +45,13 @@ FontSprite::~FontSprite ()
   std::cout << "FontSprite::~FontSprite" << std::endl;
 }
 
-int 
+int
 FontSprite::get_width() const
 {
   return font->get_width(message);
 }
 
-int 
+int
 FontSprite::get_height() const
 {
   // FIXME: This might not work with multiline fonts
@@ -74,14 +74,14 @@ void
 FontSprite::draw (boost::dummy_ptr<View> view, const CL_Vector& pos)
 {
 #if 0 // Mon Feb 24 20:30:25 2003
-  //std::cout << "FontSprite::draw" << std::endl; 
+  //std::cout << "FontSprite::draw" << std::endl;
   //std::cout << "Message: " << message << std::endl;
   /*CL_Display::fill_rect (pos.x, pos.y,
     pos.x + get_width (), pos.y + get_width (),
     1.0, 1.0, 1.0);*/
 
   // FIXME: get_width/height are expensive, could need caching
-  CL_Vector tmp_pos (pos);  
+  CL_Vector tmp_pos (pos);
 
   switch (align)
     {
@@ -115,21 +115,21 @@ FontSprite::draw (boost::dummy_ptr<View> view, const CL_Vector& pos, float)
     }
 }
 
-float 
+float
 FontSprite::get_z_pos ()
 {
-  return 1000.0f; 
+  return 1000.0f;
 }
 
 bool
 FontSprite::removable ()
 {
-  /*std::cout << "removable: " << CL_System::get_time () << " " 
+  /*std::cout << "removable: " << CL_System::get_time () << " "
 	    << (CL_System::get_time () > start_time + 3000) << std::endl;*/
   return (CL_System::get_time () > start_time + display_time);
 }
 
-void 
+void
 FontSprite::register_guile_bindings ()
 {
   puts ("FontSprite::register_guile_bindings ()");
@@ -139,20 +139,20 @@ FontSprite::register_guile_bindings ()
   gh_new_procedure2_0("c:font-sprite:set-remove-hook", &FontSprite::scm_font_sprite_set_remove_hook);
 }
 /*
-SCM 
+SCM
 FontSprite::mark (SCM smob)
 {
   return SCM_BOOL_F;
 }
 
-scm_sizet 
+scm_sizet
 FontSprite::free (SCM smob)
 {
   delete smob_cast<FontSprite>(smob);
   return 0; //sizeof (FontSprite);
 }
 
-int 
+int
 FontSprite::print (SCM image_smob, SCM port, scm_print_state *pstate)
 {
   scm_puts ("#<c:FontSprite>", port);
@@ -180,6 +180,6 @@ FontSprite::scm_font_sprite_set_remove_hook (SCM sprite, SCM scm_hook)
   return sprite;
 }
 
-} // namespace Advent 
+} // namespace Advent
 
 /* EOF */

@@ -37,7 +37,7 @@ CollideableSmob::~CollideableSmob ()
   //delete child;
 }
 
-void 
+void
 CollideableSmob::register_guile_bindings ()
 {
   puts ("CollideableSmob::register_guile_bindings ()");
@@ -45,10 +45,10 @@ CollideableSmob::register_guile_bindings ()
 
   scm_set_smob_mark  (tag, CollideableSmob::mark);
   scm_set_smob_free  (tag, CollideableSmob::free);
-  scm_set_smob_print (tag, CollideableSmob::print);  
+  scm_set_smob_print (tag, CollideableSmob::print);
 }
 
-SCM 
+SCM
 CollideableSmob::mark (SCM smob)
 {
   //FIXME:return unchecked_smob_cast<CollideableSmob>(smob)->sprite.get_scm ();
@@ -56,22 +56,22 @@ CollideableSmob::mark (SCM smob)
 }
 
 scm_sizet
-CollideableSmob::free (SCM smob) 
+CollideableSmob::free (SCM smob)
 {
   CollideableSmob* drawable = unchecked_smob_cast<CollideableSmob>(smob);
   //delete drawable;
-  
+
   return 0; //sizeof (SpriteCollideable);
 }
 
-int 
-CollideableSmob::print (SCM image_smob, SCM port, scm_print_state *pstate) 
+int
+CollideableSmob::print (SCM image_smob, SCM port, scm_print_state *pstate)
 {
   scm_puts ("#<c:CollideableSmob>", port);
   return 1;
 }
 
-SCM 
+SCM
 CollideableSmob::create (Collideable* obj)
 {
   SCM_RETURN_NEWSMOB (tag, new CollideableSmob(obj));

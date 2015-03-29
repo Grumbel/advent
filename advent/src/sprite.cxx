@@ -26,13 +26,13 @@
 
 namespace Advent {
 
-SpriteSmob* 
+SpriteSmob*
 Sprite::cast (SCM smob)
 {
   return checked_smob_cast<SpriteSmob>(smob);
 }
 
-void 
+void
 Sprite::register_guile_bindings ()
 {
   gh_new_procedure1_0 ("c:sprite:get-width", scm_sprite_get_width);
@@ -45,12 +45,12 @@ Sprite::scm_sprite_get_width (SCM scm_sprite)
   return gh_int2scm(checked_smob_cast<SpriteSmob>(scm_sprite)->get_child ()->get_width ());
 }
 
-SCM 
+SCM
 Sprite::scm_sprite_get_height (SCM scm_sprite)
 {
   return gh_int2scm(checked_smob_cast<SpriteSmob>(scm_sprite)->get_child ()->get_height ());
 }
 
-} // namespace Advent 
+} // namespace Advent
 
 /* EOF */

@@ -34,24 +34,24 @@ DrawableAdvObj::update (float delta)
 }
 
 void
-DrawableAdvObj::draw (boost::dummy_ptr<View> view) 
-{ 
+DrawableAdvObj::draw (boost::dummy_ptr<View> view)
+{
   drawable.get ()->draw (view);
 }
 
-bool 
-DrawableAdvObj::is_over (int x_pos, int y_pos) 
+bool
+DrawableAdvObj::is_over (int x_pos, int y_pos)
 {
-  return collideable.get ()->is_over (x_pos, y_pos); 
+  return collideable.get ()->is_over (x_pos, y_pos);
 }
 
-float 
+float
 DrawableAdvObj::get_z_pos ()
 {
-  return drawable.get ()->get_z_pos (); 
+  return drawable.get ()->get_z_pos ();
 }
 
-void 
+void
 DrawableAdvObj::register_guile_bindings ()
 {
   puts ("DrawableAdvObj::register_guile_bindings ()");
@@ -61,8 +61,8 @@ DrawableAdvObj::register_guile_bindings ()
 }
 
 /*
-SCM 
-DrawableAdvObj::mark (SCM smob) 
+SCM
+DrawableAdvObj::mark (SCM smob)
 {
   DrawableAdvObj* obj = smob_cast<DrawableAdvObj>(smob);
   obj->drawable.mark ();
@@ -71,19 +71,19 @@ DrawableAdvObj::mark (SCM smob)
 }*/
 
 /*int
-DrawableAdvObj::print (SCM image_smob, SCM port, scm_print_state *pstate) 
+DrawableAdvObj::print (SCM image_smob, SCM port, scm_print_state *pstate)
 {
   scm_puts ("#<c:DrawableAdvObj>", port);
   return 1;
 }*/
 
-SCM 
+SCM
 DrawableAdvObj::drawable_advobj_create (SCM bind, SCM scm_drawable, SCM scm_collideable)
 {
-  return DrawableSmob::create(new DrawableAdvObj (bind, scm_drawable, scm_collideable)); 
+  return DrawableSmob::create(new DrawableAdvObj (bind, scm_drawable, scm_collideable));
 }
 
-SCM 
+SCM
 DrawableAdvObj::drawable_advobj_set_drawable (SCM scm_obj, SCM scm_drawable)
 {
   smobbox_cast<DrawableAdvObj>(scm_obj)->drawable.set_scm (scm_drawable);

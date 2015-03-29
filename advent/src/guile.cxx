@@ -32,7 +32,7 @@ Guile::protect_object (SCM obj)
   return scm_protect_object (obj);
 }
 
-SCM 
+SCM
 Guile::unprotect_object (SCM obj)
 {
 #ifdef DEBUG

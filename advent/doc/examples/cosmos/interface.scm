@@ -26,29 +26,29 @@
 							#f;;(println "On Target...")
 							)))))
 (define mouse-cursor (c:mousecursor:create))
-(define mouse-sprite (c:surface-sprite:set-align-center 
+(define mouse-sprite (c:surface-sprite:set-align-center
 		      (c:surface-sprite:create-anim "images/cursor.png" 8)))
-(define glow-mouse-sprite (c:surface-sprite:set-align-center 
+(define glow-mouse-sprite (c:surface-sprite:set-align-center
 			   (c:surface-sprite:create-anim "images/cursor_glow.png" 8)))
-(define door-mouse-sprite (c:surface-sprite:set-align-center 
+(define door-mouse-sprite (c:surface-sprite:set-align-center
 			   (c:surface-sprite:create "images/door_cursor.png")))
-(define inactive-mouse-sprite (c:surface-sprite:set-align-center 
+(define inactive-mouse-sprite (c:surface-sprite:set-align-center
 			       (c:surface-sprite:create "images/cursor_inactive.png")))
 (c:surface-sprite:set-fps mouse-sprite 10)
 (c:surface-sprite:set-fps glow-mouse-sprite 15)
 (c:mousecursor:set-sprite mouse-cursor mouse-sprite)
 (c:layerscreen:push start-screen mouse-cursor)
 
-(define *input-enabled* #t) 
+(define *input-enabled* #t)
 
-(c:layerscreen:set-input-enabled-hook  
+(c:layerscreen:set-input-enabled-hook
  game-screen
  (lambda ()
    (c:mousecursor:set-sprite mouse-cursor mouse-sprite)
    (set! *input-enabled* #t)
    (println "Input enabled")))
 
-(c:layerscreen:set-input-disabled-hook 
+(c:layerscreen:set-input-disabled-hook
  game-screen
  (lambda ()
    (c:mousecursor:set-sprite mouse-cursor inactive-mouse-sprite)
@@ -68,7 +68,7 @@
 		    (else
 		     (c:mousecursor:set-sprite mouse-cursor mouse-sprite)))
 	      ;;(println "Mouse over object: " obj)
-	      (c:font-sprite:set-text object-name 
+	      (c:font-sprite:set-text object-name
 				      (if obj
 					  (adv:name obj)
 					  "")))))))
@@ -78,28 +78,28 @@
 ;; Create start screen interface
 (define start-button
   (c:buttonlayer:create (c:surface-sprite:create "images/start.png") #f #f 150 400))
-(define exit-button  
+(define exit-button
   (c:buttonlayer:create (c:surface-sprite:create "images/exit.png") #f #f 390 400))
-(c:buttonlayer:set-press-callback start-button (lambda () 
+(c:buttonlayer:set-press-callback start-button (lambda ()
 						 (println "Start pressed")
 						 (c:screenmanager:set-screen game-screen)))
-(c:buttonlayer:set-press-callback exit-button (lambda () 
+(c:buttonlayer:set-press-callback exit-button (lambda ()
 						(println "Exit pressed")
 						(exit)))
 
 (define button2
   (c:buttonlayer:create (c:surface-sprite:create "images/button.png") #f #f 10 400))
-(c:buttonlayer:set-press-callback button2 (lambda () 
+(c:buttonlayer:set-press-callback button2 (lambda ()
 					    (c:screenmanager:set-screen start-screen)))
 
 
-(define gc-button  (c:buttonlayer:create 
-		    (c:surface-sprite:create "images/gc.png") #f 
+(define gc-button  (c:buttonlayer:create
+		    (c:surface-sprite:create "images/gc.png") #f
 		    (adv:surface-sprite:create "images/gc_over.png")
 		    608 0))
 (c:buttonlayer:set-press-callback
- gc-button 
- (lambda () 
+ gc-button
+ (lambda ()
    (println "  ********* Garbage Collecting...")
    (gc)
    (println "  ********* Garbage Collecting...done")))

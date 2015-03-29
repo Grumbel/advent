@@ -23,23 +23,23 @@
 #include "scm_converter.hxx"
 #include "adv_hook.hxx"
 
-void 
+void
 AdvHook::register_guile_bindings ()
 {
   gh_new_procedure1_0 ("c:advhook:call", &AdvHook::call_finish);
   gh_new_procedure2_0 ("c:advhook:add", &AdvHook::add_finish);
 }
 
-SCM 
+SCM
 AdvHook::call_finish (SCM scm_hook)
 {
   // FIXME: wrong cast
   AdvHook* hook = smobbox_cast<AdvHook>(scm_hook);
-  hook->call ();  
+  hook->call ();
   return SCM_UNSPECIFIED;
 }
 
-SCM 
+SCM
 AdvHook::add_finish (SCM scm_hook, SCM scm_func)
 {
   // FIXME: wrong cast
@@ -49,7 +49,7 @@ AdvHook::add_finish (SCM scm_hook, SCM scm_func)
   return SCM_UNSPECIFIED;
 }
 
-AdvHookSmob* 
+AdvHookSmob*
 AdvHook::cast (SCM smob)
 {
   return checked_smob_cast<AdvHookSmob>(smob);

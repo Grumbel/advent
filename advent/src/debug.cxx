@@ -21,7 +21,7 @@
 
 bool Debug::free_enabled_ = false;
 
-void 
+void
 Debug::register_guile_bindings ()
 {
   gh_new_procedure1_0 ("debug:set-free", scm_set_memory_free);

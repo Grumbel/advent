@@ -37,7 +37,7 @@ LayerSmob::~LayerSmob ()
   //FIXME: delete layer;
 }
 
-SCM 
+SCM
 LayerSmob::create (Layer* obj)
 {
   SCM_RETURN_NEWSMOB (tag, new LayerSmob(obj));
@@ -54,7 +54,7 @@ LayerSmob::register_guile_bindings ()
   scm_set_smob_print (tag, LayerSmob::print);
 }
 
-SCM 
+SCM
 LayerSmob::mark (SCM smob)
 {
   //FIXME:return unchecked_smob_cast<LayerSmob>(smob)->sprite.get_scm ();
@@ -62,20 +62,20 @@ LayerSmob::mark (SCM smob)
 }
 
 scm_sizet
-LayerSmob::free (SCM smob) 
+LayerSmob::free (SCM smob)
 {
   LayerSmob* layer = unchecked_smob_cast<LayerSmob>(smob);
   delete layer;
   return 0; //sizeof (SpriteLayer);
 }
 
-int 
-LayerSmob::print (SCM image_smob, SCM port, scm_print_state *pstate) 
+int
+LayerSmob::print (SCM image_smob, SCM port, scm_print_state *pstate)
 {
   scm_puts ("#<c:LayerSmob>", port);
   return 1;
 }
 
-} // namespace Advent 
+} // namespace Advent
 
 /* EOF */

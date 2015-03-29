@@ -7,7 +7,7 @@
 		      ))
 
 (adv:defobj park:tree
-	    (name "Tree") 
+	    (name "Tree")
 	    (bind 48 127 232 450)
 	    (hotspot 318 441 'west))
 
@@ -24,7 +24,7 @@
 	     (hotspot 302 349)
 	     (target-position 320 346)
 	     (target-scenario scenario:cage)
-	     (bind (c:rect-collideable:create 250 173 327 338)))	     
+	     (bind (c:rect-collideable:create 250 173 327 338)))
 
 (let ((scale 1.7))
   (adv:defscenario scenario:park

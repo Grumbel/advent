@@ -29,7 +29,7 @@ SpriteGroup::~SpriteGroup()
 {
 }
 
-void 
+void
 SpriteGroup::update (float delta)
 {
   for (SpriteList::iterator i = sprites.begin (); i != sprites.end (); ++i)
@@ -38,7 +38,7 @@ SpriteGroup::update (float delta)
     }
 }
 
-void 
+void
 SpriteGroup::draw (boost::dummy_ptr<View> view, const CL_Vector& pos)
 {
   for (SpriteList::iterator i = sprites.begin (); i != sprites.end (); ++i)
@@ -48,7 +48,7 @@ SpriteGroup::draw (boost::dummy_ptr<View> view, const CL_Vector& pos)
     }
 }
 
-int 
+int
 SpriteGroup::get_width () const
 {
   //FIXME:std::cout << "SpriteGroup::get_width () unimplemented" << std::endl;
@@ -58,7 +58,7 @@ SpriteGroup::get_width () const
   return width;
 }
 
-int 
+int
 SpriteGroup::get_height () const
 {
   // FIXME:std::cout << "SpriteGroup::get_height () unimplemented" << std::endl;
@@ -68,7 +68,7 @@ SpriteGroup::get_height () const
   return height;
 }
 
-void 
+void
 SpriteGroup::add_sprite (SCM scm_sprite, int x_offset, int y_offset)
 {
   SpriteOffsetTuple tuple;
@@ -87,17 +87,17 @@ SpriteGroup::register_guile_bindings ()
   gh_new_procedure4_0 ("c:sprite-group:add", &SpriteGroup::scm_sprite_group_add);
 }
 
-SCM 
+SCM
 SpriteGroup::scm_sprite_group_create ()
 {
   SpriteGroup* sprite = new SpriteGroup ();
   return SpriteSmob::create (sprite);
 }
 
-SCM 
+SCM
 SpriteGroup::scm_sprite_group_add (SCM scm_spritegroup, SCM scm_sprite, SCM x_offset, SCM y_offset)
 {
-  smobbox_cast<SpriteGroup>(scm_spritegroup)->add_sprite (scm_sprite, 
+  smobbox_cast<SpriteGroup>(scm_spritegroup)->add_sprite (scm_sprite,
 							  gh_scm2int (x_offset),
 							  gh_scm2int (y_offset));
   return SCM_UNSPECIFIED;

@@ -37,7 +37,7 @@ ColMapSmob::~ColMapSmob ()
   delete child;
 }
 
-void 
+void
 ColMapSmob::register_guile_bindings ()
 {
   puts ("ColMapSmob::register_guile_bindings ()");
@@ -49,7 +49,7 @@ ColMapSmob::register_guile_bindings ()
 }
 
 
-SCM 
+SCM
 ColMapSmob::mark (SCM smob)
 {
   //FIXME:return unchecked_smob_cast<DrawableSmob>(smob)->sprite.get_scm ();
@@ -57,16 +57,16 @@ ColMapSmob::mark (SCM smob)
 }
 
 scm_sizet
-ColMapSmob::free (SCM smob) 
+ColMapSmob::free (SCM smob)
 {
   ColMapSmob* drawable = unchecked_smob_cast<ColMapSmob>(smob);
   //delete drawable;
-  
+
   return 0; //sizeof (SpriteDrawable);
 }
 
-int 
-ColMapSmob::print (SCM image_smob, SCM port, scm_print_state *pstate) 
+int
+ColMapSmob::print (SCM image_smob, SCM port, scm_print_state *pstate)
 {
   scm_puts ("#<c:ColMapSmob>", port);
   return 1;

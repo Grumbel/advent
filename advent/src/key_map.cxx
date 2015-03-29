@@ -22,7 +22,7 @@
 #include "scm_converter.hxx"
 #include "key_map.hxx"
 
-long KeyMap::tag; 
+long KeyMap::tag;
 
 KeyMap::KeyMap ()
 {
@@ -38,44 +38,44 @@ KeyMap::bind_key (int key, SCM func)
   Guile::protect_object (func);
 
   KeyMapMap::iterator i = keybindings.find (key);
-  
+
   if (i == keybindings.end ())
     {
       keybindings[key].set_scm (func);
     }
-  else 
+  else
     {
       i->second.set_scm(func);
     }
 }
 
-SCM  
+SCM
 KeyMap::get_binding (int key)
 {
   KeyMapMap::iterator i = keybindings.find (key);
-  
+
   if (i == keybindings.end ())
     {
       return SCM_BOOL_F;
     }
-  else 
+  else
     {
       return i->second.get_scm ();
     }
 }
 
-bool 
+bool
 KeyMap::is_a (SCM smob)
 {
   return (long(SCM_CAR (smob)) == get_smob_tag ());
 }
 
-void 
+void
 KeyMap::register_guile_bindings ()
 {
   puts ("KeyMap::register_guile_bindings ()");
   tag = scm_make_smob_type ("KeyMap", 0);
-  
+
   scm_set_smob_mark  (tag, KeyMap::mark);
   scm_set_smob_free  (tag, KeyMap::free);
   scm_set_smob_print (tag, KeyMap::print);
@@ -85,12 +85,12 @@ KeyMap::register_guile_bindings ()
   gh_new_procedure3_0 ("c:keymap:bind-key",  &KeyMap::scm_bind_key);
 }
 
-SCM 
+SCM
 KeyMap::mark (SCM smob)
 {
   /* FIXME: this is causing a crash, don't know why */
   KeyMap* obj = unchecked_smob_cast<KeyMap>(smob);
-  
+
   for (KeyMapMap::iterator i = obj->keybindings.begin (); i != obj->keybindings.end (); ++i)
     {
       scm_gc_mark (i->second.get_scm ());
@@ -112,7 +112,7 @@ KeyMap::print (SCM image_smob, SCM port, scm_print_state *pstate)
   return 1;
 }
 
-SCM 
+SCM
 KeyMap::scm_keymap_create ()
 {
   SCM_RETURN_NEWSMOB (tag, new KeyMap ());
@@ -125,7 +125,7 @@ KeyMap::scm_keymap_create1 (SCM keymap)
   SCM_RETURN_NEWSMOB (tag, new KeyMap ());
 }
 
-SCM 
+SCM
 KeyMap::scm_bind_key (SCM scm_keymap, SCM scm_key, SCM scm_func)
 {
   KeyMap* keymap = checked_smob_cast<KeyMap>(scm_keymap);
@@ -133,7 +133,7 @@ KeyMap::scm_bind_key (SCM scm_keymap, SCM scm_key, SCM scm_func)
   return SCM_UNSPECIFIED;
 }
 
-/*KeyMap* 
+/*KeyMap*
 KeyMap::cast (SCM smob)
 {
   return checked_smob_cast<KeyMap>(smob);

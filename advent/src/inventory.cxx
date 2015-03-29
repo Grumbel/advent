@@ -27,11 +27,11 @@ Inventory::Inventory ()
 {
 }
 
-Inventory::~Inventory () 
+Inventory::~Inventory ()
 {
 }
 
-void 
+void
 Inventory::update (float delta)
 {
   if (visible)
@@ -39,7 +39,7 @@ Inventory::update (float delta)
     }
 }
 
-void 
+void
 Inventory::draw (boost::dummy_ptr<View> view)
 {
   if (visible)
@@ -64,20 +64,20 @@ Inventory::draw (boost::dummy_ptr<View> view)
     }
 }
 
-void 
+void
 Inventory::add (SCM obj)
 {
   objects.push_back (SmobTuple<AdvObj>(obj));
 }
 
-void 
+void
 Inventory::remove (SCM obj)
 {
-  // FIXME: slow 
+  // FIXME: slow
   objects.remove (SmobTuple<AdvObj>(obj));
 }
 
-void 
+void
 Inventory::set_visible (bool v)
 {
   visible = v;
@@ -96,23 +96,23 @@ Inventory::is_over (int x_pos, int y_pos)
     }
 }
 
-void 
+void
 Inventory::on_button_press (const CL_InputEvent&)
 {
-  
+
 }
 
 void
 Inventory::on_button_release (const CL_InputEvent&)
 {
-  
+
 }
 
-void 
+void
 Inventory::register_guile_bindings ()
 {
   puts ("Inventory::register_guile_bindings ()");
-  
+
   gh_new_procedure0_0 ("c:inventory:create", &Inventory::scm_inventory_create);
   gh_new_procedure2_0 ("c:inventory:add-advobj", &Inventory::scm_inventory_add_advobj);
   gh_new_procedure2_0 ("c:inventory:remove-advobj", &Inventory::scm_inventory_remove_advobj);
@@ -134,26 +134,26 @@ Inventory::free (SCM smob)
   return 0; // sizeof (Inventory);
 }
 
-int 
+int
 Inventory::print (SCM image_smob, SCM port, scm_print_state *pstate)
 {
   scm_puts ("#<c:Inventory>", port);
   return 1;
 }
 
-bool 
+bool
 Inventory::is_a (SCM smob)
 {
   return (SCM_CAR (smob) == get_smob_tag ());
 }
 */
-SCM 
+SCM
 Inventory::scm_inventory_create ()
 {
   return LayerSmob::create (new Inventory ());
 }
 
-SCM 
+SCM
 Inventory::scm_inventory_add_advobj (SCM scm_inventory, SCM scm_obj)
 {
   Inventory* inventory = smobbox_cast<Inventory>(scm_inventory);
@@ -161,7 +161,7 @@ Inventory::scm_inventory_add_advobj (SCM scm_inventory, SCM scm_obj)
   return SCM_UNSPECIFIED;
 }
 
-SCM 
+SCM
 Inventory::scm_inventory_remove_advobj (SCM scm_inventory, SCM scm_obj)
 {
   Inventory* inventory = smobbox_cast<Inventory>(scm_inventory);
@@ -170,7 +170,7 @@ Inventory::scm_inventory_remove_advobj (SCM scm_inventory, SCM scm_obj)
   return SCM_UNSPECIFIED;
 }
 
-SCM 
+SCM
 Inventory::scm_inventory_set_visible (SCM scm_inventory, SCM obj)
 {
   smobbox_cast<Inventory>(scm_inventory)->set_visible (gh_scm2bool (obj));

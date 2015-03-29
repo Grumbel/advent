@@ -24,7 +24,7 @@
 
 namespace Advent {
 
-DisplayView::DisplayView (int arg_x1, int arg_y1, 
+DisplayView::DisplayView (int arg_x1, int arg_y1,
 			  int arg_x2, int arg_y2,
 			  int arg_x_offset, int arg_y_offset) :
   x1 (arg_x1), y1 (arg_y1), x2 (arg_x2), y2 (arg_y2),
@@ -40,7 +40,7 @@ DisplayView::~DisplayView ()
 }
 
 /*
-void 
+void
 DisplayView::draw ()
 {
   //std::cout << "Drawing: " << x_offset << " " << y_offset << std::endl;
@@ -57,20 +57,20 @@ int DisplayView::get_x2 () { return x2; }
 int DisplayView::get_y1 () { return y1; }
 int DisplayView::get_y2 () { return y2; }
 
-CL_Vector 
+CL_Vector
 DisplayView::display_to_view (const CL_Vector& pos)
 {
   return CL_Vector(pos) - CL_Vector (get_x_offset (), get_y_offset ());
 }
 
-void 
+void
 DisplayView::set_view (const CL_Vector& pos)
 {
   x_offset = int(pos.x);
   y_offset = int(pos.y);
 }
 
-void 
+void
 DisplayView::set_zoom (float z)
 {
   zoom = z;
@@ -82,11 +82,11 @@ DisplayView::draw (CL_Sprite& sprite, int x, int y)
   sprite.draw (x, y);
 }
 
-void 
+void
 DisplayView::draw (CL_Surface& sur, const CL_Vector& pos)
 {
   if (zoom == 1.0)
-    {   
+    {
       sur.draw (int(pos.x + get_x_offset ()),
 		      int(pos.y + get_y_offset ()));
     }
@@ -98,7 +98,7 @@ DisplayView::draw (CL_Surface& sur, const CL_Vector& pos)
     }
 }
 
-void 
+void
 DisplayView::draw (CL_Surface& sur, int x_pos, int y_pos)
 {
   if (zoom == 1.0)
@@ -114,7 +114,7 @@ DisplayView::draw (CL_Surface& sur, int x_pos, int y_pos)
     }
 }
 
-void 
+void
 DisplayView::draw (CL_Surface& sur, int x_pos, int y_pos, int frame)
 {
   if (zoom == 1.0)
@@ -129,21 +129,21 @@ DisplayView::draw (CL_Surface& sur, int x_pos, int y_pos, int frame)
                 int((y_pos + get_y_offset ()) * zoom));
       //FIXME: Sun Feb 23 18:00:40 2003
       //zoom, zoom,
-      //frame);  
+      //frame);
     }
 }
 
-void 
-DisplayView::draw (CL_Surface& sur, int x_pos, int y_pos, 
+void
+DisplayView::draw (CL_Surface& sur, int x_pos, int y_pos,
 	    float size_x, float size_y, int frame)
 {
   sur.draw (x_pos + get_x_offset (),
             y_pos + get_y_offset ());
-            //FIXME: Sun Feb 23 18:00:50 2003 size_x * zoom, size_y * zoom, frame);  
+            //FIXME: Sun Feb 23 18:00:50 2003 size_x * zoom, size_y * zoom, frame);
 }
 
-void 
-DisplayView::draw_line (int x1, int y1, int x2, int y2, 
+void
+DisplayView::draw_line (int x1, int y1, int x2, int y2,
 		float r, float g, float b, float a)
 {
   if (zoom == 1.0)
@@ -162,37 +162,37 @@ DisplayView::draw_line (int x1, int y1, int x2, int y2,
     }
 }
 
-void 
-DisplayView::draw_fillrect (int x1, int y1, int x2, int y2, 
+void
+DisplayView::draw_fillrect (int x1, int y1, int x2, int y2,
 		    float r, float g, float b, float a)
 {
   CL_Display::fill_rect (CL_Rect(int((x1 + get_x_offset ()) * zoom),
-                                 int((y1 + get_y_offset ()) * zoom), 
+                                 int((y1 + get_y_offset ()) * zoom),
                                  int((x2 + get_x_offset ()) * zoom),
                                  int((y2 + get_y_offset ()) * zoom)),
                          CL_Color(int(255*r), int(255*g), int(255*b), int(255*a)));
 }
 
-void 
-DisplayView::draw_rect (int x1, int y1, int x2, int y2, 
+void
+DisplayView::draw_rect (int x1, int y1, int x2, int y2,
 		 float r, float g, float b, float a)
 {
-  CL_Display::draw_line (x1 + get_x_offset (), y1 + get_y_offset (), 
+  CL_Display::draw_line (x1 + get_x_offset (), y1 + get_y_offset (),
 			 x1 + get_x_offset (), y2 + get_y_offset (),
                          CL_Color(int(255*r), int(255*g), int(255*b), int(255*a)));
-  CL_Display::draw_line (x2 + get_x_offset (), y1 + get_y_offset (), 
+  CL_Display::draw_line (x2 + get_x_offset (), y1 + get_y_offset (),
 			 x2 + get_x_offset (), y2 + get_y_offset (),
 			 CL_Color(int(255*r), int(255*g), int(255*b), int(255*a)));
-  CL_Display::draw_line (x1 + get_x_offset (), y1 + get_y_offset (), 
+  CL_Display::draw_line (x1 + get_x_offset (), y1 + get_y_offset (),
 			 x2 + get_x_offset (), y1 + get_y_offset (),
 			 CL_Color(int(255*r), int(255*g), int(255*b), int(255*a)));
-  CL_Display::draw_line (x1 + get_x_offset (), y2 + get_y_offset (), 
+  CL_Display::draw_line (x1 + get_x_offset (), y2 + get_y_offset (),
 			 x2 + get_x_offset (), y2 + get_y_offset (),
                          CL_Color(int(255*r), int(255*g), int(255*b), int(255*a)));
 }
 
-void 
-DisplayView::draw_pixel (int x_pos, int y_pos, 
+void
+DisplayView::draw_pixel (int x_pos, int y_pos,
 		   float r, float g, float b, float a)
 {
   //CL_Display::put_pixel (x1 + get_x_offset (),
@@ -200,7 +200,7 @@ DisplayView::draw_pixel (int x_pos, int y_pos,
   std::cout << "DisplayView::draw_pixel () not implemented" << std::endl;
 }
 
-void 
+void
 DisplayView::draw_circle (int x_pos, int y_pos, int radius,
 		   float r, float g, float b, float a)
 {
@@ -220,7 +220,7 @@ DisplayView::draw_circle (int x_pos, int y_pos, int radius,
     }
 }
 
-void 
+void
 DisplayView::print (CL_Font* font, int x_pos, int y_pos, const std::string& str)
 {
   CL_Vector tmp_pos (x_pos + get_x_offset (), y_pos + get_y_offset ());
@@ -241,7 +241,7 @@ DisplayView::print (CL_Font* font, int x_pos, int y_pos, const std::string& str)
 	tmp_pos.y = CL_Display::get_height () - height;
     }
 
-  font->draw (int(tmp_pos.x), 
+  font->draw (int(tmp_pos.x),
               int(tmp_pos.y), str);
 }
 

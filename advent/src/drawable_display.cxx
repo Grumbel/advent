@@ -22,7 +22,7 @@
 namespace Advent {
 
 namespace {
-  struct z_pos_sorter 
+  struct z_pos_sorter
   {
     bool operator() (SmobTuple<Drawable>& a,
 		     SmobTuple<Drawable>& b)
@@ -31,7 +31,7 @@ namespace {
       return a.get()->get_z_pos () < b.get ()->get_z_pos ();
     }
   };
-  
+
   struct drawable_removable
   {
     bool operator() (SmobTuple<Drawable>& a)
@@ -52,7 +52,7 @@ DrawableDisplay::add (SCM drawable)
   drawables.push_back (SmobTuple<Drawable>(drawable));
 }
 
-void 
+void
 DrawableDisplay::remove (SCM drawable)
 {
   drawables.remove (SmobTuple<Drawable>(drawable));
@@ -64,7 +64,7 @@ DrawableDisplay::clear ()
   drawables = DrawableList ();
 }
 
-void 
+void
 DrawableDisplay::update (float delta)
 {
   DrawableList tmp (drawables);
@@ -89,13 +89,13 @@ DrawableDisplay::draw (boost::dummy_ptr<View> view)
     }
 }
 
-void 
+void
 DrawableDisplay::mark ()
 {
   for_each (drawables.begin (), drawables.end(),
 	    std::mem_fun_ref (&SmobTuple<Drawable>::mark));
 }
 
-} // namespace Advent 
+} // namespace Advent
 
 /* EOF */

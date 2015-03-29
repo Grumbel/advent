@@ -23,17 +23,17 @@
 /// The uniq id of this object type, only used by the guile internals
 int DelayedAdvHook::hook_count;
 
-DelayedAdvHook::DelayedAdvHook () { 
+DelayedAdvHook::DelayedAdvHook () {
   // Uncomment for memory leak detection
-  // std::cout << "Creating hook: " << ++hook_count << std::endl; 
+  // std::cout << "Creating hook: " << ++hook_count << std::endl;
 }
 
-DelayedAdvHook::~DelayedAdvHook () { 
+DelayedAdvHook::~DelayedAdvHook () {
   // Uncomment for memory leak detection
-  // std::cout << "Destructing hook: " << --hook_count << std::endl; 
+  // std::cout << "Destructing hook: " << --hook_count << std::endl;
 }
 
-void 
+void
 DelayedAdvHook::add (SCM scm)
 {
   //std::cout << "DelayedAdvHook: adding hook" << std::endl;
@@ -47,8 +47,8 @@ DelayedAdvHook::add (SCM scm)
     }
 }
 
-void 
-DelayedAdvHook::call () 
+void
+DelayedAdvHook::call ()
 {
   //std::cout << "DelayedAdvHook: calling hook" << std::endl;
   for (std::list<SCMObj>::iterator i = finish.begin ();
@@ -58,14 +58,14 @@ DelayedAdvHook::call ()
     }
 }
 
-SCM 
+SCM
 DelayedAdvHook::scm_delayed_advhook_create ()
 {
   return AdvHookSmob::create (new DelayedAdvHook ());
 }
 
-void 
-DelayedAdvHook::register_guile_bindings () 
+void
+DelayedAdvHook::register_guile_bindings ()
 {
   gh_new_procedure1_0 ("c:delayed-advhook?", scm_delayed_advhook_p);
   gh_new_procedure0_0 ("c:delayed-advhook:create", scm_delayed_advhook_create);

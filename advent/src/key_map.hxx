@@ -1,5 +1,5 @@
 //  $Id: key_map.hxx,v 1.4 2001/10/15 07:26:57 grumbel Exp $
-// 
+//
 //  Pingus - A free Lemmings clone
 //  Copyright (C) 2000 Ingo Ruhnke <grumbel@gmx.de>
 //
@@ -12,7 +12,7 @@
 //  but WITHOUT ANY WARRANTY; without even the implied warranty of
 //  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //  GNU General Public License for more details.
-// 
+//
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
@@ -30,17 +30,17 @@ class KeyMap
 private:
   typedef std::map<int, SCMObj> KeyMapMap;
   std::map<int, SCMObj> keybindings;
-  
+
 public:
   KeyMap ();
   ~KeyMap ();
-  
+
   void bind_key (int key, SCM func);
   SCM  get_binding (int key);
 
   // static guile stuff
 private:
-  static long tag; 
+  static long tag;
 public:
   static bool is_a (SCM smob);
   static long get_smob_tag () { return tag; }
@@ -51,12 +51,12 @@ public:
   static int print (SCM image_smob, SCM port, scm_print_state *pstate);
 
   static SCM scm_keymap_create ();
-  
+
   /** Inherit the basekeymap from another keymap */
   static SCM scm_keymap_create1 (SCM keymap);
 
   static SCM scm_bind_key (SCM scm_keymap, SCM scm_key, SCM scm_func);
-  
+
   //static KeyMap* cast (SCM);
 };
 

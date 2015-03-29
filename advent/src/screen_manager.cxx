@@ -39,7 +39,7 @@ ScreenManager::instance()
   if (instance_)
     return instance_;
   else
-    return (instance_ = new ScreenManager()); 
+    return (instance_ = new ScreenManager());
 }
 
 ScreenManager::ScreenManager ()
@@ -53,7 +53,7 @@ ScreenManager::ScreenManager ()
   on_key_release_slot = CL_Keyboard::sig_key_up().connect (this, &ScreenManager::on_button_release);
 }
 
-void 
+void
 ScreenManager::update (float delta)
 {
   current_screen->update (delta);
@@ -98,13 +98,13 @@ ScreenManager::on_button_release (const CL_InputEvent& key)
   current_screen->on_button_release (key);
 }
 
-void 
+void
 ScreenManager::register_guile_bindings ()
 {
   gh_new_procedure1_0 ("c:screenmanager:set-screen", &ScreenManager::scm_screenmanager_set_screen);
 }
 
-SCM 
+SCM
 ScreenManager::scm_screenmanager_set_screen (SCM scm_screen)
 {
   Screen* screen = smobbox_cast<Screen>(scm_screen);
@@ -112,6 +112,6 @@ ScreenManager::scm_screenmanager_set_screen (SCM scm_screen)
   return SCM_UNSPECIFIED;
 }
 
-} // namespace Advent 
+} // namespace Advent
 
 /* EOF */

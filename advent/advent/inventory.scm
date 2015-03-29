@@ -17,7 +17,7 @@
 
 ;(define-method (inventory:add (inventory <adv:inventory>) (obj <adv:object>))
 ;  (set! (adv:objects inventory) (cons obj (adv:objects inventory))))
-  
+
 (define-method (inventory:remove (inventory <adv:inventory>) (obj <adv:object>))
   #f)
 

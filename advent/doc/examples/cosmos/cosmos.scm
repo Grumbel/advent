@@ -59,9 +59,9 @@
 			(- (c:sprite:get-height sprite)))
     sprite-group))
 
-(define person2-gfx 
+(define person2-gfx
   (c:persongfx:create (list
-		       (list 
+		       (list
 			(center-bottom-sprite:create
 			 (c:surface-sprite:create "images/roboter_north.png"))
 			(center-bottom-sprite:create
@@ -70,7 +70,7 @@
 			 (c:surface-sprite:create "images/roboter_south.png"))
 			(center-bottom-sprite:create
 			 (c:surface-sprite:create "images/roboter_west.png")))
-		       (list 
+		       (list
 			(center-bottom-sprite:create
 			 (c:surface-sprite:create "images/roboter_north.png"))
 			(center-bottom-sprite:create
@@ -158,7 +158,7 @@
 		   (c:font-sprite:create "arialfont14_blue" text)
 		   320 64 1000))
 	(scenario (person:get-scenario person)))
-    
+
     (scenario:add-drawable scenario drawable)
     (c:timemanager:add timemanager 1000 (lambda ()
 					  (scenario:remove-drawable scenario drawable)))
@@ -169,7 +169,7 @@
 		   (c:font-sprite:create "font" text)
 		   pos-x pos-y 1000))
 	(scenario (person:get-scenario person)))
-    
+
     (scenario:add-drawable scenario drawable)
     (c:timemanager:add timemanager 400 (lambda ()
 					 (scenario:remove-drawable scenario drawable)))
@@ -188,13 +188,13 @@
 
 ;; Scenario2
 
-(scenario:add-drawable scenario:serverroom 
+(scenario:add-drawable scenario:serverroom
 		       (sprite-drawable:create "images/trashcan.png" 540 320 4.5))
 (scenario:add-drawable scenario:serverroom
 		       (sprite-drawable:create "images/server-room.jpg" 0 0 0))
 
-(c:coinlayer:set-click-func coin-layer 
-			    (lambda (obj x y) 
+(c:coinlayer:set-click-func coin-layer
+			    (lambda (obj x y)
 			      (println "Offset: " x " " y)
 			      (let ((func (case (cond ((< x 0)
 						       (cond ((< y 0) 'use)
@@ -208,7 +208,7 @@
 					    ((pickup) game:wrapper-pickup)
 					    ((speak)  game:wrapper-speak)
 					    (else #f))))
-				(cond (func 
+				(cond (func
 				       (func obj))
 				      (else
 				       (println "Cursor left Coin")))
@@ -325,24 +325,24 @@
 (define load-screen:play-button
   (c:buttonlayer:create (c:font-sprite:create "font" "Play") #f #f 50 100))
 (println "Step 12")
-(c:buttonlayer:set-press-callback load-screen:play-button 
-				  (lambda () 
+(c:buttonlayer:set-press-callback load-screen:play-button
+				  (lambda ()
 				    ;;(c:screenmanager:set-screen game-screen)
 				    (c:layerscreen:pop game-screen)
 				    ))
 
-(c:buttonlayer:set-press-callback load-screen:load-button 
-				  (lambda () 
+(c:buttonlayer:set-press-callback load-screen:load-button
+				  (lambda ()
 				    (println "Not implemented")))
 
 
-(c:layerscreen:push load-screen (c:drawable-layer:create 
-				 (c:sprite-drawable:create 
+(c:layerscreen:push load-screen (c:drawable-layer:create
+				 (c:sprite-drawable:create
 				  (c:rect-sprite:create 640 480 '(0.4 0.4 0.4 0.5))
 				  0 0 0)))
 
-(c:layerscreen:push load-screen (c:drawable-layer:create 
-				 (c:sprite-drawable:create 
+(c:layerscreen:push load-screen (c:drawable-layer:create
+				 (c:sprite-drawable:create
 				  (c:rect-sprite:create 540 420 '(0 0 0 1))
 				  50 30 0)))
 
@@ -352,7 +352,7 @@
 			  (c:surface-sprite:create "images/scenario1.png") #f #f x y))
 		 (rect-sprite (c:rect-sprite:create 130 95 '(1 1 1 0.5)))
 		 (status #f)
-		 (rect 	(c:drawable-layer:create 
+		 (rect 	(c:drawable-layer:create
 			 (c:sprite-drawable:create rect-sprite
 						   (- x 10) (- y 10) 10))))
 	    (c:layerscreen:push load-screen rect)
@@ -417,11 +417,11 @@
   (if (not content)
       (set! content (file->vector filename)))
   ;;(println content)
-  (c:layerscreen:push help-screen (c:drawable-layer:create 
-				   (c:sprite-drawable:create 
+  (c:layerscreen:push help-screen (c:drawable-layer:create
+				   (c:sprite-drawable:create
 				    (c:rect-sprite:create 640 480 '(0.4 0.4 0.4 0.5))
 				    0 0 0)))
-  
+
   (if (< start-line 0)
       (set! start-line 0))
   (if (>= (+ start-line 20) (vector-length content))
@@ -431,7 +431,7 @@
        (c:layerscreen:push help-screen
 			   (c:drawable-layer:create
 			    (c:sprite-drawable:create
-			     (c:font-sprite:create "font" 
+			     (c:font-sprite:create "font"
 						   (vector-ref content (+ start-line i)))
 			     10 (+ 10 (* i 20)) 10))))
   (c:screenmanager:set-screen help-screen))

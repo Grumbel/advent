@@ -1,5 +1,5 @@
 //  $Id: font_sprite.hxx,v 1.8 2004/01/14 02:28:24 grumbel Exp $
-// 
+//
 //  Pingus - A free Lemmings clone
 //  Copyright (C) 2000 Ingo Ruhnke <grumbel@gmx.de>
 //
@@ -12,7 +12,7 @@
 //  but WITHOUT ANY WARRANTY; without even the implied warranty of
 //  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //  GNU General Public License for more details.
-// 
+//
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
@@ -45,7 +45,7 @@ private:
 
   typedef enum { FS_CENTER, FS_LEFT, FS_RIGHT } EAlign;
   EAlign align;
-  
+
   /** Clips the text position so that the text is complete visible on
       the screen and not crop at the screen boarder. Many used to let
       person talk. */
@@ -65,7 +65,7 @@ public:
       drawables */
   float get_z_pos ();
   bool  removable ();
-  
+
   // static guile bindings
 public:
   static void register_guile_bindings ();

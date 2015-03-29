@@ -1,5 +1,5 @@
 //  $Id: sprite_group.hxx,v 1.3 2004/01/14 02:28:24 grumbel Exp $
-// 
+//
 //  Pingus - A free Lemmings clone
 //  Copyright (C) 2000 Ingo Ruhnke <grumbel@gmx.de>
 //
@@ -12,7 +12,7 @@
 //  but WITHOUT ANY WARRANTY; without even the implied warranty of
 //  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //  GNU General Public License for more details.
-// 
+//
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
@@ -43,19 +43,19 @@ public:
 
   void update (float delta);
   void draw (boost::dummy_ptr<View> view, const CL_Vector& pos);
-  
+
   int get_width () const;
   int get_height () const;
-  
+
   void add_sprite (SCM scm_sprite, int x_offset, int y_offset);
 
   // static guile stuff
   static void register_guile_bindings ();
   static SCM scm_sprite_group_create ();
   static SCM scm_sprite_group_add (SCM scm_spritegroup, SCM scm_sprite, SCM x_offset, SCM y_offset);
-};	
+};
 
-} // namespace Advent 
+} // namespace Advent
 
 #endif
 

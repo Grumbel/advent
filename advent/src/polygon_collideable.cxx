@@ -52,9 +52,9 @@ PolygonCollideable::PolygonCollideable (const std::vector<CL_Vector>& points)
   std::cout << "Bounding Box: "
 	    << bounding_box.left << " "
 	    << bounding_box.top << " "
-	    << bounding_box.right << " " 
+	    << bounding_box.right << " "
 	    << bounding_box.bottom
-	    << std::endl; 
+	    << std::endl;
 }
 
 bool
@@ -63,7 +63,7 @@ PolygonCollideable::is_over (int x_pos, int y_pos)
   if (bounding_box.is_inside (CL_Point(x_pos, y_pos)))
     {
       CL_Vector a (x_pos, y_pos);
-  
+
       // 5 is a savety factor in case the polygon is a rectangle
       CL_Vector b (bounding_box.right + 5, y_pos);
 
@@ -118,7 +118,7 @@ PolygonCollideable::lines_intersec (Line arg_a, Line arg_b)
     }
 
   CL_Vector col (a + b*lambda);
-  
+
   if (lambda >= 0 && lambda < 1.0
       && mu >= 0 && mu < 1.0)
     return Valid<CL_Vector>(col, true);
@@ -126,7 +126,7 @@ PolygonCollideable::lines_intersec (Line arg_a, Line arg_b)
     return Valid<CL_Vector>(col, false);
 }
 
-void 
+void
 PolygonCollideable::register_guile_bindings ()
 {
   puts ("PolygonCollideable::register_guile_bindings ()");
@@ -147,7 +147,7 @@ PolygonCollideable::scm_polygon_collideable_create (SCM point_lst)
 	{
 	  int y = gh_scm2int(gh_car(point_lst));
 	  point_lst = gh_cdr(point_lst);
-	 
+
 	  points.push_back(CL_Vector (x, y));
 	}
       else

@@ -48,7 +48,7 @@
 ;; Syntax stuff for adv:defscenario
 (define-syntax adv:defscenario
   (syntax-rules ()
-    ((_ name 
+    ((_ name
 	(section-name values ...)
 	...)
      (_adv:defscenario name (list (list 'section-name  values ...)

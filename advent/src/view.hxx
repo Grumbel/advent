@@ -1,5 +1,5 @@
 //  $Id: view.hxx,v 1.5 2004/01/14 02:28:24 grumbel Exp $
-// 
+//
 //  Pingus - A free Lemmings clone
 //  Copyright (C) 2000 Ingo Ruhnke <grumbel@gmx.de>
 //
@@ -12,7 +12,7 @@
 //  but WITHOUT ANY WARRANTY; without even the implied warranty of
 //  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //  GNU General Public License for more details.
-// 
+//
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
@@ -36,8 +36,8 @@ class Sprite;
 class View
 {
 private:
-  
-public:  
+
+public:
   virtual void set_view (const CL_Vector& pos) =0;
 
   virtual int get_x_offset () =0;
@@ -51,17 +51,17 @@ public:
   virtual void draw (CL_Surface& sur, const CL_Vector& pos) =0;
   virtual void draw (CL_Surface& sur, int x_pos, int y_pos) =0;
   virtual void draw (CL_Surface& sur, int x_pos, int y_pos, int frame) =0;
-  virtual void draw (CL_Surface& sur, int x_pos, int y_pos, 
+  virtual void draw (CL_Surface& sur, int x_pos, int y_pos,
 		     float size_x, float size_y, int frame) =0;
 
 
-  virtual void draw_line (int x1, int y1, int x2, int y2, 
+  virtual void draw_line (int x1, int y1, int x2, int y2,
 			  float r, float g, float b, float a = 1.0f) =0;
-  virtual void draw_fillrect (int x1, int y1, int x2, int y2, 
+  virtual void draw_fillrect (int x1, int y1, int x2, int y2,
 			      float r, float g, float b, float a = 1.0f) =0;
-  virtual void draw_rect (int x1, int y1, int x2, int y2, 
+  virtual void draw_rect (int x1, int y1, int x2, int y2,
 			  float r, float g, float b, float a = 1.0f) =0;
-  virtual void draw_pixel (int x_pos, int y_pos, 
+  virtual void draw_pixel (int x_pos, int y_pos,
 			   float r, float g, float b, float a = 1.0f) =0;
   virtual void draw_circle (int x_pos, int y_pos, int radius,
 		    float r, float g, float b, float a = 1.0f) =0;

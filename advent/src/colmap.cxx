@@ -23,7 +23,7 @@
 
 namespace Advent {
 
-ColMapSmob* 
+ColMapSmob*
 ColMap::cast (SCM smob)
 {
   return checked_smob_cast<ColMapSmob> (smob);

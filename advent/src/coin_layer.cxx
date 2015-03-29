@@ -44,31 +44,31 @@ CoinLayer::update (float delta)
 {
 }
 
-void 
+void
 CoinLayer::draw (boost::dummy_ptr<View> view)
 {
   if (is_enabled)
     sprite->draw (view, pos);
 }
 
-void 
-CoinLayer::enable (SCM obj) 
+void
+CoinLayer::enable (SCM obj)
 {
-  is_enabled = true; 
+  is_enabled = true;
 
   pos = CL_Vector (CL_Mouse::get_x (), CL_Mouse::get_y ());
 
   object.set_scm(obj);
 }
 
-void 
-CoinLayer::disable () 
-{ 
+void
+CoinLayer::disable ()
+{
   object.set_scm (SCM_BOOL_F);
-  is_enabled = false; 
+  is_enabled = false;
 }
 
-bool 
+bool
 CoinLayer::is_over(int, int)
 {
   if (is_enabled)
@@ -77,7 +77,7 @@ CoinLayer::is_over(int, int)
     return false;
 }
 
-void 
+void
 CoinLayer::on_button_press(const CL_InputEvent& key)
 {
   CL_Vector offset = CL_Vector (key.mouse_pos.x, key.mouse_pos.y) - pos;
@@ -94,7 +94,7 @@ CoinLayer::on_button_press(const CL_InputEvent& key)
   disable ();
 }
 
-void 
+void
 CoinLayer::call_action (const CL_Vector& offset)
 {
   if (click_func.get_scm () != SCM_BOOL_F)
@@ -102,18 +102,18 @@ CoinLayer::call_action (const CL_Vector& offset)
 	      gh_double2scm (offset.x), gh_double2scm (offset.y));
 }
 
-void 
+void
 CoinLayer::on_button_release(const CL_InputEvent&)
 {
 }
 
-void 
+void
 CoinLayer::set_click_func (SCM func)
 {
   click_func.set_scm(func);
-} 
+}
 
-void 
+void
 CoinLayer::register_guile_bindings ()
 {
   puts ("CoinLayer::register_guile_bindings ()");
@@ -127,8 +127,8 @@ CoinLayer::register_guile_bindings ()
 }
 
 /*
-SCM 
-CoinLayer::mark (SCM smob) 
+SCM
+CoinLayer::mark (SCM smob)
 {
   CoinLayer* layer = unchecked_smob_cast<CoinLayer>(smob);
   scm_gc_mark (layer->object.get_scm ());
@@ -136,26 +136,26 @@ CoinLayer::mark (SCM smob)
 }
 
 scm_sizet
-CoinLayer::free (SCM smob) 
+CoinLayer::free (SCM smob)
 {
   delete unchecked_smob_cast<CoinLayer>(smob);
   return 0; //sizeof (CoinLayer);
 }
 
-int 
-CoinLayer::print (SCM image_smob, SCM port, scm_print_state *pstate) 
+int
+CoinLayer::print (SCM image_smob, SCM port, scm_print_state *pstate)
 {
   scm_puts ("#<c:CoinLayer>", port);
   return 1;
 }*/
 
-SCM 
+SCM
 CoinLayer::scm_coinlayer_create ()
 {
   return LayerSmob::create (new CoinLayer ());
 }
 
-SCM 
+SCM
 CoinLayer::scm_coinlayer_enable (SCM scm_layer, SCM obj)
 {
   CoinLayer* layer = smobbox_cast<CoinLayer>(scm_layer);
@@ -163,7 +163,7 @@ CoinLayer::scm_coinlayer_enable (SCM scm_layer, SCM obj)
   return SCM_UNSPECIFIED;
 }
 
-SCM 
+SCM
 CoinLayer::scm_coinlayer_disable (SCM scm_layer)
 {
   CoinLayer* layer = smobbox_cast<CoinLayer>(scm_layer);
@@ -171,7 +171,7 @@ CoinLayer::scm_coinlayer_disable (SCM scm_layer)
   return SCM_UNSPECIFIED;
 }
 
-SCM 
+SCM
 CoinLayer::scm_coinlayer_set_click_func (SCM scm_layer, SCM func)
 {
   CoinLayer* layer = smobbox_cast<CoinLayer>(scm_layer);

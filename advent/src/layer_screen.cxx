@@ -24,9 +24,9 @@
 
 namespace Advent {
 
-struct z_pos_sorter 
+struct z_pos_sorter
 {
-  bool operator () (SmobTuple<Layer>& a, SmobTuple<Layer>& b) 
+  bool operator () (SmobTuple<Layer>& a, SmobTuple<Layer>& b)
   {
     return a.get ()->get_z_pos () < b.get ()->get_z_pos ();
   }
@@ -43,17 +43,17 @@ LayerScreen::LayerScreen ()
   //std::cout << "LayerScreen::LayerScreen ()" << std::endl;
 }
 
-LayerScreen::~LayerScreen () 
+LayerScreen::~LayerScreen ()
 {
   //std::cout << "LayerScreen::~LayerScreen ()" << std::endl;
 }
 
-void 
+void
 LayerScreen::update (float delta)
 {
   LayerList tmp (layers);
 
-  for (LayerList::iterator i = tmp.begin (); 
+  for (LayerList::iterator i = tmp.begin ();
        i != tmp.end (); ++i)
     {
       i->get ()->update (delta);
@@ -64,7 +64,7 @@ void
 LayerScreen::draw (boost::dummy_ptr<View> view)
 {
   ++lock_count;
-  for (LayerList::iterator i = layers.begin (); 
+  for (LayerList::iterator i = layers.begin ();
        i != layers.end (); ++i)
     {
       i->get ()->draw (view);
@@ -72,10 +72,10 @@ LayerScreen::draw (boost::dummy_ptr<View> view)
   --lock_count;
 }
 
-bool 
+bool
 LayerScreen::is_over (int x_pos, int y_pos)
 {
-  for (LayerList::iterator i = layers.begin (); 
+  for (LayerList::iterator i = layers.begin ();
        i != layers.end (); ++i)
     {
       if (i->get ()->is_over (x_pos, y_pos))
@@ -91,7 +91,7 @@ LayerScreen::on_button_press (const CL_InputEvent& key)
     {
       LayerList tmp (layers);
 
-      for (LayerList::reverse_iterator i = tmp.rbegin (); 
+      for (LayerList::reverse_iterator i = tmp.rbegin ();
 	   i != tmp.rend (); ++i)
 	{
 	  if (i->get ()->is_over ((int) key.mouse_pos.x, (int) key.mouse_pos.y))
@@ -100,17 +100,17 @@ LayerScreen::on_button_press (const CL_InputEvent& key)
 	      return;
 	    }
 	}
-    }  
+    }
 }
 
-void 
+void
 LayerScreen::on_button_release (const CL_InputEvent& key)
 {
   if (input_enabled)
     {
       LayerList tmp (layers);
 
-      for (LayerList::reverse_iterator i = tmp.rbegin (); 
+      for (LayerList::reverse_iterator i = tmp.rbegin ();
 	   i != tmp.rend (); ++i)
 	{
 	  if (i->get ()->is_over ((int) key.mouse_pos.x, (int) key.mouse_pos.y))
@@ -122,7 +122,7 @@ LayerScreen::on_button_release (const CL_InputEvent& key)
     }
 }
 
-void 
+void
 LayerScreen::pop ()
 {
   assert (lock_count == 0);
@@ -139,7 +139,7 @@ LayerScreen::push (SCM layer)
 
 }
 
-void 
+void
 LayerScreen::remove (SCM obj)
 {
   std::cout << "before Trying remove: " << layers.size () << std::endl;
@@ -147,16 +147,16 @@ LayerScreen::remove (SCM obj)
   std::cout << "end Trying remove: " << layers.size () << std::endl;
 }
 
-void 
+void
 LayerScreen::register_guile_bindings ()
 {
   puts ("LayerScreen::register_guile_bindings ()");
- 
+
   gh_new_procedure0_0 ("c:layerscreen:create", &LayerScreen::layerscreen_create);
   gh_new_procedure2_0 ("c:layerscreen:push", &LayerScreen::layerscreen_push);
   gh_new_procedure2_0 ("c:layerscreen:remove", &LayerScreen::layerscreen_remove);
   gh_new_procedure1_0 ("c:layerscreen:pop", &LayerScreen::layerscreen_pop);
-  gh_new_procedure1_0 ("c:layerscreen:enable-input", 
+  gh_new_procedure1_0 ("c:layerscreen:enable-input",
 		       &LayerScreen::layerscreen_enable_input);
   gh_new_procedure1_0 ("c:layerscreen:disable-input",
 		       &LayerScreen::layerscreen_disable_input);
@@ -167,12 +167,12 @@ LayerScreen::register_guile_bindings ()
 }
 
 /*
-SCM 
-LayerScreen::mark (SCM smob) 
+SCM
+LayerScreen::mark (SCM smob)
 {
   LayerScreen* layer = smob_cast<LayerScreen>(smob);
 
-  for (LayerList::reverse_iterator i = layer->layers.rbegin (); 
+  for (LayerList::reverse_iterator i = layer->layers.rbegin ();
        i != layer->layers.rend (); ++i)
     {
       i->mark ();
@@ -180,29 +180,29 @@ LayerScreen::mark (SCM smob)
   return SCM_BOOL_F;
 }
 
-scm_sizet 
-LayerScreen::free (SCM smob) 
+scm_sizet
+LayerScreen::free (SCM smob)
 {
   std::cout << "LayerScreen::free" << std::endl;
   delete smob_cast<LayerScreen>(smob);
   return 0; //sizeof (LayerScreen);
 }
 
-int 
-LayerScreen::print (SCM image_smob, SCM port, scm_print_state *pstate) 
+int
+LayerScreen::print (SCM image_smob, SCM port, scm_print_state *pstate)
 {
   scm_puts ("#<c:LayerScreen>", port);
   return 1;
 }
 */
-SCM 
+SCM
 LayerScreen::layerscreen_create ()
 {
   LayerScreen* screen = new LayerScreen ();
   return LayerSmob::create (screen);
 }
 
-SCM 
+SCM
 LayerScreen::layerscreen_push (SCM scm_screen, SCM scm_layer)
 {
   LayerScreen* screen = smobbox_cast<LayerScreen>(scm_screen);
@@ -210,7 +210,7 @@ LayerScreen::layerscreen_push (SCM scm_screen, SCM scm_layer)
   return SCM_UNSPECIFIED;
 }
 
-SCM 
+SCM
 LayerScreen::layerscreen_remove (SCM scm_screen, SCM scm_layer)
 {
   LayerScreen* screen = smobbox_cast<LayerScreen>(scm_screen);
@@ -218,7 +218,7 @@ LayerScreen::layerscreen_remove (SCM scm_screen, SCM scm_layer)
   return SCM_UNSPECIFIED;
 }
 
-SCM 
+SCM
 LayerScreen::layerscreen_pop (SCM scm_screen)
 {
   LayerScreen* screen = smobbox_cast<LayerScreen>(scm_screen);
@@ -231,9 +231,9 @@ LayerScreen::layerscreen_enable_input (SCM scm_screen)
 {
   LayerScreen* screen = smobbox_cast<LayerScreen>(scm_screen);
   screen->input_enabled += 1;
-  
+
   if (screen->input_enabled == 1
-      && 
+      &&
       screen->input_enabled_hook.get_scm () != SCM_BOOL_F)
     {
       gh_call0 (screen->input_enabled_hook.get_scm ());
@@ -249,7 +249,7 @@ LayerScreen::layerscreen_disable_input (SCM scm_screen)
   screen->input_enabled -= 1;
 
   if (screen->input_enabled == 0
-      && 
+      &&
       screen->input_enabled_hook.get_scm () != SCM_BOOL_F)
     {
       gh_call0 (screen->input_disabled_hook.get_scm ());

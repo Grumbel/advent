@@ -5,23 +5,23 @@
 ;;
 
 (define (sprite-drawable:create filename x y z)
-  (c:sprite-drawable:create 
+  (c:sprite-drawable:create
    (c:surface-sprite:create filename)
    x y z))
 
 (define (sprite-drawable:create-anim filename x y z frames)
-  (c:sprite-drawable:create 
+  (c:sprite-drawable:create
    (c:surface-sprite:create-anim filename frames)
    x y z))
 
-(define-method (adv:drawable:create (filename <string>) 
+(define-method (adv:drawable:create (filename <string>)
 				    (x-pos <integer>) (y-pos <integer>) (z-pos <number>))
   (sprite-drawable:create filename x-pos y-pos z-pos))
 
-(define-method (adv:drawable:create (filename <string>) 
+(define-method (adv:drawable:create (filename <string>)
 				    (x-pos <integer>) (y-pos <integer>) (z-pos <number>)
 				    (frames <integer>))
-  (c:sprite-drawable:create 
+  (c:sprite-drawable:create
    (c:surface-sprite:create-anim filename frames)
    x-pos y-pos z-pos))
 

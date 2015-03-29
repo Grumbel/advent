@@ -25,8 +25,8 @@
 
 namespace Advent {
 
-ButtonLayer::ButtonLayer (SCM scm_sprite, 
-			  SCM scm_pressed_sprite, 
+ButtonLayer::ButtonLayer (SCM scm_sprite,
+			  SCM scm_pressed_sprite,
 			  SCM scm_mouse_over_sprite,
 			  int arg_x_pos, int arg_y_pos)
   : sprite (scm_sprite),
@@ -44,12 +44,12 @@ ButtonLayer::~ButtonLayer ()
 {
 }
 
-void 
+void
 ButtonLayer::update (float delta)
 {
 }
 
-void 
+void
 ButtonLayer::draw (boost::dummy_ptr<View> view)
 {
   /*std::cout << "ButtonLayer::scm_buttonlayer_create: " << std::endl;
@@ -64,14 +64,14 @@ ButtonLayer::draw (boost::dummy_ptr<View> view)
     sprite.get ()->draw (view, CL_Vector (x_pos, y_pos));
 }
 
-bool 
+bool
 ButtonLayer::is_over (int x, int y)
 {
   return  (x > x_pos && x < x_pos + sprite.get ()->get_width ()
 	   && y > y_pos && y < y_pos + sprite.get ()->get_height ());
 }
 
-void 
+void
 ButtonLayer::on_button_press (const CL_InputEvent& key)
 {
   if (scm_on_press.get_scm () != SCM_BOOL_F)
@@ -84,7 +84,7 @@ ButtonLayer::on_button_press (const CL_InputEvent& key)
     }
 }
 
-void 
+void
 ButtonLayer::on_button_release (const CL_InputEvent&)
 {
   if (scm_on_release.get_scm () != SCM_BOOL_F)
@@ -97,19 +97,19 @@ ButtonLayer::on_button_release (const CL_InputEvent&)
     }
 }
 
-void 
+void
 ButtonLayer::register_guile_bindings ()
 {
   puts ("ButtonLayer::register_guile_bindings ()");
-  
+
   gh_new_procedure5_0 ("c:buttonlayer:create", &ButtonLayer::scm_buttonlayer_create);
   gh_new_procedure2_0 ("c:buttonlayer:set-press-callback", &ButtonLayer::scm_buttonlayer_set_press_callback);
   gh_new_procedure2_0 ("c:buttonlayer:set-release-callback", &ButtonLayer::scm_buttonlayer_set_release_callback);
 }
 
 /*
-SCM 
-ButtonLayer::mark (SCM scm_button) 
+SCM
+ButtonLayer::mark (SCM scm_button)
 {
   ButtonLayer* button = smob_cast<ButtonLayer>(scm_button);
   button->sprite.mark ();
@@ -117,24 +117,24 @@ ButtonLayer::mark (SCM scm_button)
 }*/
 
 /*
-int 
-ButtonLayer::print (SCM image_smob, SCM port, scm_print_state *pstate) 
+int
+ButtonLayer::print (SCM image_smob, SCM port, scm_print_state *pstate)
 {
   scm_puts ("#<c:ButtonLayer>", port);
   return 1;
 }*/
 
 SCM
-ButtonLayer::scm_buttonlayer_create (SCM scm_sprite, 
+ButtonLayer::scm_buttonlayer_create (SCM scm_sprite,
 				     SCM scm_pressed_sprite,
 				     SCM scm_mouse_over_sprite,
 				     SCM x_pos, SCM y_pos)
 {
   // FIXME: Add argument check here
-  return LayerSmob::create(new ButtonLayer (scm_sprite, 
+  return LayerSmob::create(new ButtonLayer (scm_sprite,
 					    scm_pressed_sprite,
 					    scm_mouse_over_sprite,
-					    gh_scm2int (x_pos), 
+					    gh_scm2int (x_pos),
 					    gh_scm2int (y_pos)));
 }
 

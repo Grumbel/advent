@@ -10,7 +10,7 @@
   (for-each (lambda (x)
 	      (let ((sym  (car x))
 		    (rest (cdr x)))
-		(case sym 
+		(case sym
 		  ((members)
 		   (println "OK"))
 		  (else
@@ -36,7 +36,7 @@
 ;;  (println "XXXXXXXXXXXX: " lst)
   (cond ((= (length lst) 4)
 	 (cond ((string? (primitive-eval (car lst)))
-			 (let* ((sprite (sprite-drawable:create (primitive-eval (car lst)) 
+			 (let* ((sprite (sprite-drawable:create (primitive-eval (car lst))
 								(primitive-eval (cadr lst))
 								(primitive-eval (caddr lst))
 								(primitive-eval (cadddr lst))))
@@ -44,7 +44,7 @@
 				(advobj (c:drawable-advobj:create obj sprite collideable)))
 			   (set! (adv:bind obj) advobj)))
 	       (else
-		(let ((advobj (c:empty-advobj:create 
+		(let ((advobj (c:empty-advobj:create
 			       obj (c:rect-collideable:create (primitive-eval (car lst))
 							      (primitive-eval (cadr lst))
 							      (primitive-eval (caddr lst))
@@ -52,7 +52,7 @@
 		  (set! (adv:bind obj) advobj)
 		))))
 	((= (length lst) 5)
-	 (let* ((sprite (sprite-drawable:create-anim (primitive-eval (car lst)) 
+	 (let* ((sprite (sprite-drawable:create-anim (primitive-eval (car lst))
 						     (primitive-eval (cadr lst))
 						     (primitive-eval (caddr lst))
 						     (primitive-eval (cadddr lst))
@@ -60,7 +60,7 @@
 		(collideable (c:sprite-collideable:create sprite))
 		(advobj (c:drawable-advobj:create obj sprite collideable)))
 	   (set! (adv:bind obj) advobj)))
-	 
+
 	(else
 	 (set! (adv:bind obj) (primitive-eval (car lst))))))
 
@@ -83,7 +83,7 @@
      (let ((classname (adv:symbol->classname 'objname)))
        ;; Create the object
        (adv:defobj_ 'objname classname (assoc-ref '(pair ...) 'status))
-       
+
        ;; Create the methods
        (adv:create-methods classname (assoc-ref '(pair ...) 'methods))
 
@@ -103,14 +103,14 @@
 (define (adv:status-to-slots status)
   (println "adv:status-to-slots: " status)
   (if status
-      (map (lambda (x) 
+      (map (lambda (x)
 	     (list (car x)
 		   #:accessor (car x)
 		   #:init-value (cadr x)
 		   ))
 	   status)))
 
-(define (adv:defobj_ obj-name classname 
+(define (adv:defobj_ obj-name classname
 		     status)
   (println "Defobj: " obj-name " " classname " " status)
   (println "ToEval: " (adv:create-class classname status))
@@ -136,7 +136,7 @@
 	      (active #f)
 
 	      (status (broken #t))
-	      
+
 	      (methods <person:roboter>
 		       (look  (dialog:add "pip pip... bib..."))
 		       (use   (dialog:add "no...pip pip...")))
@@ -166,7 +166,7 @@
 adv:defobj:
 ~~~~~~~~~~~
 - define an object of a certain class
-- 
+-
 
 !#
 

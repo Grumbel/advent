@@ -41,20 +41,20 @@ ResourceManager::get_sprite (const std::string& str)
     std::cout << "ResourceManager:get: " << str << " not found." << std::endl;
   }
   try {
-    return new SurfaceSprite ("images/404.png");  
+    return new SurfaceSprite ("images/404.png");
   } catch (CL_Error& err) {
     std::cout << "ResourceManager:get: 404 not found, fatal error." << std::endl;
     exit (1);
   }
 }
 
-void 
+void
 ResourceManager::register_guile_bindings ()
 {
   gh_new_procedure1_0("c:resourcemanager:get", ResourceManager::scm_resourcemanager_get);
 }
 
-SCM 
+SCM
 ResourceManager::scm_resourcemanager_get (SCM resource_id)
 {
   assert (gh_string_p (resource_id));

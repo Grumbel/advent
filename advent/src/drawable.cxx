@@ -48,13 +48,13 @@ Drawable::cast (SCM smob)
     }
 }
 
-void 
+void
 Drawable::register_guile_bindings ()
 {
   gh_new_procedure1_0("c:drawable:remove", &Drawable::scm_drawable_remove);
 }
 
-SCM 
+SCM
 Drawable::scm_drawable_remove (SCM scm_drawable)
 {
   //std::cout << "Drawable::scm_drawable_remove" << std::endl;

@@ -28,12 +28,12 @@ KeyMapHandler::KeyMapHandler ()
 {
   puts ("9840898 Input disabled"); // Sun Feb 23 17:35:45 2003
 #if 0
-  on_button_press_slot   
+  on_button_press_slot
     = CL_Input::sig_button_press ().connect (this, &KeyMapHandler::on_button_press);
-  
-  on_button_release_slot 
+
+  on_button_release_slot
     = CL_Input::sig_button_release ().connect (this, &KeyMapHandler::on_button_release);
-#endif 
+#endif
 }
 
 KeyMapHandler::~KeyMapHandler ()
@@ -59,18 +59,18 @@ KeyMapHandler::on_button_press (const CL_InputEvent&)
 #endif
 }
 
-void 
+void
 KeyMapHandler::on_button_release (const CL_InputEvent&)
 {
 }
 
-bool 
+bool
 KeyMapHandler::is_a (SCM smob)
 {
   return (long(SCM_CAR (smob)) == get_smob_tag ());
 }
 
-void 
+void
 KeyMapHandler::register_guile_bindings ()
 {
   puts ("KeymapHandler::register_guile_bindings ()");
@@ -107,13 +107,13 @@ KeyMapHandler::print (SCM image_smob, SCM port, scm_print_state *pstate)
   return 1;
 }
 
-SCM 
+SCM
 KeyMapHandler::scm_keymaphandler_create ()
 {
   SCM_RETURN_NEWSMOB (tag, new KeyMapHandler ());
 }
 
-SCM 
+SCM
 KeyMapHandler::scm_keymaphandler_set_keymap (SCM scm_keymaphandler, SCM scm_keymap)
 {
   KeyMapHandler* handler = checked_smob_cast<KeyMapHandler>(scm_keymaphandler);

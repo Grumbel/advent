@@ -39,7 +39,7 @@ Layer::get_z_pos ()
   return z_pos;
 }
 
-LayerSmob* 
+LayerSmob*
 Layer::cast(SCM smob)
 {
   return checked_smob_cast<LayerSmob>(smob);

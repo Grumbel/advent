@@ -24,19 +24,19 @@
 
 namespace Advent {
 
-struct TimedLambda 
+struct TimedLambda
 {
   unsigned int trigger_time;
   SCMObj lambda;
 
-  TimedLambda (int arg_triger_time, SCM arg_lambda) 
+  TimedLambda (int arg_triger_time, SCM arg_lambda)
     : trigger_time (arg_triger_time),
       lambda (arg_lambda)
   {
     //std::cout << "TimedLambda ()" << std::endl;
   }
 
-  TimedLambda (const TimedLambda& l) 
+  TimedLambda (const TimedLambda& l)
     : trigger_time (l.trigger_time),
       lambda (l.lambda)
   {
@@ -47,7 +47,7 @@ struct TimedLambda
   {
     //std::cout << "~TimedLambda" << std::endl;
   }
-  
+
   TimedLambda& operator=(const TimedLambda& l)
   {
     //std::cout << "TimedLambda::operator=()" << std::endl;
@@ -89,22 +89,22 @@ void
 TimeManager::update (float delta)
 {
   unsigned int current_time = CL_System::get_time ();
-  
+
   TimedList tmp_lambdas (lambdas);
 
   for (TimedList::iterator i = tmp_lambdas.begin ();
        i != tmp_lambdas.end (); ++i)
     {
-      if ((*i)->trigger_time <= current_time) 
+      if ((*i)->trigger_time <= current_time)
 	{
 	  gh_call0 ((*i)->lambda.get_scm ());
 	}
     }
-  
+
   lambdas.remove_if (TimeManager_to_old (current_time));
 }
 
-void 
+void
 TimeManager::register_guile_bindings ()
 {
   puts ("TimeManager::register_guile_bindings ()");
@@ -138,18 +138,18 @@ TimeManager::free (SCM smob)
       delete smob_cast<TimeManager>(smob);
       return 0; //sizeof (TimeManager);
     }
-  else 
+  else
     return 0;
 }
 
-int 
+int
 TimeManager::print (SCM image_smob, SCM port, scm_print_state *pstate)
 {
   scm_puts ("#<c:TimeManager>", port);
   return 1;
 }
 */
-SCM 
+SCM
 TimeManager::scm_timemanager_create ()
 {
   return LayerSmob::create (new TimeManager ());

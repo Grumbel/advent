@@ -1,9 +1,9 @@
-(define-method (adv:drawable:create (filename <string>) 
+(define-method (adv:drawable:create (filename <string>)
 				    (x-pos <integer>) (y-pos <integer>) (z-pos <number>))
   (sprite-drawable:create filename x-pos y-pos z-pos))
 
 (define (sprite-drawable:create filename x y z)
-  (c:sprite-drawable:create 
+  (c:sprite-drawable:create
    (c:surface-sprite:create filename)
    x y z))
 

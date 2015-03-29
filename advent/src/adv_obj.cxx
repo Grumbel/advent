@@ -24,10 +24,10 @@
 
 namespace Advent {
 
-void 
+void
 AdvObj::register_guile_bindings ()
 {
-  gh_new_procedure2_0 ("c:advobj:set-inventory-sprite", 
+  gh_new_procedure2_0 ("c:advobj:set-inventory-sprite",
 		       &AdvObj::scm_advobj_set_inventory_sprite);
 }
 

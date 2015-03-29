@@ -9,7 +9,7 @@
 ;Press at: 1077 184 0
 ;Press at: 1118 215 0
 ;Tuer
-;;; 
+;;;
 
 (adv:defdoor floor:cellar-door
 	     (name "Cellar")
@@ -47,7 +47,7 @@
 		     (game:speak  (person:talk "Nothing to talk to."))
 		     (game:use    (person:talk "I can't use this thing."))
 		     ))
- 
+
 (adv:defscenario scenario:floor
 		 (dimension 2079 480)
 

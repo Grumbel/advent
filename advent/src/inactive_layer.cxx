@@ -30,29 +30,29 @@ InactiveLayer::~InactiveLayer ()
 {
 }
 
-void 
+void
 InactiveLayer::update (float delta)
 {
 }
 
-void 
+void
 InactiveLayer::draw (boost::dummy_ptr<View> view)
 {
   child.get ()->draw (view);
 }
- 
-bool 
+
+bool
 InactiveLayer::is_over (int x_pos, int y_pos)
 {
   return false;
 }
 
-void 
+void
 InactiveLayer::on_button_press (const CL_InputEvent&)
 {
 }
 
-void 
+void
 InactiveLayer::on_button_release (const CL_InputEvent&)
 {
 }

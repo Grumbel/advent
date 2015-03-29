@@ -34,13 +34,13 @@ ScenarioLayer::ScenarioLayer ()
   z_pos = 0;
 }
 
-void 
+void
 ScenarioLayer::update (float delta)
 {
   assert (current_person);
   current_person->get_scenario ()->update (delta);
-  
-  CL_Vector pos = current_view->display_to_view (CL_Vector(CL_Mouse::get_x (), 
+
+  CL_Vector pos = current_view->display_to_view (CL_Vector(CL_Mouse::get_x (),
 							   CL_Mouse::get_y ()));
   AdvObj* obj = current_person->get_scenario ()->get_object ((int) pos.x, (int) pos.y);
   if (obj != last_obj && mouse_over_callback.get_scm () != SCM_BOOL_F)
@@ -56,7 +56,7 @@ ScenarioLayer::update (float delta)
     }
 }
 
-void 
+void
 ScenarioLayer::draw (boost::dummy_ptr<View> view)
 {
   CL_Vector pos = current_person->get_pos ();
@@ -81,10 +81,10 @@ ScenarioLayer::draw (boost::dummy_ptr<View> view)
   //std::cout << "ScenarioLayer::draw: done" << std::endl;
 }
 
-void 
-ScenarioLayer::set_person (Person* p) 
+void
+ScenarioLayer::set_person (Person* p)
 {
-  current_person = p; 
+  current_person = p;
 }
 
 bool
@@ -113,7 +113,7 @@ ScenarioLayer::on_button_press (const CL_InputEvent& key)
 	  if (callback != SCM_BOOL_F)
 	    gh_call2 (callback, gh_double2scm (pos.x), gh_double2scm (pos.y));
 	}
-    } 
+    }
   else if (key.id == CL_MOUSE_MIDDLE)
     {
       ColMap* colmap = current_person->get_scenario ()->get_colmap ();
@@ -135,7 +135,7 @@ ScenarioLayer::register_guile_bindings ()
 {
   puts ("ScenarioLayer::register_guile_bindings ()");
 
-  gh_new_procedure2_0 ("c:scenariolayer:set-person", 
+  gh_new_procedure2_0 ("c:scenariolayer:set-person",
 		       &ScenarioLayer::scm_scenariolayer_set_person);
   gh_new_procedure0_0 ("c:scenariolayer:create",
 		       &ScenarioLayer::scm_scenariolayer_create);
@@ -148,20 +148,20 @@ ScenarioLayer::register_guile_bindings ()
 }
 /*
 SCM
-ScenarioLayer::mark (SCM smob) 
+ScenarioLayer::mark (SCM smob)
 {
   return SCM_BOOL_F; //FIXME:smob_cast<ScenarioLayer>(smob)->callback;
 }
 
 scm_sizet
-ScenarioLayer::free (SCM smob) 
+ScenarioLayer::free (SCM smob)
 {
   //FIXME:delete smob_cast<ScenarioLayer>(smob);
   return 0; //sizeof (ScenarioLayer);
 }
 
-int 
-ScenarioLayer::print (SCM image_smob, SCM port, scm_print_state *pstate) 
+int
+ScenarioLayer::print (SCM image_smob, SCM port, scm_print_state *pstate)
 {
   scm_puts ("#<c:ScenarioLayer>", port);
   return 1;
@@ -189,19 +189,19 @@ ScenarioLayer::scm_scenariolayer_set_callback (SCM scm_layer, SCM c)
   return SCM_UNSPECIFIED;
 }
 
-SCM 
+SCM
 ScenarioLayer::scm_scenariolayer_set_mouse_over_callback (SCM scm_layer, SCM c)
 {
   smobbox_cast<ScenarioLayer>(scm_layer)->mouse_over_callback.set_scm (c);
   return SCM_UNSPECIFIED;
 }
 
-SCM 
+SCM
 ScenarioLayer::scm_scenariolayer_mouse_update (SCM scm_layer)
 {
   ScenarioLayer* layer = smobbox_cast<ScenarioLayer>(scm_layer);
 
-  CL_Vector pos = layer->current_view->display_to_view (CL_Vector(CL_Mouse::get_x (), 
+  CL_Vector pos = layer->current_view->display_to_view (CL_Vector(CL_Mouse::get_x (),
 								  CL_Mouse::get_y ()));
   AdvObj* obj = layer->current_person->get_scenario ()->get_object ((int) pos.x, (int) pos.y);
   if (layer->mouse_over_callback.get_scm () != SCM_BOOL_F)
@@ -212,7 +212,7 @@ ScenarioLayer::scm_scenariolayer_mouse_update (SCM scm_layer)
 	gh_call1 (layer->mouse_over_callback.get_scm (), SCM_BOOL_F);
 
       layer->last_obj = obj;
-    }  
+    }
   return SCM_UNSPECIFIED;
 }
 

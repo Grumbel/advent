@@ -28,21 +28,21 @@ RectCollideable::RectCollideable (int x1, int y1,
 {
 }
 
-bool 
+bool
 RectCollideable::is_over (int x_pos, int y_pos)
 {
   return rect.is_inside (CL_Point(x_pos, y_pos));
 }
 
-void 
+void
 RectCollideable::register_guile_bindings ()
 {
   puts ("RectCollideable::register_guile_bindings ()");
   gh_new_procedure4_0 ("c:rect-collideable:create", &RectCollideable::scm_rect_collideable_create);
 }
 
-/*int 
-RectCollideable::print (SCM smob, SCM port, scm_print_state *pstate) 
+/*int
+RectCollideable::print (SCM smob, SCM port, scm_print_state *pstate)
 {
   RectCollideable* obj = checked_smob_cast<RectCollideable>(smob);
   char str[128];
@@ -52,7 +52,7 @@ RectCollideable::print (SCM smob, SCM port, scm_print_state *pstate)
   return 1;
 }*/
 
-SCM 
+SCM
 RectCollideable::scm_rect_collideable_create (SCM x1, SCM y1, SCM x2, SCM y2)
 {
   return CollideableSmob::create(new RectCollideable (gh_scm2int (x1),
