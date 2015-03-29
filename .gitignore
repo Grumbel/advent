@@ -2,4 +2,5 @@
 *.os
 .sconsign.dblite
 libadvent.so
-advent/build/
+/advent/build/
+/dirtyrectangles/build/
