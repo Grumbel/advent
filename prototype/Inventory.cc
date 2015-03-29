@@ -37,7 +37,7 @@ Inventory::Inventory ()
     }
 }
 
-void 
+void
 Inventory::add (AdventObj* obj)
 {
   std::cout << "Adding object..." << std::endl;
@@ -52,7 +52,7 @@ Inventory::add (AdventObj* obj)
     }
 }
 
-bool 
+bool
 Inventory::has (AdventObj* obj)
 {
   for (std::vector<AdventObj*>::iterator i = objects.begin ();
@@ -60,11 +60,11 @@ Inventory::has (AdventObj* obj)
     {
       if ((*i) == obj)
 	return true;
-    }  
+    }
   return false;
 }
 
-void 
+void
 Inventory::remove (AdventObj* obj)
 {
   for (std::vector<AdventObj*>::iterator i = objects.begin ();
@@ -75,16 +75,16 @@ Inventory::remove (AdventObj* obj)
     }
 }
 
-void 
+void
 Inventory::draw ()
 {
   if (!visible)
     {
       icon.put_screen (10, 400);
-      
+
       if (mouse_over (CL_Mouse::get_x (), CL_Mouse::get_y ()))
 	icon_h.put_screen (10, 400);
-      
+
       return;
     }
 
@@ -101,28 +101,28 @@ Inventory::draw ()
       {
 	if (CL_Mouse::get_x () > x*size + size
 	    && CL_Mouse::get_x () < x*size + size + size
-	    && CL_Mouse::get_y () > y*size + size 
+	    && CL_Mouse::get_y () > y*size + size
 	    && CL_Mouse::get_y () < y*size + size + size)
 	  {
-	    CL_Display::fill_rect (x*size + 80, y*size + 80, 
+	    CL_Display::fill_rect (x*size + 80, y*size + 80,
 				   x*size + size-1 + 80, y*size + size-1 + 80,
-				   1.0, 1.0, 1.0, 0.8);	  
+				   1.0, 1.0, 1.0, 0.8);
 	  }
 	else
 	  {
-	    CL_Display::fill_rect (x*size + 80, y*size + 80, 
+	    CL_Display::fill_rect (x*size + 80, y*size + 80,
 				   x*size + size-1 + 80, y*size + size-1 + 80,
-				   1.0, 1.0, 1.0, 0.5);	  
+				   1.0, 1.0, 1.0, 0.5);
 	  }
-	
+
 	int index = width * y + x;
 	if (objects[index] != NULL)
-	  objects[index]->draw_inventory (x * size + size + size/2, 
+	  objects[index]->draw_inventory (x * size + size + size/2,
 					  y * size + size + size/2);
       }
 }
 
-void 
+void
 Inventory::update (float delta)
 {
   if (visible)
@@ -136,7 +136,7 @@ Inventory::update (float delta)
     }
 }
 
-void 
+void
 Inventory::init ()
 {
   puts ("Registering Inventory functions...");
@@ -156,14 +156,14 @@ Inventory::show ()
   input_mode = MODE_INVENTORY;
 }
 
-SCM 
+SCM
 Inventory::static_show ()
 {
   inventory->show ();
   return SCM_UNSPECIFIED;
 }
 
-SCM 
+SCM
 Inventory::add (SCM obj)
 {
   SCM smob = gh_call1 (gh_lookup ("adv:bind"), obj);
@@ -175,7 +175,7 @@ Inventory::add (SCM obj)
   return SCM_UNSPECIFIED;
 }
 
-SCM 
+SCM
 Inventory::has (SCM obj)
 {
   SCM smob = gh_call1 (gh_lookup ("adv:bind"), obj);
@@ -190,7 +190,7 @@ Inventory::has (SCM obj)
     return SCM_BOOL_F;
 }
 
-SCM 
+SCM
 Inventory::remove (SCM obj)
 {
   SCM smob = gh_call1 (gh_lookup ("adv:bind"), obj);
@@ -202,7 +202,7 @@ Inventory::remove (SCM obj)
   return SCM_UNSPECIFIED;
 }
 
-bool  
+bool
 Inventory::mouse_over (int x_pos, int y_pos)
 {
   if (visible)
@@ -216,7 +216,7 @@ Inventory::mouse_over (int x_pos, int y_pos)
 bool
 Inventory::on_mouse_release (const CL_Key& key)
 {
-  if (key.id == CL_MOUSE_LEFTBUTTON 
+  if (key.id == CL_MOUSE_LEFTBUTTON
       && input_mode == MODE_INVENTORY
       && !ignore_release)
     {
@@ -230,7 +230,7 @@ Inventory::on_mouse_release (const CL_Key& key)
 	  {
 	    if (CL_Mouse::get_x () > x*size + size
 		&& CL_Mouse::get_x () < x*size + size + size
-		&& CL_Mouse::get_y () > y*size + size 
+		&& CL_Mouse::get_y () > y*size + size
 		&& CL_Mouse::get_y () < y*size + size + size)
 	      {
 		int index = width * y + x;
@@ -250,7 +250,7 @@ Inventory::on_mouse_release (const CL_Key& key)
   return false;
 }
 
-bool 
+bool
 Inventory::on_mouse_press (const CL_Key& key)
 {
   if (input_mode != MODE_INVENTORY)
@@ -269,7 +269,7 @@ Inventory::on_mouse_press (const CL_Key& key)
   return true;
 }
 
-float 
+float
 Inventory::priority ()
 {
   //if (!visible)
@@ -278,7 +278,7 @@ Inventory::priority ()
   return 100.0f;
 }
 
-SCM 
+SCM
 Inventory::get_objects ()
 {
   SCM lst = SCM_EOL;

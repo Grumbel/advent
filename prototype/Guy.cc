@@ -32,7 +32,7 @@ Guy::Guy (SCM p)
     scenario (0)
 {
   click_manager.add (this);
-	  
+
   std::cout << "Creating person: " << this << std::endl;
   scm_protect_object (scm_object);
 
@@ -63,7 +63,7 @@ Guy::~Guy ()
 {
 }
 
-void 
+void
 Guy::update (float delta)
 {
   // update animation
@@ -98,9 +98,9 @@ Guy::update (float delta)
       if (target_callback != SCM_BOOL_F)
 	{
 	  SCM tmp_callback = target_callback;
-	 
+
 	  gh_call0 (target_callback);
-	  //scm_unprotect_object (target_callback); 
+	  //scm_unprotect_object (target_callback);
 
 	  // We need to check that the callback is still the same,
 	  // since it could have been changed in the callback
@@ -113,7 +113,7 @@ Guy::update (float delta)
       if (target_hook != SCM_BOOL_F && tmp_hook == target_hook)
 	{
 	  SCM tmp_hook = target_hook;
-	  
+
 	  AdvHook::call_finish (tmp_hook);
 
 	  if (tmp_hook == target_hook) {
@@ -129,9 +129,9 @@ Guy::update (float delta)
 bool
 Guy::on_target ()
 {
-  if (pos.x - delta < target.x 
+  if (pos.x - delta < target.x
       && pos.x + delta > target.x
-      && pos.y - delta < target.y 
+      && pos.y - delta < target.y
       && pos.y + delta > target.y)
     {
       return true;
@@ -139,44 +139,44 @@ Guy::on_target ()
   return false;
 }
 
-void 
+void
 Guy::draw_world (int x_offset = 0, int y_offset = 0)
 {
   float zoom = scenario->get_colmap ()->get_pixel (pos.x, pos.y) / 255.0;
 
   CL_Surface* sur;
-  
+
   if (fabs(direction.x) < fabs(direction.y))
     {
       if (direction.y > 0)
 	sur = &sur_front;
-      else 
+      else
 	sur = &sur_back;
     }
   else
     {
       if (direction.x > 0)
 	sur = &sur_right;
-      else 
+      else
 	sur = &sur_left;
     }
 
-  sur->put_screen (pos.x - (sur->get_width ()/2 * zoom) + x_offset, 
+  sur->put_screen (pos.x - (sur->get_width ()/2 * zoom) + x_offset,
 		   pos.y - (sur->get_height () * zoom) + y_offset,
 		   zoom, zoom, int(counter) % sur->get_num_frames ());
 
   if (this == current_person)
-    sur_questioning.put_screen(pos.x - (8*zoom) + x_offset, 
+    sur_questioning.put_screen(pos.x - (8*zoom) + x_offset,
 			       pos.y  + y_offset);
 
   switch (emotion)
     {
     case ANGRY:
-      sur_angry.put_screen(pos.x - (8* zoom) + x_offset, 
+      sur_angry.put_screen(pos.x - (8* zoom) + x_offset,
 			   pos.y - ((sur->get_height ()+20) * zoom) + y_offset);
       break;
     case QUESTIONING:
-      sur_questioning.put_screen(pos.x - (8*zoom) + x_offset, 
+      sur_questioning.put_screen(pos.x - (8*zoom) + x_offset,
 				 pos.y - ((sur->get_height ()+20) * zoom) + y_offset);
       break;
     default:
@@ -204,7 +204,7 @@ Guy::transform_to_walkable (CL_Vector pos)
 	maxbottom = i;
 	break;
       }
-	
+
   //std::cout << "Top:    " << maxtop - pos.y << std::endl;
   //std::cout << "Bottom: " << maxbottom - pos.y << std::endl;
 
@@ -223,7 +223,7 @@ Guy::transform_to_walkable (CL_Vector pos)
     }
 }
 
-void 
+void
 Guy::walk_to_mouse ()
 {
   CL_Vector key(CL_Mouse::get_x (), CL_Mouse::get_y ());
@@ -237,12 +237,12 @@ Guy::walk_to_mouse ()
   if (obj)
     {
       GuileAdventObj* guile_obj = dynamic_cast<GuileAdventObj*>(obj);
-	  
+
       // FIXME: Ugly way to find out if adv:walk is overloaded for guile_obj
       if (guile_obj && (guile_obj->call ("adv:walk") == SCM_BOOL_F))
 	{
 	  // Walk to the given position
-	  direction = CL_Vector (key.x - pos.x, 
+	  direction = CL_Vector (key.x - pos.x,
 				 key.y - pos.y);
 	  direction.normalize ();
 	  direction *= 5.0;
@@ -255,7 +255,7 @@ Guy::walk_to_mouse ()
       //std::cout << "Before: " << key << std::endl;
       key = transform_to_walkable (key);
       //std::cout << "After: " << key << std::endl;
-      
+
       // Walk to the given position
       direction = CL_Vector (key.x - pos.x,
 			     key.y - pos.y);
@@ -265,7 +265,7 @@ Guy::walk_to_mouse ()
     }
 }
 
-bool 
+bool
 Guy::is_at (int x, int y)
 {
   //std::cout << "isat: " << x << " " << y << std::endl;
@@ -273,7 +273,7 @@ Guy::is_at (int x, int y)
     return false;
 
   float zoom = scenario->get_colmap ()->get_pixel (int(pos.x), int(pos.y)) / 255.0;
-  
+
   if (pos.x - zoom*sur_left.get_width()/2 < x
       && pos.x + zoom*sur_left.get_width()/2 > x
       && pos.y > y
@@ -302,7 +302,7 @@ Guy::init_guile ()
 
   tag = scm_make_smob_type ("Person", // name for error mesg.
 			    sizeof (Guy));
-  
+
   scm_set_smob_mark  (tag, &mark_smob);
   scm_set_smob_free  (tag, &free_smob);
   scm_set_smob_print (tag, &print_smob);
@@ -320,7 +320,7 @@ Guy::scm_set_pos (SCM arg_x_pos, SCM arg_y_pos)
   return SCM_UNSPECIFIED;
 }
 
-SCM 
+SCM
 Guy::scm_set_direction (SCM angle)
 {
   switch (SCM_INUM (angle))
@@ -341,7 +341,7 @@ Guy::scm_set_direction (SCM angle)
   return SCM_UNSPECIFIED;
 }
 
-SCM 
+SCM
 Guy::scm_set_target (SCM arg_x_pos, SCM arg_y_pos, SCM callback)
 {
   current_person->direction = CL_Vector (SCM_INUM(arg_x_pos) - current_person->pos.x,
@@ -369,38 +369,38 @@ Guy::scm_get_direction ()
     {
       if (current_person->direction.y > 0)
 	direction = 2;
-      else 
+      else
 	direction = 0;
     }
   else
     {
       if (current_person->direction.x > 0)
 	direction = 1;
-      else 
+      else
 	direction = 3;
     }
 
   return SCM_MAKINUM (direction);
 }
 
-SCM 
+SCM
 Guy::scm_get_x_pos ()
 {
   return SCM_MAKINUM (int(current_person->pos.x));
 }
 
-SCM 
+SCM
 Guy::scm_get_y_pos ()
 {
   return SCM_MAKINUM (int(current_person->pos.y));
 }
 
-SCM 
+SCM
 Guy::scm_set_emotion (SCM num)
 {
   switch (SCM_INUM (num))
     {
-    case NORMAL: 
+    case NORMAL:
       current_person->emotion = NORMAL;
       break;
     case ANGRY:
@@ -412,24 +412,24 @@ Guy::scm_set_emotion (SCM num)
     default:
       std::cout << "Unknown emotion" << std::endl;
       break;
-    }      
+    }
   return SCM_UNSPECIFIED;
 }
 
-void 
+void
 Guy::mark ()
 {
-  
+
 }
 
-SCM 
+SCM
 Guy::make (SCM person)
 {
   Guy* guy = new Guy (person);
   SCM_RETURN_NEWSMOB (tag, guy);
 }
 
-SCM 
+SCM
 Guy::mark_smob (SCM smob)
 {
   Guy* guy = reinterpret_cast<Guy*>(SCM_CDR (smob));
@@ -437,7 +437,7 @@ Guy::mark_smob (SCM smob)
   return SCM_BOOL_F;
 }
 
-scm_sizet 
+scm_sizet
 Guy::free_smob (SCM smob)
 {
   Guy* guy = reinterpret_cast<Guy*>(SCM_CDR (smob));
@@ -445,7 +445,7 @@ Guy::free_smob (SCM smob)
   return (sizeof (Guy));
 }
 
-int 
+int
 Guy::print_smob (SCM smob, SCM port, scm_print_state *pstate)
 {
   //Guy* guy = reinterpret_cast<Guy*>(SCM_CDR (smob));
@@ -453,13 +453,13 @@ Guy::print_smob (SCM smob, SCM port, scm_print_state *pstate)
   return 1;
 }
 
-SCM 
+SCM
 Guy::get_scm ()
 {
   return scm_object;
 }
 
-SCM 
+SCM
 Guy::scm_set_current (SCM person)
 {
   Guy* guy = reinterpret_cast<Guy*>(SCM_CDR (person));
@@ -467,29 +467,29 @@ Guy::scm_set_current (SCM person)
   current_person = guy;
 
   std::cout << "Current guy: " << current_person << std::endl;
-  
+
   return SCM_UNSPECIFIED;
 }
 
-SCM 
+SCM
 Guy::scm_set_scenario (SCM person, SCM smob)
 {
   Scenario* s = reinterpret_cast<ScenarioSmobStruct*>(SCM_CDR (smob))->scenario;
   Guy* g = reinterpret_cast<Guy*>(SCM_CDR (person));
 
-  std::cout << "Guy: Setting scenario: g:" << g 
+  std::cout << "Guy: Setting scenario: g:" << g
 	    << " s:" << s << " scenario:" << g->scenario << std::endl;
 
   if (g->scenario)
     g->scenario->remove (static_cast<AdventObj*>(g));
-  
+
   g->scenario = s;
   g->scenario->add (g);
 
   return SCM_UNSPECIFIED;
 }
 
-SCM 
+SCM
 Guy::call (std::string func)
 {
   if (SCM_BOOL_F == scm_object)
@@ -501,10 +501,10 @@ Guy::call (std::string func)
     {
       SCM ret_val = gh_call1 (gh_lookup (func.c_str ()), scm_object);
       return ret_val;
-    }  
+    }
 }
 
-void 
+void
 Guy::set_gfx(SCM gfx)
 {
   std::string north = SCM_CHARS((gh_call1(gh_lookup ("north"), gfx)));
@@ -528,7 +528,7 @@ Guy::set_gfx(SCM gfx)
   }
 }
 
-SCM 
+SCM
 Guy::scm_set_gfx (SCM person, SCM gfx)
 {
   Guy* guy = reinterpret_cast<Guy*>(SCM_CDR (person));

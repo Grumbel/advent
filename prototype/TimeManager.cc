@@ -31,7 +31,7 @@ TimeManager::init ()
 SCM
 TimeManager::add (SCM time, SCM lambda)
 {
-  scm_protect_object (lambda); 
+  scm_protect_object (lambda);
   lambdas.push_back(TimedLambda (CL_System::get_time () + SCM_INUM (time),
 				 lambda));
   return SCM_UNSPECIFIED;
@@ -54,17 +54,17 @@ void
 TimeManager::update (float delta)
 {
   unsigned int current_time = CL_System::get_time ();
-  
+
   for (std::list<TimedLambda>::iterator i = lambdas.begin ();
        i != lambdas.end (); ++i)
     {
-      if (i->triger_time <= current_time) 
+      if (i->triger_time <= current_time)
 	{
 	  gh_call0 (i->lambda);
 	  scm_unprotect_object (i->lambda);
 	}
     }
-  
+
   lambdas.remove_if (to_old (current_time));
 }
 

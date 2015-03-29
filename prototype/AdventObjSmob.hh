@@ -1,5 +1,5 @@
 //  $Id: AdventObjSmob.hh,v 1.10 2001/07/16 17:44:10 grumbel Exp $
-// 
+//
 //  Pingus - A free Lemmings clone
 //  Copyright (C) 2000 Ingo Ruhnke <grumbel@gmx.de>
 //
@@ -12,7 +12,7 @@
 //  but WITHOUT ANY WARRANTY; without even the implied warranty of
 //  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //  GNU General Public License for more details.
-// 
+//
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
@@ -26,7 +26,7 @@ struct AdventObjP
 {
   AdventObj* obj;
 
-  AdventObjP () 
+  AdventObjP ()
     : obj (0) {
   }
 };
@@ -35,7 +35,7 @@ class AdventObjSmob
 {
 private:
   static long tag;
-  
+
 public:
   static void init ();
 
@@ -43,7 +43,7 @@ public:
   static SCM mark (SCM smob);
   static int print (SCM image_smob, SCM port, scm_print_state *pstate);
 
-  static SCM makeobj_surface (SCM name, SCM surface, 
+  static SCM makeobj_surface (SCM name, SCM surface,
 			      SCM x_pos, SCM y_pos, SCM z_pos);
   static SCM scm_makeobj_empty (SCM obj, SCM x_pos, SCM y_pos,
 				SCM width, SCM height);

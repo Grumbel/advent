@@ -29,14 +29,14 @@ static bool prio_sort (Clickable* a, Clickable* b)
 ClickManager::ClickManager () :
   doubleclick_timeout (-1)
 {
-  on_button_press_slot   
+  on_button_press_slot
     = CL_Input::sig_button_press.connect (CL_CreateSlot(this, &ClickManager::on_button_press));
-  
-  on_button_release_slot 
+
+  on_button_release_slot
     = CL_Input::sig_button_release.connect (CL_CreateSlot(this, &ClickManager::on_button_release));
 }
 
-Clickable* 
+Clickable*
 ClickManager::get_active (int x_pos, int y_pos)
 {
   for (std::list<Clickable*>::iterator i = clickables.begin ();
@@ -65,7 +65,7 @@ ClickManager::on_button_press(CL_InputDevice *device, const CL_Key &key)
       if ((*i)->mouse_over (key.x, key.y))
 	{
 	  currently_pressed.push_back (*i);
-	  
+
 	  if ((*i)->on_mouse_press (key))
 	    return;
 	}
@@ -94,7 +94,7 @@ ClickManager::on_button_release(CL_InputDevice *device, const CL_Key &key)
   double_key = key;
 }
 
-void 
+void
 ClickManager::add (Clickable* a)
 {
   clickables.push_back (a);
@@ -109,7 +109,7 @@ ClickManager::add (Clickable* a)
     }
 }
 
-void 
+void
 ClickManager::keep_alive ()
 {
   if (!input_enabled) return;
@@ -125,27 +125,27 @@ ClickManager::keep_alive ()
 		  (*i)->on_mouse_click (double_key))
 		break;
 	    }
-      	  currently_pressed.clear ();  
+      	  currently_pressed.clear ();
 	  doubleclick_timeout = -1;
 	}
     }
 }
 
-void 
+void
 ClickManager::init ()
 {
   gh_new_procedure0_0 ("c:input:disable", &ClickManager::disable_input);
   gh_new_procedure0_0 ("c:input:enable", &ClickManager::enable_input);
 }
 
-SCM 
+SCM
 ClickManager::disable_input ()
 {
   input_enabled = false;
   return SCM_UNSPECIFIED;
 }
 
-SCM 
+SCM
 ClickManager::enable_input ()
 {
   input_enabled = true;

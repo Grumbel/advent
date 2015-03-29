@@ -22,7 +22,7 @@
 
 Dialog dialog;
 
-void 
+void
 Dialog::draw ()
 {
   if (!texts.empty ())
@@ -42,16 +42,16 @@ Dialog::draw ()
     }
 }
 
-void 
+void
 Dialog::update (float delta)
 {
   if (!texts.empty ())
     {
       DialogMessage& message = texts.front ();
-      
-      if (message.start_time != -1 
+
+      if (message.start_time != -1
 	  && message.start_time + message.display_time < (int) CL_System::get_time ())
-	{	
+	{
 	  //std::cout << "Poping: " << message.text << std::endl;
 	  texts.pop_front ();
 	  if (texts.empty()) call_hooks ();
@@ -59,7 +59,7 @@ Dialog::update (float delta)
     }
 }
 
-void 
+void
 Dialog::call_hooks ()
 {
   // Create a temporary object to avoid that the iterators get
@@ -70,16 +70,16 @@ Dialog::call_hooks ()
     {
       gh_call0 (*i);
       //scm_unprotect_object (*i);
-    }  
+    }
 }
 
-void 
+void
 Dialog::add (const DialogMessage& message)
 {
   texts.push_back (message);
 }
 
-SCM 
+SCM
 Dialog::dialog_push (SCM text)
 {
   if (SCM_STRINGP (text))
@@ -112,13 +112,13 @@ Dialog::dialog_add_hook (SCM lambda)
   return SCM_UNSPECIFIED;
 }
 
-void 
+void
 Dialog::set_speaker (std::string arg_speaker)
 {
   speaker = arg_speaker;
 }
-    
-SCM 
+
+SCM
 Dialog::dialog_set_speaker (SCM arg_speaker)
 {
   if (SCM_STRINGP(arg_speaker))
@@ -132,7 +132,7 @@ Dialog::dialog_set_speaker (SCM arg_speaker)
   return SCM_UNSPECIFIED;
 }
 
-void 
+void
 Dialog::init ()
 {
   std::cout << "Dialog: Registering guile stuff..." << std::endl;

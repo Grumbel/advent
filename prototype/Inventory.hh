@@ -1,5 +1,5 @@
 //  $Id: Inventory.hh,v 1.9 2001/08/21 20:38:43 grumbel Exp $
-// 
+//
 //  Pingus - A free Lemmings clone
 //  Copyright (C) 2000 Ingo Ruhnke <grumbel@gmx.de>
 //
@@ -12,7 +12,7 @@
 //  but WITHOUT ANY WARRANTY; without even the implied warranty of
 //  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //  GNU General Public License for more details.
-// 
+//
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
@@ -36,7 +36,7 @@ private:
 public:
   Inventory ();
   virtual ~Inventory () {}
-  
+
   void draw ();
   void update (float delta);
 
@@ -45,14 +45,14 @@ public:
 
   bool is_visible () { return visible; }
 
-  /// Add 
+  /// Add
   void add (AdventObj*);
 
   /// Remove
-  void remove (AdventObj*);  
+  void remove (AdventObj*);
 
-  bool has (AdventObj*);  
-  
+  bool has (AdventObj*);
+
   // ..:: Guile Specific Stuff ::..
   static void init ();
   static SCM add (SCM obj);

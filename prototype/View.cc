@@ -33,7 +33,7 @@ View::~View ()
 {
 }
 
-void 
+void
 View::draw ()
 {
   if (scenario)
@@ -42,12 +42,12 @@ View::draw ()
     }
 }
 
-void 
+void
 View::update (float delta)
 {
   guy = Guy::get_current ();
   scenario = Scenario::get_current ();
-  
+
   if (guy)
     {
       scenario = guy->get_scenario ();
@@ -57,7 +57,7 @@ View::update (float delta)
       std::cout << "View: Guy not set" << std::endl;
     }
 
-  //std::cout << "View:update: G:" << guy 
+  //std::cout << "View:update: G:" << guy
   //
 
   if (scenario)
@@ -66,17 +66,17 @@ View::update (float delta)
     }
 }
 
-void 
+void
 View::look_at (CL_Vector pos)
 {
 }
 
-void 
+void
 View::scroll_to (CL_Vector pos)
 {
 }
 
-void 
+void
 View::follow (Guy* g)
 {
   std::cout << "View: following guy: " << guy << std::endl;
@@ -84,7 +84,7 @@ View::follow (Guy* g)
 }
 
 /*
-void 
+void
 View::fade_out ()
 {
 }*/
@@ -92,9 +92,9 @@ View::fade_out ()
 /***************/
 /* Guile Stuff */
 /***************/
-  
+
 /** Init guile functions and smob staff */
-void 
+void
 View::init ()
 {
   gh_new_procedure2_0 ("c:view:look-at", &View::look_at);
@@ -103,26 +103,26 @@ View::init ()
   gh_new_procedure1_0 ("c:view:follow", &View::follow);
   gh_new_procedure0_0 ("c:view:fade-out", &View::fade_out);
 }
-  
+
 /** Set the view to the given position */
-SCM 
+SCM
 View::look_at (SCM x, SCM y)
 {
   return SCM_UNSPECIFIED;
 }
 
 /** Scroll slowly to the given coordinates */
-SCM 
+SCM
 View::scroll_to (SCM x, SCM y)
 {
   return SCM_UNSPECIFIED;
 }
 
 /** Set the viem onto the given scenario */
-SCM 
+SCM
 View::set_scenario (SCM smob)
 {
-  //Scenario* scenario 
+  //Scenario* scenario
     //  = ((ScenarioSmobStruct*)(SCM_CDR(smob)))->scenario;
 
   // FIXME..
@@ -131,14 +131,14 @@ View::set_scenario (SCM smob)
 }
 
 /** Follow a person */
-SCM 
+SCM
 View::follow (SCM person)
 {
   return SCM_UNSPECIFIED;
 }
 
 /** Fadeout the screen */
-SCM 
+SCM
 View::fade_out ()
 {
   return SCM_UNSPECIFIED;

@@ -39,7 +39,7 @@ Coin::Coin ()
   ignore_press = false;
 }
 
-void 
+void
 Coin::draw ()
 {
   if (input_mode == MODE_OBJECT)
@@ -48,12 +48,12 @@ Coin::draw ()
       if (current_obj)
 	current_obj->draw_inventory (CL_Mouse::get_x (), CL_Mouse::get_y ());
     }
-     
+
   if (input_mode == MODE_NORMAL || input_mode == MODE_OBJECT)
     {
       // Print the object name
       AdventObj* obj = Scenario::get_current ()->get_object (CL_Mouse::get_x (), CL_Mouse::get_y ());
-  
+
       if (obj)
 	{
 	  font ("font")->print_center (320, 460, obj->get_name ().c_str ());
@@ -69,7 +69,7 @@ Coin::draw ()
 				  CL_Mouse::get_y () - q_mark.get_height ()/2);
     }
 
-  // Draw the coin 
+  // Draw the coin
   if (input_mode == MODE_COIN)
     {
       sur.put_screen (click_pos.x - sur.get_width ()/2,
@@ -81,17 +81,17 @@ Coin::draw ()
 	  highlight.put_screen (click_pos.x - 45,
 				click_pos.y - 45);
 	  break;
-      
+
 	case LOOK:
 	  highlight.put_screen (click_pos.x - 5,
 				click_pos.y - 45);
 	  break;
-      
+
 	case PICKUP:
 	  highlight.put_screen (click_pos.x - 45,
 				click_pos.y - 5 );
 	  break;
-      
+
 	case SPEAK:
 	  highlight.put_screen (click_pos.x - 5 ,
 				click_pos.y -  5);
@@ -117,7 +117,7 @@ Coin::update (float delta)
 
   key.x = CL_Mouse::get_x ();
   key.y = CL_Mouse::get_y ();
-  
+
   float distance = (key - click_pos).norm ();
 
   if (input_mode == MODE_COIN && distance > 100.0f)
@@ -164,14 +164,14 @@ Coin::update (float delta)
     }
 }
 
-void 
+void
 Coin::set_current_obj (AdventObj* obj)
 {
   std::cout << "Setting current_obj" << std::endl;
   current_obj = obj;
 }
 
-void 
+void
 Coin::call_current_action ()
 {
   if (click_obj == NULL)
@@ -179,28 +179,28 @@ Coin::call_current_action ()
       std::cout << "BUG: click_obj is NULL, this shouldn't happen." << std::endl;
       return;
     }
-  
+
   switch (current_action)
     {
     case USE:
       std::cout << "Calling: use" << std::endl;
-      gh_call2 (gh_lookup ("adv:use"), 
-		Guy::get_current ()->get_scm (), 
+      gh_call2 (gh_lookup ("adv:use"),
+		Guy::get_current ()->get_scm (),
 		click_obj->get_scm ());
       break;
     case LOOK:
-      gh_call2 (gh_lookup ("adv:look"), 
-		Guy::get_current ()->get_scm (), 
+      gh_call2 (gh_lookup ("adv:look"),
+		Guy::get_current ()->get_scm (),
 		click_obj->get_scm ());
       break;
     case PICKUP:
-      gh_call2 (gh_lookup("adv:pickup"), 
-		Guy::get_current ()->get_scm (), 
+      gh_call2 (gh_lookup("adv:pickup"),
+		Guy::get_current ()->get_scm (),
 		click_obj->get_scm ());
       break;
     case SPEAK:
       gh_call2 (gh_lookup("adv:speak"),
-		Guy::get_current ()->get_scm (), 
+		Guy::get_current ()->get_scm (),
 		click_obj->get_scm ());
       break;
     default:
@@ -227,11 +227,11 @@ Coin::on_mouse_press(const CL_Key& key)
 	  return true;
 	}
     }
-  
+
   return false;
 }
 
-bool 
+bool
 Coin::on_mouse_release (const CL_Key& key)
 {
   if (input_mode == MODE_NORMAL && key.id == CL_MOUSE_LEFTBUTTON)
@@ -251,7 +251,7 @@ Coin::on_mouse_release (const CL_Key& key)
       return true;
     }
 
-  if (input_mode == MODE_COIN && key.id == CL_MOUSE_LEFTBUTTON 
+  if (input_mode == MODE_COIN && key.id == CL_MOUSE_LEFTBUTTON
       && current_action != NONE)
     {
       std::cout << "Call_current_action" << std::endl;
@@ -261,14 +261,14 @@ Coin::on_mouse_release (const CL_Key& key)
     }
 
   if (input_mode == MODE_OBJECT && key.id == CL_MOUSE_LEFTBUTTON && current_obj)
-    {      
+    {
       AdventObj* marked_obj = Scenario::get_current ()->get_object (CL_Mouse::get_x (),
 								    CL_Mouse::get_y ());
       if (marked_obj)
 	{
 	  GuileAdventObj* obj = dynamic_cast<GuileAdventObj*>(marked_obj);
 	  GuileAdventObj* cobj = dynamic_cast<GuileAdventObj*>(current_obj);
-	  
+
 	  if (!obj)
 	    {
 	      std::cout << "Don't know what to do with non GuileObj." << std::endl;
@@ -277,10 +277,10 @@ Coin::on_mouse_release (const CL_Key& key)
 	  else
 	    {
 	      std::cout << "Use: " << current_obj->get_name () << " with " << obj->get_name () << std::endl;
-	      gh_call2 (gh_lookup ("adv:combine"), 
+	      gh_call2 (gh_lookup ("adv:combine"),
 			cobj->get_scm (),  // Object from the inventory
 			obj->get_scm ()); // the object somewhere in the scenario
-	         
+
 	      current_obj = 0;
 	      input_mode = MODE_NORMAL;
 	    }

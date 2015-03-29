@@ -39,14 +39,14 @@ FadeOut::init ()
   gh_new_procedure0_0 ("c:adv:blackout", FadeOut::blackout);
 }
 
-SCM 
+SCM
 FadeOut::blackout ()
 {
   is_blackout = true;
   return SCM_UNSPECIFIED;
 }
 
-SCM 
+SCM
 FadeOut::fade_out (SCM l)
 {
   progress = 0.0f;
@@ -66,27 +66,27 @@ FadeOut::fade_in ()
   is_blackout = false;
   progress = 0.0f;
   running = -1;
-  
+
   hook = AdvHook::make ();
   scm_protect_object (hook);
   return hook;
 }
 
-void 
+void
 FadeOut::update (float delta)
 {
   if (running != 0)
     {
       progress += delta ;
-  
-      if (progress > 1.0f && running == 1) 
+
+      if (progress > 1.0f && running == 1)
 	{
 	  progress = 0.0f;
 	  running = -1;
 	  gh_call0 (lambda);
 	  scm_unprotect_object (lambda);
 	}
-      else if (progress > 1.0f && running == -1) 
+      else if (progress > 1.0f && running == -1)
 	{
 	  progress = 0.0f;
 	  running = 0;
@@ -96,7 +96,7 @@ FadeOut::update (float delta)
     }
 }
 
-void 
+void
 FadeOut::draw ()
 {
   if (is_blackout)
@@ -108,24 +108,24 @@ FadeOut::draw ()
 	  float p = progress;
 	  if (running == -1)
 	    p = 1.0f-p;
-      
+
 	  CL_Display::fill_rect (0, 0,
 				 (CL_Display::get_width ()/2) * p,
-				 CL_Display::get_height (), 
+				 CL_Display::get_height (),
 				 0.0f, 0.0f, 0.0f);
 	  CL_Display::fill_rect (CL_Display::get_width (), 0,
 				 (CL_Display::get_width ()/2) + ((CL_Display::get_width ()/2) * (1-p)),
-				 CL_Display::get_height (), 
+				 CL_Display::get_height (),
 				 0.0f, 0.0f, 0.0f);
 
-	  CL_Display::fill_rect (0, (CL_Display::get_height ()/2) * p, 
+	  CL_Display::fill_rect (0, (CL_Display::get_height ()/2) * p,
 				 CL_Display::get_width (),
-				 0, 
+				 0,
 				 0.0f, 0.0f, 0.0f);
 
 	  CL_Display::fill_rect (0, CL_Display::get_height () - ((CL_Display::get_height ()/2) * p),
 				 CL_Display::get_width (),
-				 CL_Display::get_height (), 
+				 CL_Display::get_height (),
 				 0.0f, 0.0f, 0.0f);
 	}
     }

@@ -1,5 +1,5 @@
 //  $Id: AdvHook.hh,v 1.4 2001/07/10 07:18:17 grumbel Exp $
-// 
+//
 //  Pingus - A free Lemmings clone
 //  Copyright (C) 2000 Ingo Ruhnke <grumbel@gmx.de>
 //
@@ -12,7 +12,7 @@
 //  but WITHOUT ANY WARRANTY; without even the implied warranty of
 //  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //  GNU General Public License for more details.
-// 
+//
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
@@ -31,20 +31,20 @@ private:
   std::list<SCM> finish;
   static int hook_count;
 public:
-  AdvHook () { 
+  AdvHook () {
     // Uncomment for memory leak detection
-    // std::cout << "Creating hook: " << ++hook_count << std::endl; 
+    // std::cout << "Creating hook: " << ++hook_count << std::endl;
   }
-  ~AdvHook () { 
+  ~AdvHook () {
     // Uncomment for memory leak detection
-    // std::cout << "Destructing hook: " << --hook_count << std::endl; 
+    // std::cout << "Destructing hook: " << --hook_count << std::endl;
   }
 
   void mark ()
   {
     for_each (finish.begin (), finish.end (), scm_gc_mark);
   }
-  
+
   void add_finish (SCM scm)
   {
     if (gh_procedure_p (scm))
@@ -58,7 +58,7 @@ public:
       }
   }
 
-  void call_finish () 
+  void call_finish ()
   {
     for_each (finish.begin (), finish.end (), gh_call0);
   }
@@ -71,7 +71,7 @@ public:
 
 private:
   /// The uniq id of this object type, only used by the guile internals
-  
+
   static long tag;
 
 public:
@@ -79,10 +79,10 @@ public:
   {
     AdvHook* hook = new AdvHook ();
 
-    SCM_RETURN_NEWSMOB (tag, hook); 
+    SCM_RETURN_NEWSMOB (tag, hook);
   }
-  
-  static SCM call_finish (SCM smob) 
+
+  static SCM call_finish (SCM smob)
   {
     AdvHook* hook = reinterpret_cast<AdvHook*>(SCM_CDR (smob));
 
@@ -91,7 +91,7 @@ public:
     return SCM_UNSPECIFIED;
   }
 
-  static SCM add_finish (SCM smob, SCM func) 
+  static SCM add_finish (SCM smob, SCM func)
   {
     if (SCM_NIMP (smob) && SCM_CAR (smob) == tag)
       {
@@ -127,7 +127,7 @@ public:
     return 1;
   }
 
-  static SCM adv_hook_p (SCM smob) 
+  static SCM adv_hook_p (SCM smob)
   {
     if (SCM_NIMP (smob) && SCM_CAR (smob) == tag)
       return SCM_BOOL_T;
@@ -135,7 +135,7 @@ public:
       return SCM_BOOL_F;
   }
 
-  static void init () 
+  static void init ()
   {
     // FIXME: The destructor will never get called!
     tag = scm_make_smob_type ("AdvHook", // name for error mesg.

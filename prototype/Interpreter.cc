@@ -32,7 +32,7 @@ Interpreter::~Interpreter ()
 {
 }
 
-void 
+void
 Interpreter::launch ()
 {
   std::cout << "\n\n..:: Advent Interpreter V0.0 ::.." << std::endl;
@@ -50,7 +50,7 @@ Interpreter::launch ()
       else
 	{
 	  line = "(catch #t (lambda () "
-	    + line 
+	    + line
 	    + ") (lambda stuff (display \"Error: \") (display stuff) (newline)))";
 	  SCM ret = gh_eval_str (line.c_str ());
 	  if (ret != SCM_UNSPECIFIED)

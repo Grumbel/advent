@@ -1,5 +1,5 @@
 //  $Id: ClickManager.hh,v 1.5 2001/07/07 20:00:11 grumbel Exp $
-// 
+//
 //  Pingus - A free Lemmings clone
 //  Copyright (C) 2000 Ingo Ruhnke <grumbel@gmx.de>
 //
@@ -12,7 +12,7 @@
 //  but WITHOUT ANY WARRANTY; without even the implied warranty of
 //  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //  GNU General Public License for more details.
-// 
+//
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
@@ -42,7 +42,7 @@ public:
   ~ClickManager () {}
 
   void add (Clickable* a);
-  
+
   void on_button_press(CL_InputDevice *device, const CL_Key &key);
   void on_button_release(CL_InputDevice *device, const CL_Key &key);
 

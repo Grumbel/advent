@@ -29,7 +29,7 @@ SurfaceAdvObj::SurfaceAdvObj (Scenario* s, const CL_Surface& arg_sur, const CL_V
   pos = arg_pos;
 }
 
-void 
+void
 SurfaceAdvObj::draw_world (int x_offset = 0, int y_offset = 0)
 {
   sur.put_screen (int(pos.x + x_offset), int(pos.y + y_offset));

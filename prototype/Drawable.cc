@@ -25,14 +25,14 @@ DrawableObj::DrawableObj (std::string sur_name, const CL_Vector arg_pos)
   : sur (sur_name.c_str (), app.get_resource ()),
     pos (arg_pos)
 {
-  
+
 }
 
 DrawableObj::~DrawableObj ()
 {
 }
 
-void 
+void
 DrawableObj::draw_world (int x_offset = 0, int y_offset = 0)
 {
   sur.put_screen (pos.x + x_offset, pos.y + y_offset);
@@ -42,37 +42,37 @@ DrawableObj::draw_world (int x_offset = 0, int y_offset = 0)
 bool
 DrawableFill::removeable ()
 {
-  return drawn > 2; 
+  return drawn > 2;
 }
 
 DrawableFill::DrawableFill (float arg_red, float arg_green, float arg_blue, float arg_alpha)
   : drawn (0),
     red (arg_red), green (arg_green), blue (arg_blue), alpha (arg_alpha)
 {
-  
+
 }
 
 void
 DrawableFill::draw_world (int x_offset = 0, int y_offset = 0)
 {
   ++drawn;
-  CL_Display::fill_rect (0, 0, 640, 480, 
+  CL_Display::fill_rect (0, 0, 640, 480,
 			 red, green, blue, alpha);
 }
 
-float 
-DrawableFill::get_z_pos () 
+float
+DrawableFill::get_z_pos ()
 {
- return 255.0; 
+ return 255.0;
 }
 
-void 
+void
 DrawableSmob::add (std::string sur_name, const CL_Vector& vec)
 {
   Scenario::get_current ()->add (new DrawableObj (sur_name, vec));
 }
 
-void 
+void
 DrawableSmob::init ()
 {
   gh_new_procedure2_0 ("c:draw", DrawableSmob::draw);
@@ -85,7 +85,7 @@ DrawableSmob::draw (SCM sur_name, SCM pos)
   int x_pos = SCM_INUM (SCM_CAR (pos));
   int y_pos = SCM_INUM (SCM_CADR (pos));
   int z_pos = SCM_INUM (SCM_CADDR (pos));
- 
+
   //std::cout << "DRAWABLESMOB: " << x_pos << " " << y_pos << " " << z_pos << std::endl;
 
   add (SCM_CHARS (sur_name), CL_Vector (x_pos, y_pos, z_pos));

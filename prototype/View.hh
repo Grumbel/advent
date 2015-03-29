@@ -1,5 +1,5 @@
 //  $Id: View.hh,v 1.2 2001/07/11 08:03:26 grumbel Exp $
-// 
+//
 //  Pingus - A free Lemmings clone
 //  Copyright (C) 2000 Ingo Ruhnke <grumbel@gmx.de>
 //
@@ -12,7 +12,7 @@
 //  but WITHOUT ANY WARRANTY; without even the implied warranty of
 //  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //  GNU General Public License for more details.
-// 
+//
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
@@ -35,12 +35,12 @@ class View
 private:
   // We follow this person if != 0
   Guy* guy;
-  
+
 public:
 
   // Information what should be drawn
   Scenario* scenario;
-  
+
   int x_offset;
   int y_offset;
   //end
@@ -58,10 +58,10 @@ public:
   /***************/
   /* Guile Stuff */
   /***************/
-  
+
   /** Init guile functions and smob staff */
   static void init ();
-  
+
   /** Set the view to the given position */
   static SCM look_at (SCM x, SCM y);
 

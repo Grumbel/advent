@@ -1,5 +1,5 @@
 //  $Id: Drawable.hh,v 1.5 2001/04/27 20:42:57 grumbel Exp $
-// 
+//
 //  Pingus - A free Lemmings clone
 //  Copyright (C) 2000 Ingo Ruhnke <grumbel@gmx.de>
 //
@@ -12,7 +12,7 @@
 //  but WITHOUT ANY WARRANTY; without even the implied warranty of
 //  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //  GNU General Public License for more details.
-// 
+//
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
@@ -25,7 +25,7 @@
 class Drawable
 {
 private:
-  
+
 public:
   virtual void draw_world (int x_offset = 0, int y_offset = 0) =0;
   virtual void update (float delta) {}
@@ -62,7 +62,7 @@ private:
 public:
   DrawableObj (std::string sur_name, const CL_Vector arg_pos);
   virtual ~DrawableObj ();
-  
+
   virtual void draw_world (int x_offset = 0, int y_offset = 0);
   virtual float get_z_pos () { return pos.z; }
 };

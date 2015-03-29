@@ -29,19 +29,19 @@ KeyboardManager::init ()
   gh_new_procedure2_0 ("adv:bind-key", &KeyboardManager::bind_key);
 }
 
-void 
+void
 KeyboardManager::deinit ()
 {
   CL_Input::sig_button_press.disconnect (slot);
 }
 
-void 
+void
 KeyboardManager::bind_key (int key_id, SCM lambda)
 {
   bindings[key_id] = lambda;
 }
 
-void 
+void
 KeyboardManager::unbind_key (int key_id)
 {
   bindings[key_id] = SCM_BOOL_F;
@@ -62,7 +62,7 @@ KeyboardManager::on_button_press (CL_InputDevice* device , const CL_Key& key)
     }
 }
 
-SCM 
+SCM
 KeyboardManager::bind_key (SCM key_id, SCM lambda)
 {
   if (SCM_INUMP(key_id))
@@ -72,7 +72,7 @@ KeyboardManager::bind_key (SCM key_id, SCM lambda)
     }
   else
     puts ("KeyboardManager: Wrong argument type");
- 
+
   return SCM_UNSPECIFIED;
 }
 

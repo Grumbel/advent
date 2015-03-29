@@ -1,5 +1,5 @@
 //  $Id: Guy.hh,v 1.16 2001/07/29 11:05:39 grumbel Exp $
-// 
+//
 //  Pingus - A free Lemmings clone
 //  Copyright (C) 2000 Ingo Ruhnke <grumbel@gmx.de>
 //
@@ -12,7 +12,7 @@
 //  but WITHOUT ANY WARRANTY; without even the implied warranty of
 //  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //  GNU General Public License for more details.
-// 
+//
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
@@ -40,14 +40,14 @@ private:
   CL_Surface sur_front;
   CL_Surface sur_back;
 
-  CL_Surface sur_angry;  
+  CL_Surface sur_angry;
   CL_Surface sur_questioning;
 
   float counter;
 
   CL_Vector direction;
 
-  
+
   CL_Vector pos;
   CL_Vector target;
 
@@ -55,7 +55,7 @@ private:
   SCM target_hook;
   float delta;
 
-public: 
+public:
 
   // The scenario in which the guy is standing
   Scenario* scenario;
@@ -64,10 +64,10 @@ public:
 
   Guy (SCM p);
   ~Guy ();
-  
+
   SCM call (std::string func);
   SCM get_scm ();
-  
+
   bool on_target ();
   void update (float delta);
   void draw_world (int x_offset = 0, int y_offset = 0);
@@ -94,7 +94,7 @@ public:
 
   static Guy* get_current () {
     //std::cout << "Returning current person: " << current_person << std::endl;
-    return current_person; 
+    return current_person;
   }
 
   static void Guy::init_guile ();

@@ -30,7 +30,7 @@ Background::~Background ()
 {
 }
 
-void 
+void
 Background::draw (int x_offset, int y_offset)
 {
   sur.put_screen (x_offset, y_offset);

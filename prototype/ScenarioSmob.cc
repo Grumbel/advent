@@ -28,7 +28,7 @@
 
 long ScenarioSmob::tag;
 
-void 
+void
 ScenarioSmob::init ()
 {
   tag = scm_make_smob_type ("ScenarioSmob", // How is this used?
@@ -60,7 +60,7 @@ ScenarioSmob::free (SCM smob)
   return 0;
 }
 
-int 
+int
 ScenarioSmob::print (SCM image_smob, SCM port, scm_print_state *pstate)
 {
   //std::cout << ">>ScenarioSmob: Printing...<<" << std::endl;
@@ -68,7 +68,7 @@ ScenarioSmob::print (SCM image_smob, SCM port, scm_print_state *pstate)
 }
 
 SCM
-ScenarioSmob::make_bind (SCM scenario_name, 
+ScenarioSmob::make_bind (SCM scenario_name,
 			 SCM background_surface,
 			 SCM colmap_surface,
 			 SCM objects,
@@ -76,7 +76,7 @@ ScenarioSmob::make_bind (SCM scenario_name,
 {
   ScenarioSmobStruct* obj = (ScenarioSmobStruct*)scm_must_malloc (sizeof (ScenarioSmobStruct),
 								  "ScenarioSmobStruct");
-  std::list<AdventObj*> objs; 
+  std::list<AdventObj*> objs;
 
   while (objects != SCM_EOL)
     {
@@ -91,12 +91,12 @@ ScenarioSmob::make_bind (SCM scenario_name,
     }
 
   assert(SCM_STRINGP (background_surface));
-  
+
   std::string colmap;
   if (!SCM_FALSEP (colmap_surface))
     colmap = SCM_CHARS (colmap_surface);
 
-  obj->scenario = new Scenario (scenario_name, 
+  obj->scenario = new Scenario (scenario_name,
 				SCM_CHARS (background_surface),
 				colmap,
 				objs,

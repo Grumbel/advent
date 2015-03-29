@@ -31,7 +31,7 @@ CollisionMap::~CollisionMap ()
   provider->unlock ();
 }
 
-int  
+int
 CollisionMap::get_pixel (int x, int y)
 {
   return provider->get_pixel (x, y);

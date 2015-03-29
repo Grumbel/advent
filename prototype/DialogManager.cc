@@ -25,7 +25,7 @@ DialogManager* DialogManager::instance;
 
 DialogManager::DialogManager ()
 {
-  font = CL_Font::load ("font", app.get_resource ());  
+  font = CL_Font::load ("font", app.get_resource ());
   lambda = SCM_UNSPECIFIED;
   instance = this;
 }
@@ -49,18 +49,18 @@ DialogManager::draw ()
       int y_pos = 0;
       CL_Display::fill_rect (0, 390, 640, 480,
 			     0.0, 0.0, 0.0, 0.5);
-  
+
       //font->print_center (320, 100, "Dialog TEST");
       // REPLACE ME WITH A GUI LIKE OF THINKS
       for (std::vector<std::string>::iterator i = sentences.begin ();
 	   i != sentences.end (); ++i)
 	{
-	  if (CL_Mouse::get_y () > 400 + y_pos && 
-	      CL_Mouse::get_y () < 400 + y_pos + 20) 
+	  if (CL_Mouse::get_y () > 400 + y_pos &&
+	      CL_Mouse::get_y () < 400 + y_pos + 20)
 	    {
 	      CL_Display::fill_rect (0, 400 + y_pos,
 				     640, 400 + y_pos + 20,
-				     1.0, 1.0, 1.0, 0.5);	    
+				     1.0, 1.0, 1.0, 0.5);
 	    }
 
 	  font->print_left (10, 400 +  y_pos,
@@ -103,27 +103,27 @@ DialogManager::dialog_show (SCM arg_sentences, SCM arg_lambda)
 }
 
 /// @return true if the click got catched, false if the click was not used
-bool  
-DialogManager::on_mouse_release (const CL_Key&) 
-{ 
+bool
+DialogManager::on_mouse_release (const CL_Key&)
+{
   if (!sentences.empty ())
-    return true; 
+    return true;
   else
     return false;
 }
 
-bool  
-DialogManager::on_mouse_press (const CL_Key&) 
-{ 
+bool
+DialogManager::on_mouse_press (const CL_Key&)
+{
   if (!sentences.empty ())
-    return true; 
+    return true;
   else
     return false;
 }
 
 /// @return true if the click got catched, false if the click was not used
-bool  
-DialogManager::on_mouse_click (const CL_Key& key) 
+bool
+DialogManager::on_mouse_click (const CL_Key& key)
 {
   if (!sentences.empty ())
     {
@@ -133,7 +133,7 @@ DialogManager::on_mouse_click (const CL_Key& key)
       for (std::vector<std::string>::iterator i = sentences.begin ();
 	   i != sentences.end (); ++i)
 	{
-	  if (key.y > 400 + y_pos && 
+	  if (key.y > 400 + y_pos &&
 	      key.y < 400 + y_pos + 20)
 	    {
 	      std::cout << "GOT: " << i - sentences.begin () << std::endl;;
@@ -144,7 +144,7 @@ DialogManager::on_mouse_click (const CL_Key& key)
 	  y_pos += 20;
 	}
       std::cout << "CLick ignored: " << priority () << std::endl;
-      return true; 
+      return true;
     }
   else
     {
@@ -152,7 +152,7 @@ DialogManager::on_mouse_click (const CL_Key& key)
     }
 }
 
-void 
+void
 DialogManager::eval (int selection)
 {
   if (lambda != SCM_UNSPECIFIED && lambda != SCM_BOOL_F)

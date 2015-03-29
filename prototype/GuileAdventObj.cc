@@ -56,13 +56,13 @@ GuileAdventObj::init ()
     {
       sur = CL_Surface (surname.c_str (), app.get_resource ());
       width = sur.get_width ();
-      height = sur.get_height ();     
+      height = sur.get_height ();
       is_init = true;
     }
 }
 
-GuileAdventObj::GuileAdventObj (SCM arg_name, 
-				CL_Vector arg_pos, 
+GuileAdventObj::GuileAdventObj (SCM arg_name,
+				CL_Vector arg_pos,
 				int arg_width, int arg_height)
   : pos (arg_pos), width (arg_width), height (arg_height),
     counter (0), is_init (true)
@@ -101,7 +101,7 @@ GuileAdventObj::call (std::string func)
     }
 }
 
-void 
+void
 GuileAdventObj::call (std::string func, std::string id)
 {
   std::string call = "(advent:eval \"";
@@ -111,9 +111,9 @@ GuileAdventObj::call (std::string func, std::string id)
   call += "\")";
   std::cout << "Call: " << call << std::endl;
   char* str = strdup (call.c_str ());
-  
+
   gh_eval_str (str);
-  
+
   free (str);
 }
 
@@ -169,13 +169,13 @@ GuileAdventObj::draw_inventory (int x, int y)
 			      y - inventory_sur.get_height ()/2);
 }
 
-bool 
+bool
 GuileAdventObj::is_at (int x, int y)
 {
   if (empty_object) return false;
 
   if (!is_init) init ();
-  
+
   if (pos.x + the_view->x_offset <= x
       && pos.x + width + the_view->x_offset > x
       && pos.y + the_view->y_offset  <= y
@@ -186,7 +186,7 @@ GuileAdventObj::is_at (int x, int y)
   return false;
 }
 
-void 
+void
 GuileAdventObj::set_inventory_surface (std::string str)
 {
   //std::cout << "set_inventory_surface()" << std::endl;
@@ -210,7 +210,7 @@ GuileAdventObj::set_surface (std::string str)
     {
       try
 	{
-	  sur = CL_Surface (str.c_str (), app.get_resource ()); 
+	  sur = CL_Surface (str.c_str (), app.get_resource ());
 	  surface_visible = true;
 	  width = sur.get_width ();
 	  height = sur.get_height ();

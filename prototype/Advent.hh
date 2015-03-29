@@ -1,5 +1,5 @@
 //  $Id: Advent.hh,v 1.8 2001/07/15 18:54:58 grumbel Exp $
-// 
+//
 //  Pingus - A free Lemmings clone
 //  Copyright (C) 2000 Ingo Ruhnke <grumbel@gmx.de>
 //
@@ -12,7 +12,7 @@
 //  but WITHOUT ANY WARRANTY; without even the implied warranty of
 //  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //  GNU General Public License for more details.
-// 
+//
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
@@ -42,19 +42,19 @@ public:
 
 enum InputMode { MODE_NORMAL,    /* Standard mode, click will lead to a
 				    walk event or to MODE_COIN */
-		 
+
  		 MODE_OBJECT,    /* Person as a object in its hand,
 				    left click will lead to a combine,
 				    right click will lead to
 				    MODE_NORMAL */
-		 
+
 		 MODE_COIN,      /* Click will lead to a action or to
 				    MODE_NORMAL */
 
 		 MODE_INVENTORY, /* Inventory is visible, click will
 				    lead to MODE_NORMAL or
 				    MODE_OBJECT */
-		 
+
 		 MODE_DISABLED,  /* User input is suspended until the
 				    end of a cutscene */
 

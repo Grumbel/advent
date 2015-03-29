@@ -47,10 +47,10 @@ Frame::Frame (SCM frame)
 
 Frame::~Frame () {}
 
-float 
+float
 Frame::get_z_pos () { return pos.z; }
 
-void 
+void
 Frame::draw_world (int x_offset = 0, int y_offset = 0)
 {
   sur.put_screen (int(pos.x + x_offset), int(pos.y + y_offset), sub_frame);
@@ -62,14 +62,14 @@ Animation::Animation (SCM animation)
 {
   SCM frame_objs = gh_call1 (gh_lookup("frames"), animation);
 
-  std::cout << "Creating animations..." << std::endl;   
+  std::cout << "Creating animations..." << std::endl;
   while (frame_objs != SCM_EOL)
     {
       frames.push_back (new Frame (SCM_CAR (frame_objs)));
 
       frame_objs = SCM_CDR (frame_objs);
     }
-  std::cout << "Creating animations done" << std::endl; 
+  std::cout << "Creating animations done" << std::endl;
   assert (!frames.empty ());
   current_frame = frames.begin ();
   display_start = CL_System::get_time ();
@@ -79,7 +79,7 @@ Animation::~Animation ()
 {
   std::cout << "Deleting animation" << std::endl;
 }
- 
+
 void
 Animation::update (float delta)
 {
@@ -94,14 +94,14 @@ Animation::update (float delta)
 	}
     }
 }
- 
-void 
+
+void
 Animation::draw_world (int x_offset = 0, int y_offset = 0)
 {
   return (*current_frame)->draw_world ();
 }
 
-float 
+float
 Animation::get_z_pos ()
 {
   return (*current_frame)->get_z_pos ();

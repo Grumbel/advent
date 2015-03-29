@@ -45,14 +45,14 @@ std::list<Scenario*> Scenario::scenario_list;
 Scenario::Scenario (SCM arg_name,
 		    std::string arg_background, std::string arg_colmap,
 		    std::list<AdventObj*> arg_objects,
-		    bool arg_with_guy) 
+		    bool arg_with_guy)
   : is_init (false)
 {
   std::cout << "Creating scenario: " << this << std::endl;
 
   adv_list_lock = 0;
   drawable_list_lock = 0;
-  
+
   if (SCM_STRINGP (arg_name))
     name = SCM_CHARS (arg_name);
   else
@@ -60,7 +60,7 @@ Scenario::Scenario (SCM arg_name,
       scm_protect_object (scm_object);
       scm_object = arg_name;
     }
-  
+
   colmap_name = arg_colmap;
   background_name = arg_background;
 
@@ -82,7 +82,7 @@ Scenario::init ()
   else
     {
       background = new Background (background_name);
-      
+
       if (!colmap_name.empty ())
 	colmap = new CollisionMap (colmap_name);
       else
@@ -95,15 +95,15 @@ Scenario::init ()
 Scenario::~Scenario ()
 {
 }
-  
+
 void
 Scenario::draw (View* view)
 {
   if (!is_init) init ();
-  
+
   int x_offset = -int(Guy::get_current ()->get_x_pos ()) + CL_Display::get_width ()/2;
   int y_offset = -int(Guy::get_current ()->get_y_pos ()) + CL_Display::get_height ()/2;
-  
+
   if (background->get_width () + x_offset < CL_Display::get_width ())
     x_offset = CL_Display::get_width () - background->get_width ();
 
@@ -120,11 +120,11 @@ Scenario::draw (View* view)
 
   view->x_offset = x_offset;
   view->y_offset = y_offset;
-  
+
   if (CL_Mouse::middle_pressed ())
     {
-      std::cout << ";" 
-		<< CL_Mouse::get_x() - x_offset << " " << CL_Mouse::get_y() - y_offset << " " 
+      std::cout << ";"
+		<< CL_Mouse::get_x() - x_offset << " " << CL_Mouse::get_y() - y_offset << " "
 		<< Scenario::get_current ()->get_colmap ()->get_pixel (CL_Mouse::get_x (),
 								CL_Mouse::get_y ())
 		<< std::endl;
@@ -150,7 +150,7 @@ Scenario::draw (View* view)
 
   // Draw all drawables to the draw list
   ++drawable_list_lock;
-  for (std::list<Drawable*>::iterator i = drawables.begin (); 
+  for (std::list<Drawable*>::iterator i = drawables.begin ();
        i != drawables.end (); ++i)
     {
       if (*i) draw_lst.push_back (*i);
@@ -162,7 +162,7 @@ Scenario::draw (View* view)
 
   // Draw thhe scene
   ++drawable_list_lock;
-  for (std::list<Drawable*>::iterator i = draw_lst.begin (); 
+  for (std::list<Drawable*>::iterator i = draw_lst.begin ();
        i != draw_lst.end (); ++i)
     {
       if (*i) (*i)->draw_world (x_offset, y_offset);
@@ -179,7 +179,7 @@ Scenario::update (float delta)
   if (!is_init) init ();
 
   ++adv_list_lock;
-  for (std::list<AdventObj*>::iterator i = objects.begin (); 
+  for (std::list<AdventObj*>::iterator i = objects.begin ();
        i != objects.end (); i++)
     {
       if (*i) (*i)->update (delta);
@@ -190,7 +190,7 @@ Scenario::update (float delta)
   if (need_list_update) update_list ();
 
   ++drawable_list_lock;
-  for (std::list<Drawable*>::iterator i = drawables.begin (); 
+  for (std::list<Drawable*>::iterator i = drawables.begin ();
        i != drawables.end (); ++i)
     {
       if (*i) (*i)->update (delta);
@@ -204,7 +204,7 @@ Scenario::update (float delta)
     colmap->update (delta);
 }
 
-CollisionMap* 
+CollisionMap*
 Scenario::get_colmap ()
 {
   if (!is_init) init ();
@@ -213,12 +213,12 @@ Scenario::get_colmap ()
 }
 
 /** FIXME: Do we use world or mouse CO's here? */
-AdventObj* 
+AdventObj*
 Scenario::get_object (int x, int y)
 {
   //std::cout << "Objects: " << objects.size() << std::endl;
   AdventObj* obj = 0;
-  for (std::list<AdventObj*>::iterator i = objects.begin (); 
+  for (std::list<AdventObj*>::iterator i = objects.begin ();
        i != objects.end (); i++)
     {
       if (*i && (*i)->is_at (x, y))
@@ -227,7 +227,7 @@ Scenario::get_object (int x, int y)
   return obj;
 }
 
-void 
+void
 Scenario::add (Drawable* obj)
 {
   //std::cout << "uhAOEUAOEUAOETUTsnotehu Adding drawable" << std::endl;
@@ -237,7 +237,7 @@ Scenario::add (Drawable* obj)
     std::cout << "DrawableList is currently locked: " << adv_list_lock << std::endl;
 }
 
-void 
+void
 Scenario::add (AdventObj* obj)
 {
   need_list_update = true;
@@ -250,8 +250,8 @@ Scenario::remove (AdventObj* obj)
   need_list_update = true;
   std::list<AdventObj*>::iterator obj_iter;
   obj_iter = std::find (objects.begin (), objects.end (), obj);
-  
-  if (obj_iter != objects.end ()) 
+
+  if (obj_iter != objects.end ())
     *obj_iter = 0;
   else
     {
@@ -264,7 +264,7 @@ Scenario::remove (AdventObj* obj)
     }
 }
 
-void 
+void
 Scenario::update_list ()
 {
   std::cout << "Updating the list " << std::endl;

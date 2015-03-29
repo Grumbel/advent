@@ -66,7 +66,7 @@ Advent::Advent ()
   input_mode = MODE_NORMAL;
 }
 
-char* 
+char*
 Advent::get_title ()
 {
   return "Advent - Prototype";
@@ -79,12 +79,12 @@ Advent::main (int argc, char* argv[])
   return 0;
 }
 
-void   
+void
 Advent::inner_main (void* closure, int argc, char* argv[])
 {
   std::string game_init_file = "games/retriever/objects.scm";
   bool fullscreen = false;
-  
+
   if (argc == 2)
     {
       game_init_file = argv[1];
@@ -105,7 +105,7 @@ Advent::inner_main (void* closure, int argc, char* argv[])
   // Ugly... as the rest of the code..
   the_view = new View ();
 
-  
+
 
   //std::cout << "Loading guile code..." << std::endl;
   AdvHook::init ();
@@ -122,7 +122,7 @@ Advent::inner_main (void* closure, int argc, char* argv[])
   Animation::init ();
   System::init ();
   KeyboardManager::init ();
-      
+
   //std::cout << "Loading guile code...done" << std::endl;
 
 
@@ -134,15 +134,15 @@ Advent::inner_main (void* closure, int argc, char* argv[])
 	  fullscreen = true;
 	}
     }
-  
-  try 
+
+  try
     {
       //std::cout << "Advent: Init ClanLib..." << std::endl;
       CL_SetupCore::init ();
       CL_SetupDisplay::init ();
       CL_SetupPNG::init ();
       CL_SetupJPEG::init ();
-  
+
       CL_Display::set_videomode (640, 480, 16, fullscreen, false);
 
       CL_Display::clear_display ();
@@ -154,9 +154,9 @@ Advent::inner_main (void* closure, int argc, char* argv[])
 
       {
 	std::string advent_save_path;
-	
+
 	char* home = getenv ("HOME");
-	if (home) 
+	if (home)
 	  {
 	    advent_save_path = home;
 	    advent_save_path += "/.advent/";
@@ -173,7 +173,7 @@ Advent::inner_main (void* closure, int argc, char* argv[])
 	    std::cout << "Failed to make: " << advent_save_path << std::endl;
 	  }
       }
-      
+
       //Scenario scenario;
       coin = new Coin ();
 
@@ -188,14 +188,14 @@ Advent::inner_main (void* closure, int argc, char* argv[])
       char str[256] = {"Calculation"};
 
       //ClickManager click_manager;
-      
+
       inventory = new Inventory ();
 
       click_manager.add (inventory);
       click_manager.add (coin);
       click_manager.add (&dialog_manager);
 
-      
+
       assert (Scenario::get_current ());
 
       the_view->follow(Guy::get_current ());
@@ -203,9 +203,9 @@ Advent::inner_main (void* closure, int argc, char* argv[])
       /** Main Loop */
       DeltaManager delta_manager;
       while (CL_Keyboard::get_keycode (CL_KEY_ESCAPE) == 0)
-	{	  
+	{
 	  /* FIXME: inputhandling should be somewhere else... */
-	  if (CL_Keyboard::get_keycode (CL_KEY_G)) 
+	  if (CL_Keyboard::get_keycode (CL_KEY_G))
 	    {
 	      while (CL_Keyboard::get_keycode (CL_KEY_G))
 		CL_System::keep_alive ();
@@ -213,21 +213,21 @@ Advent::inner_main (void* closure, int argc, char* argv[])
 	      scm_gc ();
 	    }
 
-	  if (CL_Keyboard::get_keycode (CL_KEY_SPACE)) 
+	  if (CL_Keyboard::get_keycode (CL_KEY_SPACE))
 	    {
 	      while (CL_Keyboard::get_keycode (CL_KEY_SPACE))
 		CL_System::keep_alive ();
 	      interpreter.launch ();
 	    }
 
-	  if (CL_Keyboard::get_keycode (CL_KEY_F6)) 
+	  if (CL_Keyboard::get_keycode (CL_KEY_F6))
 	    {
 	      while (CL_Keyboard::get_keycode (CL_KEY_F6))
 		CL_System::keep_alive ();
 	      gh_eval_str ("(adv:quick-save)");
 	    }
 
-	  if (CL_Keyboard::get_keycode (CL_KEY_F5)) 
+	  if (CL_Keyboard::get_keycode (CL_KEY_F5))
 	    {
 	      while (CL_Keyboard::get_keycode (CL_KEY_F5))
 		CL_System::keep_alive ();
@@ -246,7 +246,7 @@ Advent::inner_main (void* closure, int argc, char* argv[])
 
 	  the_view->draw ();
 	  //Scenario::current->draw (the_view);
-	  
+
 	  coin->draw ();
 	  inventory->draw ();
 	  font ("font")->print_left (0, 0, str);
@@ -262,7 +262,7 @@ Advent::inner_main (void* closure, int argc, char* argv[])
 	      count = 0;
 	      time = CL_System::get_time ();
 	    }
-	  dialog_manager.draw ();	  
+	  dialog_manager.draw ();
 	  FadeOut::update (delta);
 	  FadeOut::draw ();
 	  CL_Display::flip_display ();
@@ -276,7 +276,7 @@ Advent::inner_main (void* closure, int argc, char* argv[])
       //CL_SetupDisplay::deinit ();
       CL_SetupCore::deinit ();
     }
-  
+
   catch (CL_Error err)
     {
       std::cout << "CL_Error: " << err.message << std::endl;

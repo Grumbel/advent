@@ -1,5 +1,5 @@
 //  $Id: Scenario.hh,v 1.12 2001/07/12 09:23:16 grumbel Exp $
-// 
+//
 //  Pingus - A free Lemmings clone
 //  Copyright (C) 2000 Ingo Ruhnke <grumbel@gmx.de>
 //
@@ -12,7 +12,7 @@
 //  but WITHOUT ANY WARRANTY; without even the implied warranty of
 //  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //  GNU General Public License for more details.
-// 
+//
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
@@ -38,7 +38,7 @@ protected:
   CollisionMap* colmap;
   std::string name;
   SCM scm_object;
- 
+
   // Stuff for on-demand loading
   bool is_init;
   std::string background_name;
@@ -47,7 +47,7 @@ protected:
   std::list<Drawable*> drawables;
 
   void init ();
-  
+
   int adv_list_lock;
   int drawable_list_lock;
 
@@ -57,11 +57,11 @@ public:
   ///
   static std::list<Scenario*> scenario_list;
 
-  Scenario (SCM name, 
+  Scenario (SCM name,
 	    std::string background, std::string colmap,
 	    std::list<AdventObj*> objects, bool with_guy = true);
   virtual ~Scenario ();
-  
+
   virtual std::string get_name () { return name; }
 
   static Scenario* get_current ();

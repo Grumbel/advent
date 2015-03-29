@@ -1,5 +1,5 @@
 //  $Id: TimeManager.hh,v 1.3 2001/07/03 06:44:12 grumbel Exp $
-// 
+//
 //  Pingus - A free Lemmings clone
 //  Copyright (C) 2000 Ingo Ruhnke <grumbel@gmx.de>
 //
@@ -12,7 +12,7 @@
 //  but WITHOUT ANY WARRANTY; without even the implied warranty of
 //  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //  GNU General Public License for more details.
-// 
+//
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
@@ -23,9 +23,9 @@
 #include <list>
 #include <guile/gh.h>
 
-struct TimedLambda 
+struct TimedLambda
 {
-  TimedLambda (int arg_triger_time, SCM arg_lambda) 
+  TimedLambda (int arg_triger_time, SCM arg_lambda)
     : triger_time (arg_triger_time),
       lambda (arg_lambda)
   {
