@@ -96,7 +96,7 @@ Animation::update (float delta)
 }
 
 void
-Animation::draw_world (int x_offset = 0, int y_offset = 0)
+Animation::draw_world (int x_offset, int y_offset)
 {
   return (*current_frame)->draw_world ();
 }

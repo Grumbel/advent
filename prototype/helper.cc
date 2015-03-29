@@ -19,6 +19,8 @@
 
 #include "helper.hh"
 
+#include <assert.h>
+
 AdventObj* scm2AdventObj (SCM smob)
 {
   AdventObjP* advobj = reinterpret_cast<AdventObjP*>(SCM_CDR (smob));
