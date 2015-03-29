@@ -5,7 +5,7 @@
 (use-modules (advent core)
 	     (oop goops))
 
-(load "../../../src/guile/engine.scm") ;; Should be a module
+(load "../../../advent/engine.scm") ;; Should be a module
 
 ;; --- Helper Stuff ;;
 

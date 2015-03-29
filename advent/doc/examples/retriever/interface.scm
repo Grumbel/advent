@@ -38,16 +38,17 @@
 
 (c:scenariolayer:set-callback
  scenario-layer
- (lambda (x y))
- (println "Event not handled: " event-type " " data)))))
+ (lambda (x y)
+   (println "Event not handled: " event-type " " data)))
 
-(cond ((game-mode?)
-       (let ((hook (person:walk-to person x y)))
-	 (c:advhook:add hook (lambda ()
-			       #f;;(println "On Target...")
-			       ))))
-      ((editor-mode?)
-       (println "Press at: " (round x) " " (round y))))))
+(if #f
+    (cond ((game-mode?)
+           (let ((hook (person:walk-to person x y)))
+             (c:advhook:add hook (lambda ()
+                                   #f;;(println "On Target...")
+                                   ))))
+          ((editor-mode?)
+           (println "Press at: " (round x) " " (round y)))))
 
 ;; Mouse Cursor Setup
 (define mouse-cursor (c:mousecursor:create))
