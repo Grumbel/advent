@@ -1,7 +1,7 @@
 //  $Id: Instantadv_hook.cxx,v 1.6 2001/10/15 18:13:24 grumbel Exp $
 //
 //  Pingus - A free Lemmings clone
-//  Copyright (C) 2000 Ingo Ruhnke <grumbel@gmx.de>
+//  Copyright (C) 2000 Ingo Ruhnke <grumbel@gmail.com>
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License

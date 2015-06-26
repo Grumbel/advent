@@ -1,7 +1,7 @@
 //  $Id: scm_functor.hxx,v 1.5 2003/09/15 20:23:53 grumbel Exp $
 // 
 //  Feuerkraft - A Tank Battle Game
-//  Copyright (C) 2002 Ingo Ruhnke <grumbel@gmx.de>
+//  Copyright (C) 2002 Ingo Ruhnke <grumbel@gmail.com>
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
