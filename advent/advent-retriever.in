@@ -1,0 +1,14 @@
+#!/usr/bin/env guile -s
+!#
+
+(load-extension "@CMAKE_INSTALL_FULL_LIBDIR@/@PROJECT_NAME@/libadvent.so" "scm_init_advent_core_module")
+
+(set! %load-path
+  (cons "@CMAKE_INSTALL_FULL_DATADIR@/@PROJECT_NAME@"
+        %load-path))
+
+(use-modules (advent core))
+(chdir "@CMAKE_INSTALL_FULL_DATADIR@/@PROJECT_NAME@/retriever")
+(primitive-load "retriever.scm")
+
+;; EOF ;;

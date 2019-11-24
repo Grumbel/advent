@@ -1,9 +1,0 @@
-#!/usr/bin/guile-1.8 \
--e main -s
-!#
-
-(set! %load-path (cons (string-append (getcwd)) %load-path))
-(chdir "doc/examples/cosmos/")
-(load "cosmos.scm")
-
-;; EOF ;;

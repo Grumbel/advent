@@ -15,9 +15,11 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 cmake_minimum_required(VERSION 3.0)
-project(feuerkraft VERSION 0.2.0)
+project(advent VERSION 0.2.0)
 
 set(WARNINGS 0 CACHE BOOL "Switch on extra warnings")
+
+include(GNUInstallDirs)
 
 if(WARNINGS)
   set(WARNINGS_CXX_FLAGS
@@ -112,5 +114,32 @@ target_include_directories(advent PUBLIC
   ${CLANSOUND_INCLUDE_DIRS}
   ${CLANMIKMOD_INCLUDE_DIRS}
   ${CLANVORBIS_INCLUDE_DIRS})
+
+install(TARGETS advent
+  LIBRARY DESTINATION ${CMAKE_INSTALL_FULL_LIBDIR}/${PROJECT_NAME})
+
+install(DIRECTORY doc/examples/ DESTINATION ${CMAKE_INSTALL_FULL_DATADIR}/${PROJECT_NAME}
+  FILES_MATCHING
+  PATTERN "*.scm"
+  PATTERN "*.png"
+  PATTERN "*.jpg")
+
+install(DIRECTORY advent DESTINATION ${CMAKE_INSTALL_FULL_DATADIR}/${PROJECT_NAME}
+  FILES_MATCHING
+  PATTERN "*.scm")
+
+configure_file(
+  ${CMAKE_CURRENT_SOURCE_DIR}/advent-cosmos.in
+  ${CMAKE_BINARY_DIR}/advent-cosmos)
+
+configure_file(
+  ${CMAKE_CURRENT_SOURCE_DIR}/advent-retriever.in
+  ${CMAKE_BINARY_DIR}/advent-retriever)
+
+install(FILES
+  ${CMAKE_BINARY_DIR}/advent-cosmos
+  ${CMAKE_BINARY_DIR}/advent-retriever
+  PERMISSIONS OWNER_EXECUTE OWNER_READ OWNER_WRITE GROUP_READ GROUP_EXECUTE WORLD_READ WORLD_EXECUTE
+  DESTINATION ${CMAKE_INSTALL_BINDIR})
 
 # EOF #
