@@ -24,7 +24,7 @@
 #include "boost/dummy_ptr.hpp"
 #include "boost/smart_ptr.hpp"
 
-#include <guile/gh.h>
+#include <libguile.h>
 #include "smob_tuple.hxx"
 #include "scm_obj.hxx"
 #include "sprite.hxx"

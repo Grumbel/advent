@@ -23,7 +23,7 @@
 #include "layer_group.hxx"
 
 extern "C" {
-  void scm_init_advent_core_module ();
+  void scm_init_advent_core_module();
 }
 
 namespace Advent {
@@ -33,7 +33,7 @@ class AdventMain
 private:
 
 public:
-  char* get_title ();
+  const char* get_title ();
   void  parse_args (int argc, char* argv[]);
 
   void  register_guile_bindings ();

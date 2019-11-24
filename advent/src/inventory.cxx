@@ -113,10 +113,10 @@ Inventory::register_guile_bindings ()
 {
   puts ("Inventory::register_guile_bindings ()");
 
-  gh_new_procedure0_0 ("c:inventory:create", &Inventory::scm_inventory_create);
-  gh_new_procedure2_0 ("c:inventory:add-advobj", &Inventory::scm_inventory_add_advobj);
-  gh_new_procedure2_0 ("c:inventory:remove-advobj", &Inventory::scm_inventory_remove_advobj);
-  gh_new_procedure2_0 ("c:inventory:set-visible", &Inventory::scm_inventory_set_visible);
+  scm_c_define_gsubr("c:inventory:create", 0, 0, 0, reinterpret_cast<scm_t_subr>(&Inventory::scm_inventory_create));
+  scm_c_define_gsubr("c:inventory:add-advobj", 2, 0, 0, reinterpret_cast<scm_t_subr>(&Inventory::scm_inventory_add_advobj));
+  scm_c_define_gsubr("c:inventory:remove-advobj", 2, 0, 0, reinterpret_cast<scm_t_subr>(&Inventory::scm_inventory_remove_advobj));
+  scm_c_define_gsubr("c:inventory:set-visible", 2, 0, 0, reinterpret_cast<scm_t_subr>(&Inventory::scm_inventory_set_visible));
 }
 
 /*
@@ -127,7 +127,7 @@ Inventory::mark (SCM smob)
   return SCM_BOOL_F;
 }
 
-scm_sizet
+size_t
 Inventory::free (SCM smob)
 {
   delete smob_cast<Inventory> (smob);
@@ -173,7 +173,7 @@ Inventory::scm_inventory_remove_advobj (SCM scm_inventory, SCM scm_obj)
 SCM
 Inventory::scm_inventory_set_visible (SCM scm_inventory, SCM obj)
 {
-  smobbox_cast<Inventory>(scm_inventory)->set_visible (gh_scm2bool (obj));
+  smobbox_cast<Inventory>(scm_inventory)->set_visible (scm_to_bool (obj));
   return SCM_UNSPECIFIED;
 }
 

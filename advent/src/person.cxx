@@ -17,7 +17,7 @@
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
-#include <guile/gh.h>
+#include <libguile.h>
 #include "scm_converter.hxx"
 #include "delayed_adv_hook.hxx"
 #include "scenario.hxx"
@@ -168,15 +168,15 @@ Person::register_guile_bindings ()
 {
   puts ("Person::register_guile_bindings ()");
 
-  gh_new_procedure2_0("c:person:set-gfx", &Person::scm_person_set_gfx);
-  gh_new_procedure1_0("c:person:create", &Person::scm_person_create);
-  gh_new_procedure3_0("c:person:set-position", &Person::scm_person_set_position);
-  gh_new_procedure3_0("c:person:set-target", &Person::scm_person_set_target);
-  gh_new_procedure2_0("c:person:set-scenario", &Person::scm_person_set_scenario);
-  gh_new_procedure1_0("c:person:get-scenario", &Person::scm_person_get_scenario);
-  gh_new_procedure2_0("c:person:set-direction", &Person::scm_person_set_direction);
-  gh_new_procedure2_0("c:person:set-catchable", &Person::scm_person_set_catchable);
-  gh_new_procedure1_0("c:person:get-position", &Person::scm_person_get_position);
+  scm_c_define_gsubr("c:person:set-gfx", 2, 0, 0, reinterpret_cast<scm_t_subr>(&Person::scm_person_set_gfx));
+  scm_c_define_gsubr("c:person:create", 1, 0, 0, reinterpret_cast<scm_t_subr>(&Person::scm_person_create));
+  scm_c_define_gsubr("c:person:set-position", 3, 0, 0, reinterpret_cast<scm_t_subr>(&Person::scm_person_set_position));
+  scm_c_define_gsubr("c:person:set-target", 3, 0, 0, reinterpret_cast<scm_t_subr>(&Person::scm_person_set_target));
+  scm_c_define_gsubr("c:person:set-scenario", 2, 0, 0, reinterpret_cast<scm_t_subr>(&Person::scm_person_set_scenario));
+  scm_c_define_gsubr("c:person:get-scenario", 1, 0, 0, reinterpret_cast<scm_t_subr>(&Person::scm_person_get_scenario));
+  scm_c_define_gsubr("c:person:set-direction", 2, 0, 0, reinterpret_cast<scm_t_subr>(&Person::scm_person_set_direction));
+  scm_c_define_gsubr("c:person:set-catchable", 2, 0, 0, reinterpret_cast<scm_t_subr>(&Person::scm_person_set_catchable));
+  scm_c_define_gsubr("c:person:get-position", 1, 0, 0, reinterpret_cast<scm_t_subr>(&Person::scm_person_get_position));
 }
 /*
 SCM
@@ -193,7 +193,7 @@ Person::mark (SCM smob)
     }
 }
 
-scm_sizet
+size_t
 Person::free (SCM smob)
 {
   if (gc_free_enabled)
@@ -263,8 +263,8 @@ SCM
 Person::scm_person_set_position (SCM scm_person, SCM x_pos, SCM y_pos)
 {
   Person* person = smobbox_cast<Person>(scm_person);
-  person->pos.x = gh_scm2double (x_pos);
-  person->pos.y = gh_scm2double (y_pos);
+  person->pos.x = scm_to_double (x_pos);
+  person->pos.y = scm_to_double (y_pos);
 
   person->target = person->pos;
 
@@ -276,28 +276,28 @@ Person::scm_person_get_position (SCM scm_person)
 {
   Person* person = smobbox_cast<Person>(scm_person);
 
-  return gh_cons (gh_double2scm (person->pos.x), gh_double2scm (person->pos.y));
+  return scm_cons (scm_from_double (person->pos.x), scm_from_double (person->pos.y));
 }
 
 SCM
 Person::scm_person_set_target (SCM scm_person, SCM x_pos, SCM y_pos)
 {
   Person* person = smobbox_cast<Person>(scm_person);
-  return person->set_target (CL_Vector(gh_scm2double (x_pos), gh_scm2double (y_pos)));
+  return person->set_target (CL_Vector(scm_to_double (x_pos), scm_to_double (y_pos)));
 }
 
 SCM
 Person::scm_person_set_direction (SCM scm_person, SCM scm_angle)
 {
   Person* person = smobbox_cast<Person>(scm_person);
-  person->set_direction (gh_scm2double (scm_angle));
+  person->set_direction (scm_to_double (scm_angle));
   return SCM_UNSPECIFIED;
 }
 
 SCM
 Person::scm_person_set_catchable (SCM scm_person, SCM scm_catchable)
 {
-  smobbox_cast<Person>(scm_person)->set_catchable (gh_scm2bool (scm_catchable));
+  smobbox_cast<Person>(scm_person)->set_catchable (scm_to_bool (scm_catchable));
   return scm_person;
 }
 

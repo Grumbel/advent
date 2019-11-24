@@ -20,7 +20,7 @@
 #ifndef SURFACECOLMAP_HXX
 #define SURFACECOLMAP_HXX
 
-#include <guile/gh.h>
+#include <libguile.h>
 #include <string>
 #include <ClanLib/display.h>
 

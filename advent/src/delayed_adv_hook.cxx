@@ -20,6 +20,8 @@
 #include "scm_converter.hxx"
 #include "delayed_adv_hook.hxx"
 
+#include <libguile.h>
+
 /// The uniq id of this object type, only used by the guile internals
 int DelayedAdvHook::hook_count;
 
@@ -37,7 +39,7 @@ void
 DelayedAdvHook::add (SCM scm)
 {
   //std::cout << "DelayedAdvHook: adding hook" << std::endl;
-  if (gh_procedure_p (scm))
+  if (scm_is_true(scm_procedure_p(scm)))
     {
       finish.push_back (SCMObj(scm));
     }
@@ -54,7 +56,7 @@ DelayedAdvHook::call ()
   for (std::list<SCMObj>::iterator i = finish.begin ();
        i != finish.end (); ++i)
     {
-      gh_call0 (i->get_scm ());
+      scm_call_0 (i->get_scm ());
     }
 }
 
@@ -67,14 +69,14 @@ DelayedAdvHook::scm_delayed_advhook_create ()
 void
 DelayedAdvHook::register_guile_bindings ()
 {
-  gh_new_procedure1_0 ("c:delayed-advhook?", scm_delayed_advhook_p);
-  gh_new_procedure0_0 ("c:delayed-advhook:create", scm_delayed_advhook_create);
+  scm_c_define_gsubr("c:delayed-advhook?", 1, 0, 0, reinterpret_cast<scm_t_subr>(scm_delayed_advhook_p));
+  scm_c_define_gsubr("c:delayed-advhook:create", 0, 0, 0, reinterpret_cast<scm_t_subr>(scm_delayed_advhook_create));
 }
 
 SCM
 DelayedAdvHook::scm_delayed_advhook_p (SCM hook)
 {
-  return gh_bool2scm(smobbox_check<DelayedAdvHook>(hook));
+  return scm_from_bool(smobbox_check<DelayedAdvHook>(hook));
 }
 
 /* EOF */

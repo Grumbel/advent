@@ -20,7 +20,7 @@
 #ifndef COINLAYER_HXX
 #define COINLAYER_HXX
 
-#include <guile/gh.h>
+#include <libguile.h>
 #include "layer.hxx"
 #include "sprite.hxx"
 #include "scm_obj.hxx"
@@ -65,7 +65,7 @@ private:
   static long tag;
 
   static SCM mark (SCM smob);
-  static scm_sizet free (SCM smob);
+  static size_t free (SCM smob);
   static int print (SCM image_smob, SCM port, scm_print_state *pstate);
 
 public:

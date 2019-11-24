@@ -27,8 +27,8 @@ namespace Advent {
 void
 AdvObj::register_guile_bindings ()
 {
-  gh_new_procedure2_0 ("c:advobj:set-inventory-sprite",
-		       &AdvObj::scm_advobj_set_inventory_sprite);
+  scm_c_define_gsubr("c:advobj:set-inventory-sprite", 2, 0, 0,
+                     reinterpret_cast<scm_t_subr>(&AdvObj::scm_advobj_set_inventory_sprite));
 }
 
 SCM
@@ -42,10 +42,10 @@ void
 AdvObj::on_click ()
 {
   puts ("AdvObj::on_click ()");
-  SCM func = gh_lookup("adv:on-click");
+  SCM func = scm_variable_ref(scm_c_lookup ("adv:on-click"));
   if (func != SCM_BOOL_F)
     {
-      gh_call1 (func, get_scm());
+      scm_call_1 (func, get_scm());
     }
   else
     {

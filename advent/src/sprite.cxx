@@ -35,20 +35,20 @@ Sprite::cast (SCM smob)
 void
 Sprite::register_guile_bindings ()
 {
-  gh_new_procedure1_0 ("c:sprite:get-width", scm_sprite_get_width);
-  gh_new_procedure1_0 ("c:sprite:get-height", scm_sprite_get_height);
+  scm_c_define_gsubr("c:sprite:get-width", 1, 0, 0, reinterpret_cast<scm_t_subr>(&scm_sprite_get_width));
+  scm_c_define_gsubr("c:sprite:get-height", 1, 0, 0, reinterpret_cast<scm_t_subr>(&scm_sprite_get_height));
 }
 
 SCM
 Sprite::scm_sprite_get_width (SCM scm_sprite)
 {
-  return gh_int2scm(checked_smob_cast<SpriteSmob>(scm_sprite)->get_child ()->get_width ());
+  return scm_from_int(checked_smob_cast<SpriteSmob>(scm_sprite)->get_child ()->get_width ());
 }
 
 SCM
 Sprite::scm_sprite_get_height (SCM scm_sprite)
 {
-  return gh_int2scm(checked_smob_cast<SpriteSmob>(scm_sprite)->get_child ()->get_height ());
+  return scm_from_int(checked_smob_cast<SpriteSmob>(scm_sprite)->get_child ()->get_height ());
 }
 
 } // namespace Advent

@@ -53,7 +53,7 @@ AdvHookSmob::mark (SCM smob)
   return SCM_BOOL_F;
 }
 
-scm_sizet
+size_t
 AdvHookSmob::free (SCM smob)
 {
   AdvHookSmob* drawable = unchecked_smob_cast<AdvHookSmob>(smob);

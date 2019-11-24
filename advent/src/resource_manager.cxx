@@ -20,6 +20,7 @@
 #include "scm_converter.hxx"
 #include "surface_sprite.hxx"
 #include "resource_manager.hxx"
+#include "util.hxx"
 
 namespace Advent {
 
@@ -51,15 +52,15 @@ ResourceManager::get_sprite (const std::string& str)
 void
 ResourceManager::register_guile_bindings ()
 {
-  gh_new_procedure1_0("c:resourcemanager:get", ResourceManager::scm_resourcemanager_get);
+  scm_c_define_gsubr("c:resourcemanager:get", 1, 0, 0, reinterpret_cast<scm_t_subr>(&ResourceManager::scm_resourcemanager_get));
 }
 
 SCM
 ResourceManager::scm_resourcemanager_get (SCM resource_id)
 {
-  assert (gh_string_p (resource_id));
+  assert (scm_is_string(resource_id));
   // FIXME: Should be replaced with a factory pattern
-  return ResourceManager::instance()->get (SCM_CHARS (resource_id));
+  return ResourceManager::instance()->get (scm_to_cxxstring (resource_id));
 }
 
 } // namespace Advent

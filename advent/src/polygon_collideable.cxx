@@ -130,8 +130,8 @@ void
 PolygonCollideable::register_guile_bindings ()
 {
   puts ("PolygonCollideable::register_guile_bindings ()");
-  gh_new_procedure1_0 ("c:polygon-collideable:create",
-		       &PolygonCollideable::scm_polygon_collideable_create);
+  scm_c_define_gsubr("c:polygon-collideable:create", 1, 0, 0,
+		       reinterpret_cast<scm_t_subr>(&PolygonCollideable::scm_polygon_collideable_create));
 }
 
 SCM
@@ -141,12 +141,12 @@ PolygonCollideable::scm_polygon_collideable_create (SCM point_lst)
 
   while (point_lst != SCM_EOL)
     {
-      int x = gh_scm2int(gh_car(point_lst));
-      point_lst = gh_cdr(point_lst);
+      int x = scm_to_int(scm_car(point_lst));
+      point_lst = scm_cdr(point_lst);
       if (point_lst != SCM_EOL)
 	{
-	  int y = gh_scm2int(gh_car(point_lst));
-	  point_lst = gh_cdr(point_lst);
+	  int y = scm_to_int(scm_car(point_lst));
+	  point_lst = scm_cdr(point_lst);
 
 	  points.push_back(CL_Vector (x, y));
 	}

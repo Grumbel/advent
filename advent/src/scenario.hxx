@@ -20,7 +20,7 @@
 #ifndef SCENARIO_HXX
 #define SCENARIO_HXX
 
-#include <guile/gh.h>
+#include <libguile.h>
 #include "adv_obj.hxx"
 #include "drawable_display.hxx"
 #include "layer.hxx"
@@ -89,7 +89,7 @@ public:
   static void register_guile_bindings ();
 
   static SCM mark (SCM smob);
-  static scm_sizet free (SCM smob);
+  static size_t free (SCM smob);
   static int print (SCM image_smob, SCM port, scm_print_state *pstate);
 
   static SCM scm_scenario_create (SCM arg_scenario);

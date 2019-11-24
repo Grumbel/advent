@@ -19,6 +19,7 @@
 
 #include "scm_converter.hxx"
 #include "font_sprite.hxx"
+#include "util.hxx"
 
 namespace Advent {
 
@@ -29,7 +30,7 @@ FontSprite::FontSprite (const std::string& font_str, const std::string& m)
   // FIXME: Hack, replace with something real
   try {
     font = new CL_Font (font_str.c_str (),
-                        new CL_ResourceManager("images/resources.scr", false));
+                        new CL_ResourceManager("images/resources.scr"));
   } catch (CL_Error& err) {
     std::cout << "CL_Error: " << err.message << std::endl;
   }
@@ -65,7 +66,7 @@ FontSprite::update (float delta)
       && remove_hook.get_scm () != SCM_BOOL_F)
     {
       //std::cout << "FontSprite::update (float delta): Calling remove hook (unimp)" << std::endl;
-      gh_call0 (remove_hook.get_scm ());
+      scm_call_0 (remove_hook.get_scm ());
       remove_hook.set_scm (SCM_BOOL_F);
     }
 }
@@ -134,9 +135,9 @@ FontSprite::register_guile_bindings ()
 {
   puts ("FontSprite::register_guile_bindings ()");
 
-  gh_new_procedure2_0("c:font-sprite:create", &FontSprite::scm_font_sprite_create);
-  gh_new_procedure2_0("c:font-sprite:set-text", &FontSprite::scm_font_sprite_set_text);
-  gh_new_procedure2_0("c:font-sprite:set-remove-hook", &FontSprite::scm_font_sprite_set_remove_hook);
+  scm_c_define_gsubr("c:font-sprite:create", 2, 0, 0, reinterpret_cast<scm_t_subr>(&FontSprite::scm_font_sprite_create));
+  scm_c_define_gsubr("c:font-sprite:set-text", 2, 0, 0, reinterpret_cast<scm_t_subr>(&FontSprite::scm_font_sprite_set_text));
+  scm_c_define_gsubr("c:font-sprite:set-remove-hook", 2, 0, 0, reinterpret_cast<scm_t_subr>(&FontSprite::scm_font_sprite_set_remove_hook));
 }
 /*
 SCM
@@ -145,7 +146,7 @@ FontSprite::mark (SCM smob)
   return SCM_BOOL_F;
 }
 
-scm_sizet
+size_t
 FontSprite::free (SCM smob)
 {
   delete smob_cast<FontSprite>(smob);
@@ -162,14 +163,14 @@ FontSprite::print (SCM image_smob, SCM port, scm_print_state *pstate)
 SCM
 FontSprite::scm_font_sprite_create (SCM scm_font, SCM message)
 {
-  assert(gh_string_p (message));
-  return SpriteSmob::create (new FontSprite (SCM_CHARS (scm_font), SCM_CHARS (message)));
+  assert(scm_is_string (message));
+  return SpriteSmob::create (new FontSprite (scm_to_cxxstring (scm_font), scm_to_cxxstring (message)));
 }
 
 SCM
 FontSprite::scm_font_sprite_set_text (SCM sprite, SCM scm_message)
 {
-  smobbox_cast<FontSprite>(sprite)->message = SCM_CHARS (scm_message);
+  smobbox_cast<FontSprite>(sprite)->message = scm_to_cxxstring (scm_message);
   return sprite;
 }
 

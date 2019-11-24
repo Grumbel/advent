@@ -77,11 +77,11 @@ SpriteDrawable::register_guile_bindings ()
 {
   puts ("SpriteDrawable::register_guile_bindings ()");
 
-  gh_new_procedure4_0("c:sprite-drawable:create",  &SpriteDrawable::scm_sprite_drawable_create);
-  gh_new_procedure4_0("c:sprite-drawable:set-position", &SpriteDrawable::scm_sprite_drawable_set_pos);
-  gh_new_procedure1_0("c:sprite-drawable:get-position", &SpriteDrawable::scm_sprite_drawable_get_pos);
-  gh_new_procedure1_0("c:sprite-drawable:get-sprite", &SpriteDrawable::scm_sprite_drawable_get_sprite);
-  gh_new_procedure2_0("c:sprite-drawable:set-uncrop", &SpriteDrawable::scm_sprite_drawable_set_uncrop);
+  scm_c_define_gsubr("c:sprite-drawable:create", 4, 0, 0,  reinterpret_cast<scm_t_subr>(&SpriteDrawable::scm_sprite_drawable_create));
+  scm_c_define_gsubr("c:sprite-drawable:set-position", 4, 0, 0, reinterpret_cast<scm_t_subr>(&SpriteDrawable::scm_sprite_drawable_set_pos));
+  scm_c_define_gsubr("c:sprite-drawable:get-position", 1, 0, 0, reinterpret_cast<scm_t_subr>(&SpriteDrawable::scm_sprite_drawable_get_pos));
+  scm_c_define_gsubr("c:sprite-drawable:get-sprite", 1, 0, 0, reinterpret_cast<scm_t_subr>(&SpriteDrawable::scm_sprite_drawable_get_sprite));
+  scm_c_define_gsubr("c:sprite-drawable:set-uncrop", 2, 0, 0, reinterpret_cast<scm_t_subr>(&SpriteDrawable::scm_sprite_drawable_set_uncrop));
 }
 /*
 SCM
@@ -90,7 +90,7 @@ SpriteDrawable::mark (SCM smob)
   return smob_cast<SpriteDrawable>(smob)->sprite.get_scm ();
 }
 
-scm_sizet
+size_t
 SpriteDrawable::free (SCM smob)
 {
   SpriteDrawable* drawable = smob_cast<SpriteDrawable>(smob);
@@ -111,25 +111,25 @@ SpriteDrawable::scm_sprite_drawable_create (SCM scm_sprite, SCM x_align, SCM y_a
 {
   SpriteDrawable* drawable;
   drawable = new SpriteDrawable (scm_sprite,
-				 CL_Vector (gh_scm2double (x_align),
-					    gh_scm2double (y_align),
-					    gh_scm2double (z_align)));
+				 CL_Vector (scm_to_double (x_align),
+					    scm_to_double (y_align),
+					    scm_to_double (z_align)));
   return DrawableSmob::create (drawable);
 }
 
 SCM
 SpriteDrawable::scm_sprite_drawable_set_uncrop (SCM scm_drawable, SCM scm_uncrop)
 {
-  smobbox_cast<SpriteDrawable>(scm_drawable)->uncrop = gh_scm2bool(scm_uncrop);
+  smobbox_cast<SpriteDrawable>(scm_drawable)->uncrop = scm_to_bool(scm_uncrop);
   return SCM_UNSPECIFIED;
 }
 
 SCM
 SpriteDrawable::scm_sprite_drawable_set_pos (SCM drawable, SCM x_pos, SCM y_pos, SCM z_pos)
 {
-  smobbox_cast<SpriteDrawable>(drawable)->pos = CL_Vector (gh_scm2double (x_pos),
-								    gh_scm2double (y_pos),
-								    gh_scm2double (z_pos));
+  smobbox_cast<SpriteDrawable>(drawable)->pos = CL_Vector (scm_to_double (x_pos),
+                                                           scm_to_double (y_pos),
+                                                           scm_to_double (z_pos));
   return SCM_UNSPECIFIED;
 }
 
@@ -137,7 +137,7 @@ SCM
 SpriteDrawable::scm_sprite_drawable_get_pos (SCM scm_drawable)
 {
   CL_Vector& pos = smobbox_cast<SpriteDrawable>(scm_drawable)->pos;
-  return gh_list (gh_double2scm(pos.x), gh_double2scm(pos.y), gh_double2scm(pos.z));
+  return scm_list_3(scm_from_double(pos.x), scm_from_double(pos.y), scm_from_double(pos.z));
 }
 
 SCM

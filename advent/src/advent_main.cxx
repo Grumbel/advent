@@ -74,7 +74,7 @@ extern "C" {
 void scm_init_oop_goops_goopscore_module (void);
 }
 
-void init_app_advent_core ()
+void init_app_advent_core (void* userdata)
 {
   std::cout << "------ scm_init_app_advent_core ----------" << std::endl;
   Advent::app.init_advent ();
@@ -85,7 +85,7 @@ extern "C" {
   void scm_init_advent_core_module ()
   {
     std::cout << "scm_init_app_advent_core" << std::endl;
-    scm_register_module_xxx ("advent core", (void*)&init_app_advent_core);
+    scm_c_define_module ("advent core", &init_app_advent_core, NULL);
   }
 }
 
@@ -97,7 +97,7 @@ SCM advent_main_loop ()
 
 namespace Advent {
 
-char*
+const char*
 AdventMain::get_title ()
 {
   return "Advent V0.1.0";
@@ -114,7 +114,7 @@ AdventMain::register_guile_bindings ()
 {
   std::cout << " *** Registering: start **************" << std::endl;
 
-  gh_new_procedure0_0 ("advent:main-loop", &advent_main_loop);
+  scm_c_define_gsubr("advent:main-loop", 0, 0, 0, reinterpret_cast<scm_t_subr>(&advent_main_loop));
 
   SpriteDrawable::register_guile_bindings ();
   Scenario::register_guile_bindings ();
@@ -181,10 +181,13 @@ AdventMain::init_advent ()
   std::cout << "Advent Final 0.1.0" << std::endl;
 
   // Debuging on
+#if 0
+  // FIXME: disabled when porting to guile-2.2
   SCM_DEVAL_P = 1;
   SCM_BACKTRACE_P = 1;
   SCM_RECORD_POSITIONS_P = 1;
   SCM_RESET_DEBUG_MODE;
+#endif
 
 #ifdef ADVENT_STATIC
   std::cout << "..:: Static binary ::.." << std::endl;

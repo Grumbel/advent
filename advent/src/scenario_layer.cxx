@@ -47,9 +47,9 @@ ScenarioLayer::update (float delta)
     {
       //std::cout << "Trying to call callback" << std::endl;
       if (obj)
-	gh_call1 (mouse_over_callback.get_scm (), obj->get_scm ());
+	scm_call_1 (mouse_over_callback.get_scm (), obj->get_scm ());
       else
-	gh_call1 (mouse_over_callback.get_scm (), SCM_BOOL_F);
+	scm_call_1 (mouse_over_callback.get_scm (), SCM_BOOL_F);
 
       last_obj = obj;
       //std::cout << "Trying to call callback: done" << std::endl;
@@ -111,7 +111,7 @@ ScenarioLayer::on_button_press (const CL_InputEvent& key)
       else
 	{
 	  if (callback != SCM_BOOL_F)
-	    gh_call2 (callback, gh_double2scm (pos.x), gh_double2scm (pos.y));
+	    scm_call_2 (callback, scm_from_double (pos.x), scm_from_double (pos.y));
 	}
     }
   else if (key.id == CL_MOUSE_MIDDLE)
@@ -135,16 +135,16 @@ ScenarioLayer::register_guile_bindings ()
 {
   puts ("ScenarioLayer::register_guile_bindings ()");
 
-  gh_new_procedure2_0 ("c:scenariolayer:set-person",
-		       &ScenarioLayer::scm_scenariolayer_set_person);
-  gh_new_procedure0_0 ("c:scenariolayer:create",
-		       &ScenarioLayer::scm_scenariolayer_create);
-  gh_new_procedure2_0 ("c:scenariolayer:set-callback",
-		       scm_scenariolayer_set_callback);
-  gh_new_procedure2_0 ("c:scenariolayer:set-mouse-over-callback",
-		       scm_scenariolayer_set_mouse_over_callback);
-  gh_new_procedure1_0 ("c:scenariolayer:mouse-update",
-		       scm_scenariolayer_mouse_update);
+  scm_c_define_gsubr("c:scenariolayer:set-person", 2, 0, 0,
+                     reinterpret_cast<scm_t_subr>(&ScenarioLayer::scm_scenariolayer_set_person));
+  scm_c_define_gsubr("c:scenariolayer:create", 0, 0, 0,
+                     reinterpret_cast<scm_t_subr>(&ScenarioLayer::scm_scenariolayer_create));
+  scm_c_define_gsubr("c:scenariolayer:set-callback", 2, 0, 0,
+                     reinterpret_cast<scm_t_subr>(&ScenarioLayer::scm_scenariolayer_set_callback));
+  scm_c_define_gsubr("c:scenariolayer:set-mouse-over-callback", 2, 0, 0,
+                     reinterpret_cast<scm_t_subr>(&ScenarioLayer::scm_scenariolayer_set_mouse_over_callback));
+  scm_c_define_gsubr("c:scenariolayer:mouse-update", 1, 0, 0,
+                     reinterpret_cast<scm_t_subr>(&ScenarioLayer::scm_scenariolayer_mouse_update));
 }
 /*
 SCM
@@ -153,7 +153,7 @@ ScenarioLayer::mark (SCM smob)
   return SCM_BOOL_F; //FIXME:smob_cast<ScenarioLayer>(smob)->callback;
 }
 
-scm_sizet
+size_t
 ScenarioLayer::free (SCM smob)
 {
   //FIXME:delete smob_cast<ScenarioLayer>(smob);
@@ -207,9 +207,9 @@ ScenarioLayer::scm_scenariolayer_mouse_update (SCM scm_layer)
   if (layer->mouse_over_callback.get_scm () != SCM_BOOL_F)
     {
       if (obj)
-	gh_call1 (layer->mouse_over_callback.get_scm (), obj->get_scm ());
+	scm_call_1 (layer->mouse_over_callback.get_scm (), obj->get_scm ());
       else
-	gh_call1 (layer->mouse_over_callback.get_scm (), SCM_BOOL_F);
+	scm_call_1 (layer->mouse_over_callback.get_scm (), SCM_BOOL_F);
 
       layer->last_obj = obj;
     }

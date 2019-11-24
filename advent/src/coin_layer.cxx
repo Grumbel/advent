@@ -98,8 +98,8 @@ void
 CoinLayer::call_action (const CL_Vector& offset)
 {
   if (click_func.get_scm () != SCM_BOOL_F)
-    gh_call3 (click_func.get_scm (), object.get_scm (),
-	      gh_double2scm (offset.x), gh_double2scm (offset.y));
+    scm_call_3 (click_func.get_scm (), object.get_scm (),
+                scm_from_double (offset.x), scm_from_double (offset.y));
 }
 
 void
@@ -118,12 +118,12 @@ CoinLayer::register_guile_bindings ()
 {
   puts ("CoinLayer::register_guile_bindings ()");
 
-  gh_new_procedure0_0 ("c:coinlayer:create", &CoinLayer::scm_coinlayer_create);
+  scm_c_define_gsubr("c:coinlayer:create", 0, 0, 0, reinterpret_cast<scm_t_subr>(&CoinLayer::scm_coinlayer_create));
 
-  gh_new_procedure2_0 ("c:coinlayer:enable", &CoinLayer::scm_coinlayer_enable);
-  gh_new_procedure1_0 ("c:coinlayer:disable", &CoinLayer::scm_coinlayer_disable);
+  scm_c_define_gsubr("c:coinlayer:enable", 2, 0, 0, reinterpret_cast<scm_t_subr>(&CoinLayer::scm_coinlayer_enable));
+  scm_c_define_gsubr("c:coinlayer:disable", 1, 0, 0, reinterpret_cast<scm_t_subr>(&CoinLayer::scm_coinlayer_disable));
 
-  gh_new_procedure2_0 ("c:coinlayer:set-click-func", &CoinLayer::scm_coinlayer_set_click_func);
+  scm_c_define_gsubr("c:coinlayer:set-click-func", 2, 0, 0, reinterpret_cast<scm_t_subr>(&CoinLayer::scm_coinlayer_set_click_func));
 }
 
 /*
@@ -135,7 +135,7 @@ CoinLayer::mark (SCM smob)
   return layer->click_func.get_scm ();
 }
 
-scm_sizet
+size_t
 CoinLayer::free (SCM smob)
 {
   delete unchecked_smob_cast<CoinLayer>(smob);

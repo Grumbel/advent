@@ -67,7 +67,7 @@ private:
   static long tag;
 public:
   static SCM mark (SCM smob);
-  static scm_sizet free (SCM smob);
+  static size_t free (SCM smob);
   static int print (SCM image_smob, SCM port, scm_print_state *pstate);
 
   static long get_smob_tag () { return tag; }

@@ -55,7 +55,8 @@ public:
       {
 	std::cout << "SmobTuple: Warring data = 0: "  << typeid (T).name () << std::endl;
 	std::cout << "SmobTuple: Type: " << std::flush;
-	gh_display (scm); gh_newline ();
+	scm_display(scm, scm_current_output_port());
+        scm_newline(scm_current_output_port());
       }
     return data;
   }

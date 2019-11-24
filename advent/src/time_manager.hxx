@@ -21,7 +21,7 @@
 #define TIMEMANAGER_HH
 
 #include <list>
-#include <guile/gh.h>
+#include <libguile.h>
 #include "boost/smart_ptr.hpp"
 #include "layer.hxx"
 

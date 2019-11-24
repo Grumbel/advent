@@ -23,7 +23,7 @@
 #include <string>
 #include <ClanLib/display.h>
 #include <ClanLib/core.h>
-#include <guile/gh.h>
+#include <libguile.h>
 #include "boost/dummy_ptr.hpp"
 #include "view.hxx"
 #include "sprite.hxx"

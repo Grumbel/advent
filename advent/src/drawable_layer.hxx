@@ -20,7 +20,7 @@
 #ifndef DRAWABLELAYER_HXX
 #define DRAWABLELAYER_HXX
 
-#include <guile/gh.h>
+#include <libguile.h>
 #include "smob_tuple.hxx"
 #include "drawable.hxx"
 #include "layer.hxx"

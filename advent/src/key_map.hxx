@@ -21,7 +21,7 @@
 #define KEYMAP_HXX
 
 #include <map>
-#include <guile/gh.h>
+#include <libguile.h>
 #include "scm_obj.hxx"
 #include "scm_converter.hxx"
 
@@ -47,7 +47,7 @@ public:
   static void register_guile_bindings ();
 
   static SCM mark (SCM smob);
-  static scm_sizet free (SCM smob);
+  static size_t free (SCM smob);
   static int print (SCM image_smob, SCM port, scm_print_state *pstate);
 
   static SCM scm_keymap_create ();

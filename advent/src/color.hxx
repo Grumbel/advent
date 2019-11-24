@@ -21,7 +21,7 @@
 #define COLOR_HXX
 
 #include <stdio.h>
-#include <guile/gh.h>
+#include <libguile.h>
 
 class Color
 {
@@ -39,25 +39,25 @@ public:
 
   Color (SCM scm_color)
   {
-    if (gh_length (scm_color) == 4)
+    if (scm_to_size_t(scm_length(scm_color)) == 4)
       {
-	r = gh_scm2double(gh_car(scm_color));
-	g = gh_scm2double(gh_cadr(scm_color));
-	b = gh_scm2double(gh_caddr(scm_color));
-	a = gh_scm2double(gh_car(gh_cdddr(scm_color)));
+	r = scm_to_double(scm_car(scm_color));
+	g = scm_to_double(scm_cadr(scm_color));
+	b = scm_to_double(scm_caddr(scm_color));
+	a = scm_to_double(scm_car(scm_cdddr(scm_color)));
       }
-    else if (gh_length (scm_color) == 3)
+    else if (scm_to_size_t(scm_length(scm_color)) == 3)
       {
-	r = gh_scm2double(gh_car(scm_color));
-	g = gh_scm2double(gh_cadr(scm_color));
-	b = gh_scm2double(gh_caddr(scm_color));
+	r = scm_to_double(scm_car(scm_color));
+	g = scm_to_double(scm_cadr(scm_color));
+	b = scm_to_double(scm_caddr(scm_color));
 	a = 1.0;
       }
     else
       {
 	puts ("Color: Invalid color format: ");
-	gh_display (scm_color);
-	gh_newline ();
+	scm_display (scm_color, scm_current_output_port());
+	scm_newline (scm_current_output_port());
       }
   }
 

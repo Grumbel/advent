@@ -55,7 +55,7 @@ CollideableSmob::mark (SCM smob)
   return SCM_BOOL_F;
 }
 
-scm_sizet
+size_t
 CollideableSmob::free (SCM smob)
 {
   CollideableSmob* drawable = unchecked_smob_cast<CollideableSmob>(smob);

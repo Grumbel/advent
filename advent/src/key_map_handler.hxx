@@ -20,7 +20,7 @@
 #ifndef KEYMAPHANDLER_HXX
 #define KEYMAPHANDLER_HXX
 
-#include <guile/gh.h>
+#include <libguile.h>
 #include <ClanLib/display.h>
 #include "key_map.hxx"
 #include "static_smob_tuple.hxx"
@@ -48,7 +48,7 @@ public:
   static void register_guile_bindings ();
 
   static SCM mark (SCM smob);
-  static scm_sizet free (SCM smob);
+  static size_t free (SCM smob);
   static int print (SCM image_smob, SCM port, scm_print_state *pstate);
 
   static SCM scm_keymaphandler_create ();

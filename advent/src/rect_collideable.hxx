@@ -20,7 +20,7 @@
 #ifndef RECTCOLLIDEABLE_HXX
 #define RECTCOLLIDEABLE_HXX
 
-#include <guile/gh.h>
+#include <libguile.h>
 #include <ClanLib/core.h>
 #include "collideable.hxx"
 

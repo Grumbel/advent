@@ -21,7 +21,7 @@
 #define LAYERSCREEN_HXX
 
 #include <list>
-#include <guile/gh.h>
+#include <libguile.h>
 #include "boost/dummy_ptr.hpp"
 #include "boost/smart_ptr.hpp"
 

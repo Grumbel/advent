@@ -83,8 +83,8 @@ void
 SpriteGroup::register_guile_bindings ()
 {
   std::cout << "SpriteGroup::register_guile_bindings ()" << std::endl;
-  gh_new_procedure0_0 ("c:sprite-group:create", &SpriteGroup::scm_sprite_group_create);
-  gh_new_procedure4_0 ("c:sprite-group:add", &SpriteGroup::scm_sprite_group_add);
+  scm_c_define_gsubr("c:sprite-group:create", 0, 0, 0, reinterpret_cast<scm_t_subr>(&SpriteGroup::scm_sprite_group_create));
+  scm_c_define_gsubr("c:sprite-group:add", 4, 0, 0, reinterpret_cast<scm_t_subr>(&SpriteGroup::scm_sprite_group_add));
 }
 
 SCM
@@ -98,8 +98,8 @@ SCM
 SpriteGroup::scm_sprite_group_add (SCM scm_spritegroup, SCM scm_sprite, SCM x_offset, SCM y_offset)
 {
   smobbox_cast<SpriteGroup>(scm_spritegroup)->add_sprite (scm_sprite,
-							  gh_scm2int (x_offset),
-							  gh_scm2int (y_offset));
+							  scm_to_int (x_offset),
+							  scm_to_int (y_offset));
   return SCM_UNSPECIFIED;
 }
 

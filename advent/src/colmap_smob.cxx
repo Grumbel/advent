@@ -56,7 +56,7 @@ ColMapSmob::mark (SCM smob)
   return SCM_BOOL_F;
 }
 
-scm_sizet
+size_t
 ColMapSmob::free (SCM smob)
 {
   ColMapSmob* drawable = unchecked_smob_cast<ColMapSmob>(smob);

@@ -28,14 +28,14 @@ namespace Advent {
 void
 Display::register_guile_bindings ()
 {
-  gh_new_procedure3_0 ("c:display:setup", &Display::scm_display_setup);
+  scm_c_define_gsubr("c:display:setup", 3, 0, 0, reinterpret_cast<scm_t_subr>(&Display::scm_display_setup));
 }
 
 SCM
 Display::scm_display_setup (SCM s_width, SCM s_height, SCM fullscreen)
 {
-  int width  = scm_num2int(s_width,  1, "scm_display_setup");
-  int height = scm_num2int(s_height, 2, "scm_display_setup");
+  int width  = scm_to_int(s_width);
+  int height = scm_to_int(s_height);
 
   std::cout << "Display::scm_display_setup: " << width << "x" << height << std::endl;
 

@@ -20,7 +20,7 @@
 #ifndef FADEOUTLAYER_HH
 #define FADEOUTLAYER_HH
 
-#include <guile/gh.h>
+#include <libguile.h>
 
 #include "scm_obj.hxx"
 #include "layer.hxx"

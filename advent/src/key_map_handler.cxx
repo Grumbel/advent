@@ -52,7 +52,7 @@ KeyMapHandler::on_button_press (const CL_InputEvent&)
 	  SCM func = keymap.get ()->get_binding (key.id);
 	  if (func != SCM_BOOL_F)
 	    {
-	      gh_call0 (func);
+	      scm_call_0 (func);
 	    }
 	}
     }
@@ -80,8 +80,8 @@ KeyMapHandler::register_guile_bindings ()
   scm_set_smob_free  (tag, KeyMapHandler::free);
   scm_set_smob_print (tag, KeyMapHandler::print);
 
-  gh_new_procedure0_0 ("c:keymaphandler:create", &KeyMapHandler::scm_keymaphandler_create);
-  gh_new_procedure2_0 ("c:keymaphandler:set-keymap", scm_keymaphandler_set_keymap);
+  scm_c_define_gsubr("c:keymaphandler:create", 0, 0, 0, reinterpret_cast<scm_t_subr>(&KeyMapHandler::scm_keymaphandler_create));
+  scm_c_define_gsubr("c:keymaphandler:set-keymap", 2, 0, 0, reinterpret_cast<scm_t_subr>(&KeyMapHandler::scm_keymaphandler_set_keymap));
 }
 
 SCM
@@ -93,7 +93,7 @@ KeyMapHandler::mark (SCM smob)
   return SCM_BOOL_F;
 }
 
-scm_sizet
+size_t
 KeyMapHandler::free(SCM smob)
 {
   delete unchecked_smob_cast<KeyMapHandler>(smob);

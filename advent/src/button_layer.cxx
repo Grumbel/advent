@@ -53,8 +53,8 @@ void
 ButtonLayer::draw (boost::dummy_ptr<View> view)
 {
   /*std::cout << "ButtonLayer::scm_buttonlayer_create: " << std::endl;
-  gh_display (sprite.get_scm ());
-  gh_newline ();*/
+  scm_display (sprite.get_scm (), scm_current_output_port());
+  scm_newline (scm_current_output_port());*/
 
   // FIXME: Using CL_Mouse directly is ugly
   if (is_over(CL_Mouse::get_x (), CL_Mouse::get_y())
@@ -76,7 +76,7 @@ ButtonLayer::on_button_press (const CL_InputEvent& key)
 {
   if (scm_on_press.get_scm () != SCM_BOOL_F)
     {
-      gh_call0 (scm_on_press.get_scm ());
+      scm_call_0 (scm_on_press.get_scm ());
     }
   else
     {
@@ -89,7 +89,7 @@ ButtonLayer::on_button_release (const CL_InputEvent&)
 {
   if (scm_on_release.get_scm () != SCM_BOOL_F)
     {
-      gh_call0 (scm_on_release.get_scm ());
+      scm_call_0 (scm_on_release.get_scm ());
     }
   else
     {
@@ -102,9 +102,9 @@ ButtonLayer::register_guile_bindings ()
 {
   puts ("ButtonLayer::register_guile_bindings ()");
 
-  gh_new_procedure5_0 ("c:buttonlayer:create", &ButtonLayer::scm_buttonlayer_create);
-  gh_new_procedure2_0 ("c:buttonlayer:set-press-callback", &ButtonLayer::scm_buttonlayer_set_press_callback);
-  gh_new_procedure2_0 ("c:buttonlayer:set-release-callback", &ButtonLayer::scm_buttonlayer_set_release_callback);
+  scm_c_define_gsubr("c:buttonlayer:create", 5, 0, 0, reinterpret_cast<scm_t_subr>(&ButtonLayer::scm_buttonlayer_create));
+  scm_c_define_gsubr("c:buttonlayer:set-press-callback", 2, 0, 0, reinterpret_cast<scm_t_subr>(&ButtonLayer::scm_buttonlayer_set_press_callback));
+  scm_c_define_gsubr("c:buttonlayer:set-release-callback", 2, 0, 0, reinterpret_cast<scm_t_subr>(&ButtonLayer::scm_buttonlayer_set_release_callback));
 }
 
 /*
@@ -134,8 +134,8 @@ ButtonLayer::scm_buttonlayer_create (SCM scm_sprite,
   return LayerSmob::create(new ButtonLayer (scm_sprite,
 					    scm_pressed_sprite,
 					    scm_mouse_over_sprite,
-					    gh_scm2int (x_pos),
-					    gh_scm2int (y_pos)));
+					    scm_to_int (x_pos),
+					    scm_to_int (y_pos)));
 }
 
 SCM

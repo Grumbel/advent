@@ -20,7 +20,7 @@
 #ifndef PERSON_HXX
 #define PERSON_HXX
 
-#include <guile/gh.h>
+#include <libguile.h>
 #include <ClanLib/core.h>
 #include "boost/dummy_ptr.hpp"
 #include "boost/smart_ptr.hpp"

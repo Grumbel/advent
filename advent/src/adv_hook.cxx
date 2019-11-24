@@ -26,8 +26,8 @@
 void
 AdvHook::register_guile_bindings ()
 {
-  gh_new_procedure1_0 ("c:advhook:call", &AdvHook::call_finish);
-  gh_new_procedure2_0 ("c:advhook:add", &AdvHook::add_finish);
+  scm_c_define_gsubr("c:advhook:call", 1, 0, 0, reinterpret_cast<scm_t_subr>(&AdvHook::call_finish));
+  scm_c_define_gsubr("c:advhook:add", 2, 0, 0, reinterpret_cast<scm_t_subr>(&AdvHook::add_finish));
 }
 
 SCM

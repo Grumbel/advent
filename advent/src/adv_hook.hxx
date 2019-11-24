@@ -20,7 +20,7 @@
 #ifndef ADVHOOK_HH
 #define ADVHOOK_HH
 
-#include <guile/gh.h>
+#include <libguile.h>
 #include <list>
 #include <algorithm>
 

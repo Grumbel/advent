@@ -20,7 +20,7 @@
 #ifndef BUTTONLAYER_HXX
 #define BUTTONLAYER_HXX
 
-#include <guile/gh.h>
+#include <libguile.h>
 #include <ClanLib/display.h>
 #include "boost/smart_ptr.hpp"
 #include "boost/dummy_ptr.hpp"

@@ -29,7 +29,7 @@ Guile::protect_object (SCM obj)
 #ifdef DEBUG
   ++protect_counter;
 #endif
-  return scm_protect_object (obj);
+  return scm_gc_protect_object (obj);
 }
 
 SCM
@@ -43,13 +43,13 @@ Guile::unprotect_object (SCM obj)
   SCM handle = scm_hashq_get_handle (scm_protects, obj);
 
   std::cout << "Handle: " << std::endl;
-  gh_display (handle);
-  gh_newline ();
+  scm_display(handle, scm_current_output_port());
+  scm_newline(scm_current_output_port());
 
-  gh_display (obj);
-  gh_newline ();
+  scm_display(obj, scm_current_output_port());
+  scm_newline(scm_current_output_port());
 #endif
-  return scm_unprotect_object (obj);
+  return scm_gc_unprotect_object (obj);
   return obj;
 }
 

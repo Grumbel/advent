@@ -43,7 +43,8 @@ Drawable::cast (SCM smob)
   else
     {
       std::cout << "Error: Drawable::cast (): not a smob" << std::endl;
-      gh_display (smob);gh_newline ();
+      scm_display(smob, scm_current_output_port());
+      scm_newline(scm_current_output_port());
       return 0;
     }
 }
@@ -51,7 +52,7 @@ Drawable::cast (SCM smob)
 void
 Drawable::register_guile_bindings ()
 {
-  gh_new_procedure1_0("c:drawable:remove", &Drawable::scm_drawable_remove);
+  scm_c_define_gsubr("c:drawable:remove", 1, 0, 0, reinterpret_cast<scm_t_subr>(&Drawable::scm_drawable_remove));
 }
 
 SCM

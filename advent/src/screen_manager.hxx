@@ -21,7 +21,7 @@
 #define SCREENMANAGER_HXX
 
 #include <list>
-#include <guile/gh.h>
+#include <libguile.h>
 #include "boost/smart_ptr.hpp"
 #include "screen.hxx"
 

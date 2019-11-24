@@ -56,7 +56,7 @@ SpriteSmob::mark (SCM smob)
   return SCM_BOOL_F;
 }
 
-scm_sizet
+size_t
 SpriteSmob::free (SCM smob)
 {
   SpriteSmob* sprite_smob = unchecked_smob_cast<SpriteSmob>(smob);

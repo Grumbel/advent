@@ -39,15 +39,14 @@ FadeOutLayer::~FadeOutLayer ()
 void
 FadeOutLayer::register_guile_bindings ()
 {
-  gh_new_procedure0_0 ("c:fadeout-layer:create", &FadeOutLayer::scm_fadeout_layer_create);
-  gh_new_procedure2_0 ("c:fadeout-layer:fade", &FadeOutLayer::scm_fadeout_layer_fade);
-  gh_new_procedure1_0 ("c:fadeout-layer:blackout", &FadeOutLayer::scm_fadeout_layer_blackout);
-  gh_new_procedure1_0 ("c:fadeout-layer:fade-in", &FadeOutLayer::scm_fadeout_layer_fade_in);
+  scm_c_define_gsubr("c:fadeout-layer:create", 0, 0, 0, reinterpret_cast<scm_t_subr>(&FadeOutLayer::scm_fadeout_layer_create));
+  scm_c_define_gsubr("c:fadeout-layer:fade", 2, 0, 0, reinterpret_cast<scm_t_subr>(&FadeOutLayer::scm_fadeout_layer_fade));
+  scm_c_define_gsubr("c:fadeout-layer:blackout", 1, 0, 0, reinterpret_cast<scm_t_subr>(&FadeOutLayer::scm_fadeout_layer_blackout));
+  scm_c_define_gsubr("c:fadeout-layer:fade-in", 1, 0, 0, reinterpret_cast<scm_t_subr>(&FadeOutLayer::scm_fadeout_layer_fade_in));
 
-  //gh_new_procedure2_0 ("c:fadeout-layer:fade-out", &FadeOutLayer::scm_fadeout_layer_fade_out);
-
-  //gh_new_procedure1_0 ("c:fadeout-layer:fade-in",  &FadeOutLayer::scm_fade_in);
-  //gh_new_procedure1_0 ("c:fadeout-layer:blackout", &FadeOutLayer::scm_blackout);
+  //scm_c_define_gsubr("c:fadeout-layer:fade-out", 2, 0, 0, reinterpret_cast<scm_t_subr>(&FadeOutLayer::scm_fadeout_layer_fade_out));
+  //scm_c_define_gsubr("c:fadeout-layer:fade-in", 1, 0, 0,  reinterpret_cast<scm_t_subr>(&FadeOutLayer::scm_fade_in));
+  //scm_c_define_gsubr("c:fadeout-layer:blackout", 1, 0, 0, reinterpret_cast<scm_t_subr>(&FadeOutLayer::scm_blackout));
 }
 
 SCM
@@ -107,7 +106,7 @@ FadeOutLayer::update (float delta)
 	{
 	  progress = 0.0f;
 	  running = -1;
-	  gh_call0 (lambda.get_scm ());
+	  scm_call_0 (lambda.get_scm ());
 	}
       else if (progress > 1.0f && running == -1)
 	{

@@ -20,7 +20,7 @@
 #ifndef GUILE_HXX
 #define GUILE_HXX
 
-#include <guile/gh.h>
+#include <libguile.h>
 
 namespace Guile
 {

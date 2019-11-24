@@ -151,19 +151,18 @@ void
 LayerScreen::register_guile_bindings ()
 {
   puts ("LayerScreen::register_guile_bindings ()");
-
-  gh_new_procedure0_0 ("c:layerscreen:create", &LayerScreen::layerscreen_create);
-  gh_new_procedure2_0 ("c:layerscreen:push", &LayerScreen::layerscreen_push);
-  gh_new_procedure2_0 ("c:layerscreen:remove", &LayerScreen::layerscreen_remove);
-  gh_new_procedure1_0 ("c:layerscreen:pop", &LayerScreen::layerscreen_pop);
-  gh_new_procedure1_0 ("c:layerscreen:enable-input",
-		       &LayerScreen::layerscreen_enable_input);
-  gh_new_procedure1_0 ("c:layerscreen:disable-input",
-		       &LayerScreen::layerscreen_disable_input);
-  gh_new_procedure2_0 ("c:layerscreen:set-input-enabled-hook",
-		       &LayerScreen::layerscreen_set_input_enabled_hook);
-  gh_new_procedure2_0 ("c:layerscreen:set-input-disabled-hook",
-		       &LayerScreen::layerscreen_set_input_disabled_hook);
+  scm_c_define_gsubr("c:layerscreen:create", 0, 0, 0, reinterpret_cast<scm_t_subr>(&LayerScreen::layerscreen_create));
+  scm_c_define_gsubr("c:layerscreen:push", 2, 0, 0, reinterpret_cast<scm_t_subr>(&LayerScreen::layerscreen_push));
+  scm_c_define_gsubr("c:layerscreen:remove", 2, 0, 0, reinterpret_cast<scm_t_subr>(&LayerScreen::layerscreen_remove));
+  scm_c_define_gsubr("c:layerscreen:pop", 1, 0, 0, reinterpret_cast<scm_t_subr>(&LayerScreen::layerscreen_pop));
+  scm_c_define_gsubr("c:layerscreen:enable-input", 1, 0, 0,
+                     reinterpret_cast<scm_t_subr>(&LayerScreen::layerscreen_enable_input));
+  scm_c_define_gsubr("c:layerscreen:disable-input", 1, 0, 0,
+                     reinterpret_cast<scm_t_subr>(&LayerScreen::layerscreen_disable_input));
+  scm_c_define_gsubr("c:layerscreen:set-input-enabled-hook", 2, 0, 0,
+                     reinterpret_cast<scm_t_subr>(&LayerScreen::layerscreen_set_input_enabled_hook));
+  scm_c_define_gsubr("c:layerscreen:set-input-disabled-hook", 2, 0, 0,
+                     reinterpret_cast<scm_t_subr>(&LayerScreen::layerscreen_set_input_disabled_hook));
 }
 
 /*
@@ -180,7 +179,7 @@ LayerScreen::mark (SCM smob)
   return SCM_BOOL_F;
 }
 
-scm_sizet
+size_t
 LayerScreen::free (SCM smob)
 {
   std::cout << "LayerScreen::free" << std::endl;
@@ -236,7 +235,7 @@ LayerScreen::layerscreen_enable_input (SCM scm_screen)
       &&
       screen->input_enabled_hook.get_scm () != SCM_BOOL_F)
     {
-      gh_call0 (screen->input_enabled_hook.get_scm ());
+      scm_call_0 (screen->input_enabled_hook.get_scm ());
     }
 
   return SCM_UNSPECIFIED;
@@ -252,7 +251,7 @@ LayerScreen::layerscreen_disable_input (SCM scm_screen)
       &&
       screen->input_enabled_hook.get_scm () != SCM_BOOL_F)
     {
-      gh_call0 (screen->input_disabled_hook.get_scm ());
+      scm_call_0 (screen->input_disabled_hook.get_scm ());
     }
 
   return SCM_UNSPECIFIED;

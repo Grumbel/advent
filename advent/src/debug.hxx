@@ -20,7 +20,7 @@
 #ifndef DEBUG_HXX
 #define DEBUG_HXX
 
-#include <guile/gh.h>
+#include <libguile.h>
 
 /** FIXME: the current function names are ugly, should be replaced
     FIXME: with something more usefull */

@@ -20,7 +20,7 @@
 #ifndef SPRITEDRAWABLE_HXX
 #define SPRITEDRAWABLE_HXX
 
-#include <guile/gh.h>
+#include <libguile.h>
 #include "drawable.hxx"
 #include "surface_sprite.hxx"
 #include "smob_tuple.hxx"

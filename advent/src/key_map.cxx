@@ -80,9 +80,9 @@ KeyMap::register_guile_bindings ()
   scm_set_smob_free  (tag, KeyMap::free);
   scm_set_smob_print (tag, KeyMap::print);
 
-  gh_new_procedure0_0 ("c:keymap:create",  &KeyMap::scm_keymap_create);
-  gh_new_procedure1_0 ("c:keymap:create1", &KeyMap::scm_keymap_create1);
-  gh_new_procedure3_0 ("c:keymap:bind-key",  &KeyMap::scm_bind_key);
+  scm_c_define_gsubr("c:keymap:create", 0, 0, 0, reinterpret_cast<scm_t_subr>(&KeyMap::scm_keymap_create));
+  scm_c_define_gsubr("c:keymap:create1", 1, 0, 0, reinterpret_cast<scm_t_subr>(&KeyMap::scm_keymap_create));
+  scm_c_define_gsubr("c:keymap:bind-key", 3, 0, 0,  reinterpret_cast<scm_t_subr>(&KeyMap::scm_bind_key));
 }
 
 SCM
@@ -98,7 +98,7 @@ KeyMap::mark (SCM smob)
   return SCM_BOOL_F;
 }
 
-scm_sizet
+size_t
 KeyMap::free (SCM smob)
 {
   delete unchecked_smob_cast<KeyMap>(smob);
@@ -129,7 +129,7 @@ SCM
 KeyMap::scm_bind_key (SCM scm_keymap, SCM scm_key, SCM scm_func)
 {
   KeyMap* keymap = checked_smob_cast<KeyMap>(scm_keymap);
-  keymap->bind_key (gh_scm2int(scm_key), scm_func);
+  keymap->bind_key (scm_to_int(scm_key), scm_func);
   return SCM_UNSPECIFIED;
 }
 

@@ -20,7 +20,7 @@
 #ifndef DRAWABLE_HXX
 #define DRAWABLE_HXX
 
-#include <guile/gh.h>
+#include <libguile.h>
 
 #include "boost/dummy_ptr.hpp"
 #include "boost/smart_ptr.hpp"

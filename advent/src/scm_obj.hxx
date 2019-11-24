@@ -20,7 +20,7 @@
 #ifndef SCMOBJ_HXX
 #define SCMOBJ_HXX
 
-#include <guile/gh.h>
+#include <libguile.h>
 #include "guile.hxx"
 
 /** SCM Wrapper class which handles protect/unprotect operations. Use

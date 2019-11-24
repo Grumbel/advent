@@ -61,7 +61,7 @@ DrawableSmob::mark (SCM smob)
   return SCM_BOOL_F;
 }
 
-scm_sizet
+size_t
 DrawableSmob::free (SCM smob)
 {
   // FIXME: Memory leak

@@ -20,7 +20,7 @@
 #ifndef MOUSECURSOR_HXX
 #define MOUSECURSOR_HXX
 
-#include <guile/gh.h>
+#include <libguile.h>
 #include "sprite.hxx"
 #include "smob_tuple.hxx"
 #include "layer.hxx"

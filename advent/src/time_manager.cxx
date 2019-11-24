@@ -97,7 +97,7 @@ TimeManager::update (float delta)
     {
       if ((*i)->trigger_time <= current_time)
 	{
-	  gh_call0 ((*i)->lambda.get_scm ());
+	  scm_call_0 ((*i)->lambda.get_scm ());
 	}
     }
 
@@ -109,8 +109,8 @@ TimeManager::register_guile_bindings ()
 {
   puts ("TimeManager::register_guile_bindings ()");
 
-  gh_new_procedure0_0 ("c:timemanager:create", &TimeManager::scm_timemanager_create);
-  gh_new_procedure3_0 ("c:timemanager:add", &TimeManager::scm_timemanager_add);
+  scm_c_define_gsubr("c:timemanager:create", 0, 0, 0, reinterpret_cast<scm_t_subr>(&TimeManager::scm_timemanager_create));
+  scm_c_define_gsubr("c:timemanager:add", 3, 0, 0, reinterpret_cast<scm_t_subr>(&TimeManager::scm_timemanager_add));
 }
 /*
 SCM
@@ -130,7 +130,7 @@ TimeManager::mark (SCM smob)
     return SCM_BOOL_F;
 }
 
-scm_sizet
+size_t
 TimeManager::free (SCM smob)
 {
   if (gc_free_enabled)
@@ -159,7 +159,7 @@ SCM
 TimeManager::scm_timemanager_add (SCM scm_manager, SCM scm_time, SCM scm_func)
 {
   TimeManager* manager (smobbox_cast<TimeManager>(scm_manager));
-  manager->add (gh_scm2int (scm_time), scm_func);
+  manager->add (scm_to_int (scm_time), scm_func);
   return SCM_UNSPECIFIED;
 }
 

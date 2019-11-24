@@ -38,8 +38,8 @@ DrawableLayer::register_guile_bindings ()
 {
   puts ("DrawableLayer::register_guile_bindings ()");
 
-  gh_new_procedure1_0("c:drawable-layer:create", &DrawableLayer::scm_drawable_layer_create);
-  gh_new_procedure1_0("c:drawable-layer:get-drawable", &DrawableLayer::scm_drawable_layer_get_drawable);
+  scm_c_define_gsubr("c:drawable-layer:create", 1, 0, 0, reinterpret_cast<scm_t_subr>(&DrawableLayer::scm_drawable_layer_create));
+  scm_c_define_gsubr("c:drawable-layer:get-drawable", 1, 0, 0, reinterpret_cast<scm_t_subr>(&DrawableLayer::scm_drawable_layer_get_drawable));
 }
 
 SCM

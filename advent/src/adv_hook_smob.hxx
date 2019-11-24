@@ -20,7 +20,7 @@
 #ifndef ADVHOOKSMOB_HXX
 #define ADVHOOKSMOB_HXX
 
-#include <guile/gh.h>
+#include <libguile.h>
 
 class AdvHook;
 
@@ -38,7 +38,7 @@ public:
   static void register_guile_bindings ();
 
   static SCM mark (SCM smob);
-  static scm_sizet free (SCM smob);
+  static size_t free (SCM smob);
   static int print (SCM image_smob, SCM port, scm_print_state *pstate);
 
   static long get_smob_tag () { return tag; }

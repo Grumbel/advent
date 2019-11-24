@@ -38,7 +38,7 @@ EmptyAdvObj::register_guile_bindings ()
 {
   puts ("EmptyAdvObj::register_guile_bindings ()");
 
-  gh_new_procedure2_0 ("c:empty-advobj:create", &EmptyAdvObj::scm_empty_advobj_create);
+  scm_c_define_gsubr("c:empty-advobj:create", 2, 0, 0, reinterpret_cast<scm_t_subr>(&EmptyAdvObj::scm_empty_advobj_create));
 }
 /*
 SCM
@@ -48,7 +48,7 @@ EmptyAdvObj::mark (SCM smob)
   return SCM_BOOL_F;//FIXME:empty->collideable.get_scm ();
 }
 
-scm_sizet
+size_t
 EmptyAdvObj::free (SCM smob)
 {
   //FIXME:std::cout << "EmptyAdvObj::free" << std::endl;

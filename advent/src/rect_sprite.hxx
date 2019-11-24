@@ -20,7 +20,7 @@
 #ifndef RECTSPRITE_HXX
 #define RECTSPRITE_HXX
 
-#include <guile/gh.h>
+#include <libguile.h>
 #include "color.hxx"
 #include "sprite.hxx"
 

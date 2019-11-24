@@ -20,7 +20,7 @@
 #ifndef SPRITECOLLIDEABLE_HXX
 #define SPRITECOLLIDEABLE_HXX
 
-#include <guile/gh.h>
+#include <libguile.h>
 #include "sprite.hxx"
 #include "collideable.hxx"
 

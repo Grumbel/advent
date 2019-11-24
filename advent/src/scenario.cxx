@@ -199,15 +199,15 @@ Scenario::register_guile_bindings ()
   scm_set_smob_free  (tag, Scenario::free);
   scm_set_smob_print (tag, Scenario::print);
 
-  gh_new_procedure1_0("c:scenario:create", &Scenario::scm_scenario_create);
-  gh_new_procedure2_0("c:scenario:add-drawable", &Scenario::scm_scenario_add_drawable);
-  gh_new_procedure2_0("c:scenario:remove-drawable", &Scenario::scm_scenario_remove_drawable);
+  scm_c_define_gsubr("c:scenario:create", 1, 0, 0, reinterpret_cast<scm_t_subr>(&Scenario::scm_scenario_create));
+  scm_c_define_gsubr("c:scenario:add-drawable", 2, 0, 0, reinterpret_cast<scm_t_subr>(&Scenario::scm_scenario_add_drawable));
+  scm_c_define_gsubr("c:scenario:remove-drawable", 2, 0, 0, reinterpret_cast<scm_t_subr>(&Scenario::scm_scenario_remove_drawable));
 
-  gh_new_procedure2_0("c:scenario:add-advobj",    &Scenario::scm_scenario_add_advobj);
-  gh_new_procedure2_0("c:scenario:remove-advobj", &Scenario::scm_scenario_remove_advobj);
+  scm_c_define_gsubr("c:scenario:add-advobj", 2, 0, 0,    reinterpret_cast<scm_t_subr>(&Scenario::scm_scenario_add_advobj));
+  scm_c_define_gsubr("c:scenario:remove-advobj", 2, 0, 0, reinterpret_cast<scm_t_subr>(&Scenario::scm_scenario_remove_advobj));
 
-  gh_new_procedure2_0("c:scenario:set-colmap", &Scenario::scm_scenario_set_colmap);
-  gh_new_procedure3_0("c:scenario:set-dimension", &Scenario::scm_scenario_set_dimension);
+  scm_c_define_gsubr("c:scenario:set-colmap", 2, 0, 0, reinterpret_cast<scm_t_subr>(&Scenario::scm_scenario_set_colmap));
+  scm_c_define_gsubr("c:scenario:set-dimension", 3, 0, 0, reinterpret_cast<scm_t_subr>(&Scenario::scm_scenario_set_dimension));
 }
 
 SCM
@@ -230,7 +230,7 @@ Scenario::mark (SCM smob)
   return SCM_BOOL_F;
 }
 
-scm_sizet
+size_t
 Scenario::free (SCM smob)
 {
   //FIXME:delete smob_cast<Scenario>(smob);
@@ -289,8 +289,8 @@ SCM
 Scenario::scm_scenario_set_dimension (SCM arg_scenario, SCM scm_width, SCM scm_height)
 {
   Scenario* scenario = checked_smob_cast<Scenario>(arg_scenario);
-  scenario->width = gh_scm2int(scm_width);
-  scenario->height = gh_scm2int(scm_height);
+  scenario->width = scm_to_int(scm_width);
+  scenario->height = scm_to_int(scm_height);
   return SCM_UNSPECIFIED;
 }
 

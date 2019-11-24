@@ -101,7 +101,7 @@ ScreenManager::on_button_release (const CL_InputEvent& key)
 void
 ScreenManager::register_guile_bindings ()
 {
-  gh_new_procedure1_0 ("c:screenmanager:set-screen", &ScreenManager::scm_screenmanager_set_screen);
+  scm_c_define_gsubr("c:screenmanager:set-screen", 1, 0, 0, reinterpret_cast<scm_t_subr>(&ScreenManager::scm_screenmanager_set_screen));
 }
 
 SCM

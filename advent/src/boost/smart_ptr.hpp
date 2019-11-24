@@ -139,13 +139,6 @@ template<typename T> class shared_ptr {
       shared_ptr(const shared_ptr<Y>& r) : px(r.px) {  // never throws
          ++*(pn = r.pn);
       }
-#ifndef BOOST_NO_AUTO_PTR
-   template<typename Y>
-      explicit shared_ptr(std::auto_ptr<Y>& r) {
-         pn = new long(1); // may throw
-         px = r.release(); // fix: moved here to stop leak if new throws
-      }
-#endif
 
    template<typename Y>
       shared_ptr& operator=(const shared_ptr<Y>& r) {
@@ -153,39 +146,7 @@ template<typename T> class shared_ptr {
          return *this;
       }
 
-#ifndef BOOST_NO_AUTO_PTR
-   template<typename Y>
-      shared_ptr& operator=(std::auto_ptr<Y>& r) {
-         // code choice driven by guarantee of "no effect if new throws"
-         if (*pn == 1) { delete px; }
-         else { // allocate new reference counter
-           long * tmp = new long(1); // may throw
-           --*pn; // only decrement once danger of new throwing is past
-           pn = tmp;
-         } // allocate new reference counter
-         px = r.release(); // fix: moved here so doesn't leak if new throws
-         return *this;
-      }
-#endif
 #else
-#ifndef BOOST_NO_AUTO_PTR
-      explicit shared_ptr(std::auto_ptr<T>& r) {
-         pn = new long(1); // may throw
-         px = r.release(); // fix: moved here to stop leak if new throws
-      }
-
-      shared_ptr& operator=(std::auto_ptr<T>& r) {
-         // code choice driven by guarantee of "no effect if new throws"
-         if (*pn == 1) { delete px; }
-         else { // allocate new reference counter
-           long * tmp = new long(1); // may throw
-           --*pn; // only decrement once danger of new throwing is past
-           pn = tmp;
-         } // allocate new reference counter
-         px = r.release(); // fix: moved here so doesn't leak if new throws
-         return *this;
-      }
-#endif
 #endif
 
    void reset(T* p=0) {

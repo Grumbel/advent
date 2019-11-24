@@ -52,8 +52,8 @@ MouseCursor::register_guile_bindings ()
 {
   puts ("MouseCursor::register_guile_bindings ()");
 
-  gh_new_procedure0_0("c:mousecursor:create", &MouseCursor::scm_mousecursor_create);
-  gh_new_procedure2_0("c:mousecursor:set-sprite", &MouseCursor::scm_mousecursor_set_sprite);
+  scm_c_define_gsubr("c:mousecursor:create", 0, 0, 0, reinterpret_cast<scm_t_subr>(&MouseCursor::scm_mousecursor_create));
+  scm_c_define_gsubr("c:mousecursor:set-sprite", 2, 0, 0, reinterpret_cast<scm_t_subr>(&MouseCursor::scm_mousecursor_set_sprite));
 }
 
 SCM

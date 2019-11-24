@@ -20,7 +20,7 @@
 #ifndef COLMAP_HXX
 #define COLMAP_HXX
 
-#include <guile/gh.h>
+#include <libguile.h>
 
 #include "colmap_smob.hxx"
 

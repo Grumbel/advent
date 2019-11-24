@@ -30,7 +30,7 @@ include_directories(src/)
 
 find_package(Threads REQUIRED)
 find_package(PkgConfig REQUIRED)
-pkg_search_module(GUILE REQUIRED guile-1.8)
+pkg_search_module(GUILE REQUIRED guile-2.2)
 pkg_search_module(CLANCORE REQUIRED clanCore-1.0)
 pkg_search_module(CLANAPP REQUIRED clanApp-1.0)
 pkg_search_module(CLANSDL REQUIRED clanSDL-1.0)

@@ -20,7 +20,7 @@
 #ifndef EMPTYADVOBJ_HXX
 #define EMPTYADVOBJ_HXX
 
-#include <guile/gh.h>
+#include <libguile.h>
 #include "collideable.hxx"
 #include "adv_obj.hxx"
 #include "smob_tuple.hxx"

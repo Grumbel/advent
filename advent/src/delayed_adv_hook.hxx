@@ -20,7 +20,7 @@
 #ifndef DELAYEDADVHOOK_HH
 #define DELAYEDADVHOOK_HH
 
-#include <guile/gh.h>
+#include <libguile.h>
 #include <list>
 #include <algorithm>
 

@@ -56,8 +56,8 @@ DrawableAdvObj::register_guile_bindings ()
 {
   puts ("DrawableAdvObj::register_guile_bindings ()");
 
-  gh_new_procedure3_0 ("c:drawable-advobj:create", &DrawableAdvObj::drawable_advobj_create);
-  gh_new_procedure2_0 ("c:drawable-advobj:set-drawable", &DrawableAdvObj::drawable_advobj_set_drawable);
+  scm_c_define_gsubr("c:drawable-advobj:create", 3, 0, 0, reinterpret_cast<scm_t_subr>(&DrawableAdvObj::drawable_advobj_create));
+  scm_c_define_gsubr("c:drawable-advobj:set-drawable", 2, 0, 0, reinterpret_cast<scm_t_subr>(&DrawableAdvObj::drawable_advobj_set_drawable));
 }
 
 /*

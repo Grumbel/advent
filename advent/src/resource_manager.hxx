@@ -20,7 +20,7 @@
 #ifndef RESOURCEMANAGER_HXX
 #define RESOURCEMANAGER_HXX
 
-#include <guile/gh.h>
+#include <libguile.h>
 #include <string>
 
 namespace Advent {

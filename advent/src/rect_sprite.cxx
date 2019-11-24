@@ -66,8 +66,8 @@ RectSprite::register_guile_bindings ()
 {
   puts ("RectSprite::register_guile_bindings ()");
 
-  gh_new_procedure3_0 ("c:rect-sprite:create", &RectSprite::scm_rect_sprite_create);
-  gh_new_procedure2_0 ("c:rect-sprite:set-color", &RectSprite::scm_rect_sprite_set_color);
+  scm_c_define_gsubr("c:rect-sprite:create", 3, 0, 0, reinterpret_cast<scm_t_subr>(&RectSprite::scm_rect_sprite_create));
+  scm_c_define_gsubr("c:rect-sprite:set-color", 2, 0, 0, reinterpret_cast<scm_t_subr>(&RectSprite::scm_rect_sprite_set_color));
 }
 
 /*
@@ -77,7 +77,7 @@ RectSprite::mark (SCM smob)
   return SCM_BOOL_F;
 }
 
-scm_sizet
+size_t
 RectSprite::free (SCM smob)
 {
   std::cout << "RectSprite::free" << std::endl;
@@ -95,7 +95,7 @@ RectSprite::print (SCM image_smob, SCM port, scm_print_state *pstate)
 SCM
 RectSprite::scm_rect_sprite_create (SCM width, SCM height, SCM scm_color)
 {
-  return SpriteSmob::create(new RectSprite (gh_scm2int (width), gh_scm2int (height),
+  return SpriteSmob::create(new RectSprite (scm_to_int (width), scm_to_int (height),
 				     Color (scm_color)));
 }
 

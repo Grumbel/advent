@@ -17,7 +17,7 @@
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
-#include <guile/gh.h>
+#include <libguile.h>
 #include <math.h>
 #include "surface_sprite.hxx"
 #include "person.hxx"
@@ -33,15 +33,15 @@ PersonGfx::PersonGfx (SCM lst)
   SCM walk  = SCM_CAR (lst);
   SCM stand = SCM_CADR (lst);
 
-  walking = new PersonGfxPack (gh_list_ref (walk, gh_int2scm(0)),
-			       gh_list_ref (walk, gh_int2scm(1)),
-			       gh_list_ref (walk, gh_int2scm(2)),
-			       gh_list_ref (walk, gh_int2scm(3)));
+  walking = new PersonGfxPack (scm_list_ref (walk, scm_from_int(0)),
+			       scm_list_ref (walk, scm_from_int(1)),
+			       scm_list_ref (walk, scm_from_int(2)),
+			       scm_list_ref (walk, scm_from_int(3)));
 
-  standing = new PersonGfxPack (gh_list_ref (stand, gh_int2scm(0)),
-				gh_list_ref (stand, gh_int2scm(1)),
-				gh_list_ref (stand, gh_int2scm(2)),
-				gh_list_ref (stand, gh_int2scm(3)));
+  standing = new PersonGfxPack (scm_list_ref (stand, scm_from_int(0)),
+				scm_list_ref (stand, scm_from_int(1)),
+				scm_list_ref (stand, scm_from_int(2)),
+				scm_list_ref (stand, scm_from_int(3)));
 
   //west  = new SurfaceSprite ("images/mogli_west.png");
   //east  = new SurfaceSprite ("images/mogli_east.png");
@@ -153,7 +153,7 @@ PersonGfx::register_guile_bindings ()
   scm_set_smob_free  (tag, PersonGfx::free);
   scm_set_smob_print (tag, PersonGfx::print);
 
-  gh_new_procedure1_0 ("c:persongfx:create", &PersonGfx::scm_persongfx_create);
+  scm_c_define_gsubr("c:persongfx:create", 1, 0, 0, reinterpret_cast<scm_t_subr>(&PersonGfx::scm_persongfx_create));
 }
 
 SCM
@@ -162,7 +162,7 @@ PersonGfx::mark (SCM smob)
   return SCM_BOOL_F;
 }
 
-scm_sizet
+size_t
 PersonGfx::free (SCM smob)
 {
   //FIXME:delete smob_cast<Scenario>(smob);

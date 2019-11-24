@@ -38,7 +38,7 @@ void
 RectCollideable::register_guile_bindings ()
 {
   puts ("RectCollideable::register_guile_bindings ()");
-  gh_new_procedure4_0 ("c:rect-collideable:create", &RectCollideable::scm_rect_collideable_create);
+  scm_c_define_gsubr("c:rect-collideable:create", 4, 0, 0, reinterpret_cast<scm_t_subr>(&RectCollideable::scm_rect_collideable_create));
 }
 
 /*int
@@ -55,10 +55,10 @@ RectCollideable::print (SCM smob, SCM port, scm_print_state *pstate)
 SCM
 RectCollideable::scm_rect_collideable_create (SCM x1, SCM y1, SCM x2, SCM y2)
 {
-  return CollideableSmob::create(new RectCollideable (gh_scm2int (x1),
-						      gh_scm2int (y1),
-						      gh_scm2int (x2),
-						      gh_scm2int (y2)));
+  return CollideableSmob::create(new RectCollideable (scm_to_int (x1),
+						      scm_to_int (y1),
+						      scm_to_int (x2),
+						      scm_to_int (y2)));
 }
 
 } // namespace Advent

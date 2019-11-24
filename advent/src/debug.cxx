@@ -19,18 +19,21 @@
 
 #include "debug.hxx"
 
+#include <libguile.h>
+
 bool Debug::free_enabled_ = false;
 
 void
 Debug::register_guile_bindings ()
 {
-  gh_new_procedure1_0 ("debug:set-free", scm_set_memory_free);
+  // FIXME: disabled when converting to guile-2.2
+  // scm_c_define_gsubr("debug:set-free", 1, 0, 0, &scm_set_memory_free);
 }
 
 SCM
 Debug::scm_set_memory_free (SCM value)
 {
-  set_free_enabled (gh_scm2bool (value));
+  set_free_enabled (scm_to_bool (value));
   return SCM_UNSPECIFIED;
 }
 

@@ -22,7 +22,7 @@
 
 #include <typeinfo>
 #include <iostream>
-#include <guile/gh.h>
+#include <libguile.h>
 #include <assert.h>
 
 /** Convert an SCM into an Object pointer without any checking. Should
@@ -39,7 +39,7 @@ T* unchecked_smob_cast(SCM smob)
 template<class T>
 T* smob_cast(SCM smob)
 {
-  assert (!gh_boolean_p(smob));
+  assert (!scm_is_bool(smob));
   assert (SCM_NIMP (smob));
 
   /*
@@ -48,8 +48,8 @@ T* smob_cast(SCM smob)
     std::cout << "| Cast error: " << typeid (T).name () << std::endl;
     //" tag: " << T::get_smob_tag () << std::endl;
     scm_puts ("| SCM Type: ", scm_current_output_port ());
-    scm_display (smob, scm_current_output_port ());
-    scm_newline (scm_current_output_port ());
+    scm_display(smob, scm_current_output_port ());
+    scm_newline(scm_current_output_port ());
     std::cout << "`----===================  End:   ERROR =======================-----" << std::endl;
     //assert (0);
     }
@@ -65,7 +65,7 @@ T* smob_cast(SCM smob)
 template<class T>
 T* checked_smob_cast(SCM smob)
 {
-  assert (!gh_boolean_p(smob));
+  assert (!scm_is_bool(smob));
   if (SCM_NIMP (smob))
     {
       // Sun Feb 23 17:08:38 2003 might crash
@@ -87,7 +87,8 @@ T* checked_smob_cast(SCM smob)
   else
     {
       std::cout << "Error: SCMConverter: cast error, not a smob" << std::endl;
-      gh_display (smob); gh_newline ();
+      scm_display(smob, scm_current_output_port());
+      scm_newline(scm_current_output_port());
       return 0;
     }
 }

@@ -41,8 +41,8 @@ SpriteCollideable::register_guile_bindings ()
 {
   puts ("SpriteCollideable::register_guile_bindings ()");
 
-  gh_new_procedure1_0 ("c:sprite-collideable:create",
-		       &SpriteCollideable::scm_sprite_collideable_create);
+  scm_c_define_gsubr("c:sprite-collideable:create", 1, 0, 0,
+		       reinterpret_cast<scm_t_subr>(&SpriteCollideable::scm_sprite_collideable_create));
 }
 
 /*
@@ -52,7 +52,7 @@ SpriteCollideable::mark (SCM smob)
   return SCM_BOOL_F;
 }
 
-scm_sizet
+size_t
 SpriteCollideable::free (SCM smob)
 {
   std::cout << "SpriteCollideable::free" << std::endl;

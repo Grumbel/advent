@@ -19,6 +19,7 @@
 
 #include "scm_converter.hxx"
 #include "surface_sprite.hxx"
+#include "util.hxx"
 
 namespace Advent {
 
@@ -162,26 +163,26 @@ SurfaceSprite::register_guile_bindings ()
 {
   puts ("SurfaceSprite::register_guile_bindings ()");
 
-  gh_new_procedure1_0 ("c:surface-sprite:create", &SurfaceSprite::scm_surface_sprite_create);
-  gh_new_procedure2_0 ("c:surface-sprite:create-anim", &SurfaceSprite::scm_surface_sprite_create_anim);
+  scm_c_define_gsubr("c:surface-sprite:create", 1, 0, 0, reinterpret_cast<scm_t_subr>(&SurfaceSprite::scm_surface_sprite_create));
+  scm_c_define_gsubr("c:surface-sprite:create-anim", 2, 0, 0, reinterpret_cast<scm_t_subr>(&SurfaceSprite::scm_surface_sprite_create_anim));
 
-  gh_new_procedure1_0 ("c:surface-sprite:set-align-center", &SurfaceSprite::scm_surface_sprite_set_align_center);
-  gh_new_procedure3_0 ("c:surface-sprite:set-align", &SurfaceSprite::scm_surface_sprite_set_align);
-  gh_new_procedure2_0 ("c:surface-sprite:set-fps", &SurfaceSprite::scm_surface_sprite_set_fps);
+  scm_c_define_gsubr("c:surface-sprite:set-align-center", 1, 0, 0, reinterpret_cast<scm_t_subr>(&SurfaceSprite::scm_surface_sprite_set_align_center));
+  scm_c_define_gsubr("c:surface-sprite:set-align", 3, 0, 0, reinterpret_cast<scm_t_subr>(&SurfaceSprite::scm_surface_sprite_set_align));
+  scm_c_define_gsubr("c:surface-sprite:set-fps", 2, 0, 0, reinterpret_cast<scm_t_subr>(&SurfaceSprite::scm_surface_sprite_set_fps));
 }
 
 SCM
 SurfaceSprite::scm_surface_sprite_create (SCM name)
 {
-  assert (gh_string_p (name));
-  return SpriteSmob::create(new SurfaceSprite (SCM_CHARS (name)));
+  assert (scm_is_string (name));
+  return SpriteSmob::create(new SurfaceSprite (scm_to_cxxstring (name)));
 }
 
 SCM
 SurfaceSprite::scm_surface_sprite_create_anim (SCM name, SCM frames)
 {
-  return SpriteSmob::create (new SurfaceSprite (SCM_CHARS (name),
-						gh_scm2int (frames)));
+  return SpriteSmob::create (new SurfaceSprite (scm_to_cxxstring (name),
+						scm_to_int (frames)));
 }
 
 SCM
@@ -194,15 +195,15 @@ SurfaceSprite::scm_surface_sprite_set_align_center (SCM scm_sprite)
 SCM
 SurfaceSprite::scm_surface_sprite_set_align (SCM scm_sprite, SCM scm_x, SCM scm_y)
 {
-  smobbox_cast<SurfaceSprite>(scm_sprite)->set_align (gh_scm2int (scm_x),
-						      gh_scm2int (scm_y));
+  smobbox_cast<SurfaceSprite>(scm_sprite)->set_align (scm_to_int (scm_x),
+						      scm_to_int (scm_y));
   return scm_sprite;
 }
 
 SCM
 SurfaceSprite::scm_surface_sprite_set_fps (SCM scm_sprite, SCM scm_fps)
 {
-  smobbox_cast<SurfaceSprite>(scm_sprite)->set_fps (gh_scm2double(scm_fps));
+  smobbox_cast<SurfaceSprite>(scm_sprite)->set_fps (scm_to_double(scm_fps));
   return scm_sprite;
 }
 

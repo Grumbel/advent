@@ -20,7 +20,7 @@
 #ifndef SURFACESPRITE_HXX
 #define SURFACESPRITE_HXX
 
-#include <guile/gh.h>
+#include <libguile.h>
 #include <ClanLib/core.h>
 #include <ClanLib/display.h>
 

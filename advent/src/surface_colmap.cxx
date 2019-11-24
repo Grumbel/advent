@@ -20,6 +20,7 @@
 #include <ClanLib/core.h>
 #include "scm_converter.hxx"
 #include "surface_colmap.hxx"
+#include "util.hxx"
 
 namespace Advent {
 
@@ -65,13 +66,13 @@ SurfaceColMap::register_guile_bindings ()
 {
   puts ("SurfaceColMap::register_guile_bindings ()");
 
-  gh_new_procedure1_0 ("c:surfacecolmap:create",
-		       &SurfaceColMap::scm_surfacecolmap_create);
+  scm_c_define_gsubr("c:surfacecolmap:create", 1, 0, 0,
+                    reinterpret_cast<scm_t_subr>(&SurfaceColMap::scm_surfacecolmap_create));
 
-  gh_new_procedure2_0 ("c:surfacecolmap:set-scale",
-		       &SurfaceColMap::scm_surfacecolmap_set_scale);
-  gh_new_procedure1_0 ("c:surfacecolmap:get-scale",
-		       &SurfaceColMap::scm_surfacecolmap_get_scale);
+  scm_c_define_gsubr("c:surfacecolmap:set-scale", 2, 0, 0,
+                    reinterpret_cast<scm_t_subr>(&SurfaceColMap::scm_surfacecolmap_set_scale));
+  scm_c_define_gsubr("c:surfacecolmap:get-scale", 1, 0, 0,
+                    reinterpret_cast<scm_t_subr>(&SurfaceColMap::scm_surfacecolmap_get_scale));
 }
 
 /*
@@ -82,7 +83,7 @@ SurfaceColMap::register_guile_bindings ()
   return SCM_BOOL_F;
   }
 
-  scm_sizet
+  size_t
   SurfaceColMap::free (SCM smob)
   {
   std::cout << "ColMap: free" << std::endl;
@@ -100,11 +101,11 @@ SurfaceColMap::register_guile_bindings ()
 SCM
 SurfaceColMap::scm_surfacecolmap_create (SCM filename)
 {
-  assert (gh_string_p (filename));
+  assert (scm_is_string (filename));
 
   SurfaceColMap* colmap;
   try {
-    colmap = new SurfaceColMap (SCM_CHARS (filename));
+    colmap = new SurfaceColMap (scm_to_cxxstring (filename));
   } catch (const CL_Error& err) {
     std::cout << "CL_Error: " << err.message << std::endl;
     assert (0);
@@ -116,14 +117,14 @@ SurfaceColMap::scm_surfacecolmap_create (SCM filename)
 SCM
 SurfaceColMap::scm_surfacecolmap_set_scale (SCM scm_colmap, SCM scm_scale)
 {
-  smobbox_cast<SurfaceColMap>(scm_colmap)->scale = gh_scm2double (scm_scale);
+  smobbox_cast<SurfaceColMap>(scm_colmap)->scale = scm_to_double (scm_scale);
   return SCM_UNSPECIFIED;
 }
 
 SCM
 SurfaceColMap::scm_surfacecolmap_get_scale (SCM scm_colmap)
 {
-  return gh_double2scm(smobbox_cast<SurfaceColMap>(scm_colmap)->scale);
+  return scm_from_double(smobbox_cast<SurfaceColMap>(scm_colmap)->scale);
 }
 
 } // namespace Advent

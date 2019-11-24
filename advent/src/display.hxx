@@ -20,7 +20,7 @@
 #ifndef DISPLAY_HXX
 #define DISPLAY_HXX
 
-#include <guile/gh.h>
+#include <libguile.h>
 
 namespace Advent {
 

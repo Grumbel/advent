@@ -61,7 +61,7 @@ LayerSmob::mark (SCM smob)
   return SCM_BOOL_F;
 }
 
-scm_sizet
+size_t
 LayerSmob::free (SCM smob)
 {
   LayerSmob* layer = unchecked_smob_cast<LayerSmob>(smob);
