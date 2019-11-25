@@ -102,7 +102,7 @@
 	      (primitive-eval `(define ,(car x) (scenario:create))))
 	    lst)
   (for-each (lambda (x)
-	      (load (cadr x)))
+	      (primitive-load (cadr x)))
 	    lst))
 
 (define-syntax adv:load-scenarios
