@@ -20,6 +20,7 @@
 #include "scm_converter.hxx"
 #include "sprite_drawable.hxx"
 #include "sprite_collideable.hxx"
+#include "util.hxx"
 
 namespace Advent {
 
@@ -41,7 +42,7 @@ SpriteCollideable::register_guile_bindings ()
 {
   puts ("SpriteCollideable::register_guile_bindings ()");
 
-  scm_c_define_gsubr("c:sprite-collideable:create", 1, 0, 0,
+  gh_c_define_public_gsubr("c:sprite-collideable:create", 1, 0, 0,
 		       reinterpret_cast<scm_t_subr>(&SpriteCollideable::scm_sprite_collideable_create));
 }
 

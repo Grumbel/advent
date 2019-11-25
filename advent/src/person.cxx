@@ -18,11 +18,13 @@
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include <libguile.h>
+
 #include "scm_converter.hxx"
 #include "delayed_adv_hook.hxx"
 #include "scenario.hxx"
 #include "person.hxx"
 #include "colmap.hxx"
+#include "util.hxx"
 
 namespace Advent {
 
@@ -168,15 +170,15 @@ Person::register_guile_bindings ()
 {
   puts ("Person::register_guile_bindings ()");
 
-  scm_c_define_gsubr("c:person:set-gfx", 2, 0, 0, reinterpret_cast<scm_t_subr>(&Person::scm_person_set_gfx));
-  scm_c_define_gsubr("c:person:create", 1, 0, 0, reinterpret_cast<scm_t_subr>(&Person::scm_person_create));
-  scm_c_define_gsubr("c:person:set-position", 3, 0, 0, reinterpret_cast<scm_t_subr>(&Person::scm_person_set_position));
-  scm_c_define_gsubr("c:person:set-target", 3, 0, 0, reinterpret_cast<scm_t_subr>(&Person::scm_person_set_target));
-  scm_c_define_gsubr("c:person:set-scenario", 2, 0, 0, reinterpret_cast<scm_t_subr>(&Person::scm_person_set_scenario));
-  scm_c_define_gsubr("c:person:get-scenario", 1, 0, 0, reinterpret_cast<scm_t_subr>(&Person::scm_person_get_scenario));
-  scm_c_define_gsubr("c:person:set-direction", 2, 0, 0, reinterpret_cast<scm_t_subr>(&Person::scm_person_set_direction));
-  scm_c_define_gsubr("c:person:set-catchable", 2, 0, 0, reinterpret_cast<scm_t_subr>(&Person::scm_person_set_catchable));
-  scm_c_define_gsubr("c:person:get-position", 1, 0, 0, reinterpret_cast<scm_t_subr>(&Person::scm_person_get_position));
+  gh_c_define_public_gsubr("c:person:set-gfx", 2, 0, 0, reinterpret_cast<scm_t_subr>(&Person::scm_person_set_gfx));
+  gh_c_define_public_gsubr("c:person:create", 1, 0, 0, reinterpret_cast<scm_t_subr>(&Person::scm_person_create));
+  gh_c_define_public_gsubr("c:person:set-position", 3, 0, 0, reinterpret_cast<scm_t_subr>(&Person::scm_person_set_position));
+  gh_c_define_public_gsubr("c:person:set-target", 3, 0, 0, reinterpret_cast<scm_t_subr>(&Person::scm_person_set_target));
+  gh_c_define_public_gsubr("c:person:set-scenario", 2, 0, 0, reinterpret_cast<scm_t_subr>(&Person::scm_person_set_scenario));
+  gh_c_define_public_gsubr("c:person:get-scenario", 1, 0, 0, reinterpret_cast<scm_t_subr>(&Person::scm_person_get_scenario));
+  gh_c_define_public_gsubr("c:person:set-direction", 2, 0, 0, reinterpret_cast<scm_t_subr>(&Person::scm_person_set_direction));
+  gh_c_define_public_gsubr("c:person:set-catchable", 2, 0, 0, reinterpret_cast<scm_t_subr>(&Person::scm_person_set_catchable));
+  gh_c_define_public_gsubr("c:person:get-position", 1, 0, 0, reinterpret_cast<scm_t_subr>(&Person::scm_person_get_position));
 }
 /*
 SCM

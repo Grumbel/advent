@@ -19,6 +19,7 @@
 
 #include "scm_converter.hxx"
 #include "delayed_adv_hook.hxx"
+#include "util.hxx"
 
 #include <libguile.h>
 
@@ -69,8 +70,8 @@ DelayedAdvHook::scm_delayed_advhook_create ()
 void
 DelayedAdvHook::register_guile_bindings ()
 {
-  scm_c_define_gsubr("c:delayed-advhook?", 1, 0, 0, reinterpret_cast<scm_t_subr>(scm_delayed_advhook_p));
-  scm_c_define_gsubr("c:delayed-advhook:create", 0, 0, 0, reinterpret_cast<scm_t_subr>(scm_delayed_advhook_create));
+  gh_c_define_public_gsubr("c:delayed-advhook?", 1, 0, 0, reinterpret_cast<scm_t_subr>(scm_delayed_advhook_p));
+  gh_c_define_public_gsubr("c:delayed-advhook:create", 0, 0, 0, reinterpret_cast<scm_t_subr>(scm_delayed_advhook_create));
 }
 
 SCM

@@ -19,6 +19,7 @@
 
 #include "scm_converter.hxx"
 #include "mouse_cursor.hxx"
+#include "util.hxx"
 
 namespace Advent {
 
@@ -52,8 +53,8 @@ MouseCursor::register_guile_bindings ()
 {
   puts ("MouseCursor::register_guile_bindings ()");
 
-  scm_c_define_gsubr("c:mousecursor:create", 0, 0, 0, reinterpret_cast<scm_t_subr>(&MouseCursor::scm_mousecursor_create));
-  scm_c_define_gsubr("c:mousecursor:set-sprite", 2, 0, 0, reinterpret_cast<scm_t_subr>(&MouseCursor::scm_mousecursor_set_sprite));
+  gh_c_define_public_gsubr("c:mousecursor:create", 0, 0, 0, reinterpret_cast<scm_t_subr>(&MouseCursor::scm_mousecursor_create));
+  gh_c_define_public_gsubr("c:mousecursor:set-sprite", 2, 0, 0, reinterpret_cast<scm_t_subr>(&MouseCursor::scm_mousecursor_set_sprite));
 }
 
 SCM

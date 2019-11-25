@@ -22,6 +22,7 @@
 #include "scm_converter.hxx"
 #include "surface_sprite.hxx"
 #include "button_layer.hxx"
+#include "util.hxx"
 
 namespace Advent {
 
@@ -102,9 +103,9 @@ ButtonLayer::register_guile_bindings ()
 {
   puts ("ButtonLayer::register_guile_bindings ()");
 
-  scm_c_define_gsubr("c:buttonlayer:create", 5, 0, 0, reinterpret_cast<scm_t_subr>(&ButtonLayer::scm_buttonlayer_create));
-  scm_c_define_gsubr("c:buttonlayer:set-press-callback", 2, 0, 0, reinterpret_cast<scm_t_subr>(&ButtonLayer::scm_buttonlayer_set_press_callback));
-  scm_c_define_gsubr("c:buttonlayer:set-release-callback", 2, 0, 0, reinterpret_cast<scm_t_subr>(&ButtonLayer::scm_buttonlayer_set_release_callback));
+  gh_c_define_public_gsubr("c:buttonlayer:create", 5, 0, 0, reinterpret_cast<scm_t_subr>(&ButtonLayer::scm_buttonlayer_create));
+  gh_c_define_public_gsubr("c:buttonlayer:set-press-callback", 2, 0, 0, reinterpret_cast<scm_t_subr>(&ButtonLayer::scm_buttonlayer_set_press_callback));
+  gh_c_define_public_gsubr("c:buttonlayer:set-release-callback", 2, 0, 0, reinterpret_cast<scm_t_subr>(&ButtonLayer::scm_buttonlayer_set_release_callback));
 }
 
 /*

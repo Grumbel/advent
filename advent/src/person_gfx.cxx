@@ -22,6 +22,7 @@
 #include "surface_sprite.hxx"
 #include "person.hxx"
 #include "person_gfx.hxx"
+#include "util.hxx"
 
 namespace Advent {
 
@@ -153,7 +154,7 @@ PersonGfx::register_guile_bindings ()
   scm_set_smob_free  (tag, PersonGfx::free);
   scm_set_smob_print (tag, PersonGfx::print);
 
-  scm_c_define_gsubr("c:persongfx:create", 1, 0, 0, reinterpret_cast<scm_t_subr>(&PersonGfx::scm_persongfx_create));
+  gh_c_define_public_gsubr("c:persongfx:create", 1, 0, 0, reinterpret_cast<scm_t_subr>(&PersonGfx::scm_persongfx_create));
 }
 
 SCM

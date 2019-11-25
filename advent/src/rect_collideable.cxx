@@ -19,6 +19,7 @@
 
 #include "scm_converter.hxx"
 #include "rect_collideable.hxx"
+#include "util.hxx"
 
 namespace Advent {
 
@@ -38,7 +39,7 @@ void
 RectCollideable::register_guile_bindings ()
 {
   puts ("RectCollideable::register_guile_bindings ()");
-  scm_c_define_gsubr("c:rect-collideable:create", 4, 0, 0, reinterpret_cast<scm_t_subr>(&RectCollideable::scm_rect_collideable_create));
+  gh_c_define_public_gsubr("c:rect-collideable:create", 4, 0, 0, reinterpret_cast<scm_t_subr>(&RectCollideable::scm_rect_collideable_create));
 }
 
 /*int

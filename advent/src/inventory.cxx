@@ -19,6 +19,7 @@
 
 #include "scm_converter.hxx"
 #include "inventory.hxx"
+#include "util.hxx"
 
 namespace Advent {
 
@@ -113,10 +114,10 @@ Inventory::register_guile_bindings ()
 {
   puts ("Inventory::register_guile_bindings ()");
 
-  scm_c_define_gsubr("c:inventory:create", 0, 0, 0, reinterpret_cast<scm_t_subr>(&Inventory::scm_inventory_create));
-  scm_c_define_gsubr("c:inventory:add-advobj", 2, 0, 0, reinterpret_cast<scm_t_subr>(&Inventory::scm_inventory_add_advobj));
-  scm_c_define_gsubr("c:inventory:remove-advobj", 2, 0, 0, reinterpret_cast<scm_t_subr>(&Inventory::scm_inventory_remove_advobj));
-  scm_c_define_gsubr("c:inventory:set-visible", 2, 0, 0, reinterpret_cast<scm_t_subr>(&Inventory::scm_inventory_set_visible));
+  gh_c_define_public_gsubr("c:inventory:create", 0, 0, 0, reinterpret_cast<scm_t_subr>(&Inventory::scm_inventory_create));
+  gh_c_define_public_gsubr("c:inventory:add-advobj", 2, 0, 0, reinterpret_cast<scm_t_subr>(&Inventory::scm_inventory_add_advobj));
+  gh_c_define_public_gsubr("c:inventory:remove-advobj", 2, 0, 0, reinterpret_cast<scm_t_subr>(&Inventory::scm_inventory_remove_advobj));
+  gh_c_define_public_gsubr("c:inventory:set-visible", 2, 0, 0, reinterpret_cast<scm_t_subr>(&Inventory::scm_inventory_set_visible));
 }
 
 /*

@@ -52,7 +52,7 @@ ResourceManager::get_sprite (const std::string& str)
 void
 ResourceManager::register_guile_bindings ()
 {
-  scm_c_define_gsubr("c:resourcemanager:get", 1, 0, 0, reinterpret_cast<scm_t_subr>(&ResourceManager::scm_resourcemanager_get));
+  gh_c_define_public_gsubr("c:resourcemanager:get", 1, 0, 0, reinterpret_cast<scm_t_subr>(&ResourceManager::scm_resourcemanager_get));
 }
 
 SCM

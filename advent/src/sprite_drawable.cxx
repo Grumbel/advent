@@ -21,6 +21,7 @@
 #include "scm_converter.hxx"
 #include "debug.hxx"
 #include "sprite_drawable.hxx"
+#include "util.hxx"
 
 //long SpriteDrawable::tag;
 
@@ -77,11 +78,11 @@ SpriteDrawable::register_guile_bindings ()
 {
   puts ("SpriteDrawable::register_guile_bindings ()");
 
-  scm_c_define_gsubr("c:sprite-drawable:create", 4, 0, 0,  reinterpret_cast<scm_t_subr>(&SpriteDrawable::scm_sprite_drawable_create));
-  scm_c_define_gsubr("c:sprite-drawable:set-position", 4, 0, 0, reinterpret_cast<scm_t_subr>(&SpriteDrawable::scm_sprite_drawable_set_pos));
-  scm_c_define_gsubr("c:sprite-drawable:get-position", 1, 0, 0, reinterpret_cast<scm_t_subr>(&SpriteDrawable::scm_sprite_drawable_get_pos));
-  scm_c_define_gsubr("c:sprite-drawable:get-sprite", 1, 0, 0, reinterpret_cast<scm_t_subr>(&SpriteDrawable::scm_sprite_drawable_get_sprite));
-  scm_c_define_gsubr("c:sprite-drawable:set-uncrop", 2, 0, 0, reinterpret_cast<scm_t_subr>(&SpriteDrawable::scm_sprite_drawable_set_uncrop));
+  gh_c_define_public_gsubr("c:sprite-drawable:create", 4, 0, 0,  reinterpret_cast<scm_t_subr>(&SpriteDrawable::scm_sprite_drawable_create));
+  gh_c_define_public_gsubr("c:sprite-drawable:set-position", 4, 0, 0, reinterpret_cast<scm_t_subr>(&SpriteDrawable::scm_sprite_drawable_set_pos));
+  gh_c_define_public_gsubr("c:sprite-drawable:get-position", 1, 0, 0, reinterpret_cast<scm_t_subr>(&SpriteDrawable::scm_sprite_drawable_get_pos));
+  gh_c_define_public_gsubr("c:sprite-drawable:get-sprite", 1, 0, 0, reinterpret_cast<scm_t_subr>(&SpriteDrawable::scm_sprite_drawable_get_sprite));
+  gh_c_define_public_gsubr("c:sprite-drawable:set-uncrop", 2, 0, 0, reinterpret_cast<scm_t_subr>(&SpriteDrawable::scm_sprite_drawable_set_uncrop));
 }
 /*
 SCM

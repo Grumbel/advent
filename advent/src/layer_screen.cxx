@@ -21,6 +21,7 @@
 
 #include "scm_converter.hxx"
 #include "layer_screen.hxx"
+#include "util.hxx"
 
 namespace Advent {
 
@@ -151,17 +152,17 @@ void
 LayerScreen::register_guile_bindings ()
 {
   puts ("LayerScreen::register_guile_bindings ()");
-  scm_c_define_gsubr("c:layerscreen:create", 0, 0, 0, reinterpret_cast<scm_t_subr>(&LayerScreen::layerscreen_create));
-  scm_c_define_gsubr("c:layerscreen:push", 2, 0, 0, reinterpret_cast<scm_t_subr>(&LayerScreen::layerscreen_push));
-  scm_c_define_gsubr("c:layerscreen:remove", 2, 0, 0, reinterpret_cast<scm_t_subr>(&LayerScreen::layerscreen_remove));
-  scm_c_define_gsubr("c:layerscreen:pop", 1, 0, 0, reinterpret_cast<scm_t_subr>(&LayerScreen::layerscreen_pop));
-  scm_c_define_gsubr("c:layerscreen:enable-input", 1, 0, 0,
+  gh_c_define_public_gsubr("c:layerscreen:create", 0, 0, 0, reinterpret_cast<scm_t_subr>(&LayerScreen::layerscreen_create));
+  gh_c_define_public_gsubr("c:layerscreen:push", 2, 0, 0, reinterpret_cast<scm_t_subr>(&LayerScreen::layerscreen_push));
+  gh_c_define_public_gsubr("c:layerscreen:remove", 2, 0, 0, reinterpret_cast<scm_t_subr>(&LayerScreen::layerscreen_remove));
+  gh_c_define_public_gsubr("c:layerscreen:pop", 1, 0, 0, reinterpret_cast<scm_t_subr>(&LayerScreen::layerscreen_pop));
+  gh_c_define_public_gsubr("c:layerscreen:enable-input", 1, 0, 0,
                      reinterpret_cast<scm_t_subr>(&LayerScreen::layerscreen_enable_input));
-  scm_c_define_gsubr("c:layerscreen:disable-input", 1, 0, 0,
+  gh_c_define_public_gsubr("c:layerscreen:disable-input", 1, 0, 0,
                      reinterpret_cast<scm_t_subr>(&LayerScreen::layerscreen_disable_input));
-  scm_c_define_gsubr("c:layerscreen:set-input-enabled-hook", 2, 0, 0,
+  gh_c_define_public_gsubr("c:layerscreen:set-input-enabled-hook", 2, 0, 0,
                      reinterpret_cast<scm_t_subr>(&LayerScreen::layerscreen_set_input_enabled_hook));
-  scm_c_define_gsubr("c:layerscreen:set-input-disabled-hook", 2, 0, 0,
+  gh_c_define_public_gsubr("c:layerscreen:set-input-disabled-hook", 2, 0, 0,
                      reinterpret_cast<scm_t_subr>(&LayerScreen::layerscreen_set_input_disabled_hook));
 }
 

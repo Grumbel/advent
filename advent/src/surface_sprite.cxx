@@ -163,12 +163,12 @@ SurfaceSprite::register_guile_bindings ()
 {
   puts ("SurfaceSprite::register_guile_bindings ()");
 
-  scm_c_define_gsubr("c:surface-sprite:create", 1, 0, 0, reinterpret_cast<scm_t_subr>(&SurfaceSprite::scm_surface_sprite_create));
-  scm_c_define_gsubr("c:surface-sprite:create-anim", 2, 0, 0, reinterpret_cast<scm_t_subr>(&SurfaceSprite::scm_surface_sprite_create_anim));
+  gh_c_define_public_gsubr("c:surface-sprite:create", 1, 0, 0, reinterpret_cast<scm_t_subr>(&SurfaceSprite::scm_surface_sprite_create));
+  gh_c_define_public_gsubr("c:surface-sprite:create-anim", 2, 0, 0, reinterpret_cast<scm_t_subr>(&SurfaceSprite::scm_surface_sprite_create_anim));
 
-  scm_c_define_gsubr("c:surface-sprite:set-align-center", 1, 0, 0, reinterpret_cast<scm_t_subr>(&SurfaceSprite::scm_surface_sprite_set_align_center));
-  scm_c_define_gsubr("c:surface-sprite:set-align", 3, 0, 0, reinterpret_cast<scm_t_subr>(&SurfaceSprite::scm_surface_sprite_set_align));
-  scm_c_define_gsubr("c:surface-sprite:set-fps", 2, 0, 0, reinterpret_cast<scm_t_subr>(&SurfaceSprite::scm_surface_sprite_set_fps));
+  gh_c_define_public_gsubr("c:surface-sprite:set-align-center", 1, 0, 0, reinterpret_cast<scm_t_subr>(&SurfaceSprite::scm_surface_sprite_set_align_center));
+  gh_c_define_public_gsubr("c:surface-sprite:set-align", 3, 0, 0, reinterpret_cast<scm_t_subr>(&SurfaceSprite::scm_surface_sprite_set_align));
+  gh_c_define_public_gsubr("c:surface-sprite:set-fps", 2, 0, 0, reinterpret_cast<scm_t_subr>(&SurfaceSprite::scm_surface_sprite_set_fps));
 }
 
 SCM

@@ -135,9 +135,9 @@ FontSprite::register_guile_bindings ()
 {
   puts ("FontSprite::register_guile_bindings ()");
 
-  scm_c_define_gsubr("c:font-sprite:create", 2, 0, 0, reinterpret_cast<scm_t_subr>(&FontSprite::scm_font_sprite_create));
-  scm_c_define_gsubr("c:font-sprite:set-text", 2, 0, 0, reinterpret_cast<scm_t_subr>(&FontSprite::scm_font_sprite_set_text));
-  scm_c_define_gsubr("c:font-sprite:set-remove-hook", 2, 0, 0, reinterpret_cast<scm_t_subr>(&FontSprite::scm_font_sprite_set_remove_hook));
+  gh_c_define_public_gsubr("c:font-sprite:create", 2, 0, 0, reinterpret_cast<scm_t_subr>(&FontSprite::scm_font_sprite_create));
+  gh_c_define_public_gsubr("c:font-sprite:set-text", 2, 0, 0, reinterpret_cast<scm_t_subr>(&FontSprite::scm_font_sprite_set_text));
+  gh_c_define_public_gsubr("c:font-sprite:set-remove-hook", 2, 0, 0, reinterpret_cast<scm_t_subr>(&FontSprite::scm_font_sprite_set_remove_hook));
 }
 /*
 SCM

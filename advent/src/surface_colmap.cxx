@@ -66,12 +66,12 @@ SurfaceColMap::register_guile_bindings ()
 {
   puts ("SurfaceColMap::register_guile_bindings ()");
 
-  scm_c_define_gsubr("c:surfacecolmap:create", 1, 0, 0,
+  gh_c_define_public_gsubr("c:surfacecolmap:create", 1, 0, 0,
                     reinterpret_cast<scm_t_subr>(&SurfaceColMap::scm_surfacecolmap_create));
 
-  scm_c_define_gsubr("c:surfacecolmap:set-scale", 2, 0, 0,
+  gh_c_define_public_gsubr("c:surfacecolmap:set-scale", 2, 0, 0,
                     reinterpret_cast<scm_t_subr>(&SurfaceColMap::scm_surfacecolmap_set_scale));
-  scm_c_define_gsubr("c:surfacecolmap:get-scale", 1, 0, 0,
+  gh_c_define_public_gsubr("c:surfacecolmap:get-scale", 1, 0, 0,
                     reinterpret_cast<scm_t_subr>(&SurfaceColMap::scm_surfacecolmap_get_scale));
 }
 

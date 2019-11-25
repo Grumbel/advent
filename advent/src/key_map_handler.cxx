@@ -21,6 +21,7 @@
 
 #include "scm_converter.hxx"
 #include "key_map_handler.hxx"
+#include "util.hxx"
 
 long KeyMapHandler::tag;
 
@@ -80,8 +81,8 @@ KeyMapHandler::register_guile_bindings ()
   scm_set_smob_free  (tag, KeyMapHandler::free);
   scm_set_smob_print (tag, KeyMapHandler::print);
 
-  scm_c_define_gsubr("c:keymaphandler:create", 0, 0, 0, reinterpret_cast<scm_t_subr>(&KeyMapHandler::scm_keymaphandler_create));
-  scm_c_define_gsubr("c:keymaphandler:set-keymap", 2, 0, 0, reinterpret_cast<scm_t_subr>(&KeyMapHandler::scm_keymaphandler_set_keymap));
+  gh_c_define_public_gsubr("c:keymaphandler:create", 0, 0, 0, reinterpret_cast<scm_t_subr>(&KeyMapHandler::scm_keymaphandler_create));
+  gh_c_define_public_gsubr("c:keymaphandler:set-keymap", 2, 0, 0, reinterpret_cast<scm_t_subr>(&KeyMapHandler::scm_keymaphandler_set_keymap));
 }
 
 SCM

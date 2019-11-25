@@ -20,6 +20,7 @@
 #include "scm_converter.hxx"
 #include "surface_sprite.hxx"
 #include "coin_layer.hxx"
+#include "util.hxx"
 
 namespace Advent {
 
@@ -118,12 +119,12 @@ CoinLayer::register_guile_bindings ()
 {
   puts ("CoinLayer::register_guile_bindings ()");
 
-  scm_c_define_gsubr("c:coinlayer:create", 0, 0, 0, reinterpret_cast<scm_t_subr>(&CoinLayer::scm_coinlayer_create));
+  gh_c_define_public_gsubr("c:coinlayer:create", 0, 0, 0, reinterpret_cast<scm_t_subr>(&CoinLayer::scm_coinlayer_create));
 
-  scm_c_define_gsubr("c:coinlayer:enable", 2, 0, 0, reinterpret_cast<scm_t_subr>(&CoinLayer::scm_coinlayer_enable));
-  scm_c_define_gsubr("c:coinlayer:disable", 1, 0, 0, reinterpret_cast<scm_t_subr>(&CoinLayer::scm_coinlayer_disable));
+  gh_c_define_public_gsubr("c:coinlayer:enable", 2, 0, 0, reinterpret_cast<scm_t_subr>(&CoinLayer::scm_coinlayer_enable));
+  gh_c_define_public_gsubr("c:coinlayer:disable", 1, 0, 0, reinterpret_cast<scm_t_subr>(&CoinLayer::scm_coinlayer_disable));
 
-  scm_c_define_gsubr("c:coinlayer:set-click-func", 2, 0, 0, reinterpret_cast<scm_t_subr>(&CoinLayer::scm_coinlayer_set_click_func));
+  gh_c_define_public_gsubr("c:coinlayer:set-click-func", 2, 0, 0, reinterpret_cast<scm_t_subr>(&CoinLayer::scm_coinlayer_set_click_func));
 }
 
 /*

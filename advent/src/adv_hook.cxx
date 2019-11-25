@@ -22,12 +22,13 @@
 
 #include "scm_converter.hxx"
 #include "adv_hook.hxx"
+#include "util.hxx"
 
 void
 AdvHook::register_guile_bindings ()
 {
-  scm_c_define_gsubr("c:advhook:call", 1, 0, 0, reinterpret_cast<scm_t_subr>(&AdvHook::call_finish));
-  scm_c_define_gsubr("c:advhook:add", 2, 0, 0, reinterpret_cast<scm_t_subr>(&AdvHook::add_finish));
+  gh_c_define_public_gsubr("c:advhook:call", 1, 0, 0, reinterpret_cast<scm_t_subr>(&AdvHook::call_finish));
+  gh_c_define_public_gsubr("c:advhook:add", 2, 0, 0, reinterpret_cast<scm_t_subr>(&AdvHook::add_finish));
 }
 
 SCM

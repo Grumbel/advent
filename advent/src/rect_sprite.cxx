@@ -19,8 +19,10 @@
 
 #include <ClanLib/core.h>
 #include <ClanLib/display.h>
+
 #include "scm_converter.hxx"
 #include "rect_sprite.hxx"
+#include "util.hxx"
 
 namespace Advent {
 
@@ -66,8 +68,8 @@ RectSprite::register_guile_bindings ()
 {
   puts ("RectSprite::register_guile_bindings ()");
 
-  scm_c_define_gsubr("c:rect-sprite:create", 3, 0, 0, reinterpret_cast<scm_t_subr>(&RectSprite::scm_rect_sprite_create));
-  scm_c_define_gsubr("c:rect-sprite:set-color", 2, 0, 0, reinterpret_cast<scm_t_subr>(&RectSprite::scm_rect_sprite_set_color));
+  gh_c_define_public_gsubr("c:rect-sprite:create", 3, 0, 0, reinterpret_cast<scm_t_subr>(&RectSprite::scm_rect_sprite_create));
+  gh_c_define_public_gsubr("c:rect-sprite:set-color", 2, 0, 0, reinterpret_cast<scm_t_subr>(&RectSprite::scm_rect_sprite_set_color));
 }
 
 /*

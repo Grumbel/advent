@@ -19,6 +19,7 @@
 
 #include "scm_converter.hxx"
 #include "instant_adv_hook.hxx"
+#include "util.hxx"
 
 void
 InstantAdvHook::add (SCM scm)
@@ -40,8 +41,8 @@ InstantAdvHook::call ()
 void
 InstantAdvHook::register_guile_bindings ()
 {
-  //scm_c_define_gsubr("c:instant-advhook?", 1, 0, 0, adv_hook_p);
-  scm_c_define_gsubr("c:instant-advhook:create", 0, 0, 0, reinterpret_cast<scm_t_subr>(&InstantAdvHook::instant_advhook_create));
+  //gh_c_define_public_gsubr("c:instant-advhook?", 1, 0, 0, adv_hook_p);
+  gh_c_define_public_gsubr("c:instant-advhook:create", 0, 0, 0, reinterpret_cast<scm_t_subr>(&InstantAdvHook::instant_advhook_create));
 }
 
 SCM

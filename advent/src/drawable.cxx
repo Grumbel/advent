@@ -21,6 +21,7 @@
 #include "person.hxx"
 #include "drawable_smob.hxx"
 #include "drawable.hxx"
+#include "util.hxx"
 
 namespace Advent {
 
@@ -52,7 +53,7 @@ Drawable::cast (SCM smob)
 void
 Drawable::register_guile_bindings ()
 {
-  scm_c_define_gsubr("c:drawable:remove", 1, 0, 0, reinterpret_cast<scm_t_subr>(&Drawable::scm_drawable_remove));
+  gh_c_define_public_gsubr("c:drawable:remove", 1, 0, 0, reinterpret_cast<scm_t_subr>(&Drawable::scm_drawable_remove));
 }
 
 SCM

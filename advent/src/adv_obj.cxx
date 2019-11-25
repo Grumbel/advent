@@ -21,13 +21,14 @@
 #include "drawable_adv_obj.hxx"
 //nclude "EmptyRegionadv_obj.hxx"
 #include "adv_obj.hxx"
+#include "util.hxx"
 
 namespace Advent {
 
 void
 AdvObj::register_guile_bindings ()
 {
-  scm_c_define_gsubr("c:advobj:set-inventory-sprite", 2, 0, 0,
+  gh_c_define_public_gsubr("c:advobj:set-inventory-sprite", 2, 0, 0,
                      reinterpret_cast<scm_t_subr>(&AdvObj::scm_advobj_set_inventory_sprite));
 }
 

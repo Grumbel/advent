@@ -21,6 +21,7 @@
 #include "person.hxx"
 #include "scm_converter.hxx"
 #include "scenario_layer.hxx"
+#include "util.hxx"
 
 namespace Advent {
 
@@ -135,15 +136,15 @@ ScenarioLayer::register_guile_bindings ()
 {
   puts ("ScenarioLayer::register_guile_bindings ()");
 
-  scm_c_define_gsubr("c:scenariolayer:set-person", 2, 0, 0,
+  gh_c_define_public_gsubr("c:scenariolayer:set-person", 2, 0, 0,
                      reinterpret_cast<scm_t_subr>(&ScenarioLayer::scm_scenariolayer_set_person));
-  scm_c_define_gsubr("c:scenariolayer:create", 0, 0, 0,
+  gh_c_define_public_gsubr("c:scenariolayer:create", 0, 0, 0,
                      reinterpret_cast<scm_t_subr>(&ScenarioLayer::scm_scenariolayer_create));
-  scm_c_define_gsubr("c:scenariolayer:set-callback", 2, 0, 0,
+  gh_c_define_public_gsubr("c:scenariolayer:set-callback", 2, 0, 0,
                      reinterpret_cast<scm_t_subr>(&ScenarioLayer::scm_scenariolayer_set_callback));
-  scm_c_define_gsubr("c:scenariolayer:set-mouse-over-callback", 2, 0, 0,
+  gh_c_define_public_gsubr("c:scenariolayer:set-mouse-over-callback", 2, 0, 0,
                      reinterpret_cast<scm_t_subr>(&ScenarioLayer::scm_scenariolayer_set_mouse_over_callback));
-  scm_c_define_gsubr("c:scenariolayer:mouse-update", 1, 0, 0,
+  gh_c_define_public_gsubr("c:scenariolayer:mouse-update", 1, 0, 0,
                      reinterpret_cast<scm_t_subr>(&ScenarioLayer::scm_scenariolayer_mouse_update));
 }
 /*

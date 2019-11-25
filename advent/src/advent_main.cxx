@@ -68,6 +68,7 @@
 #include "collideable_smob.hxx"
 #include "drawable_smob.hxx"
 #include "drawable.hxx"
+#include "util.hxx"
 
 // Static
 extern "C" {
@@ -114,7 +115,7 @@ AdventMain::register_guile_bindings ()
 {
   std::cout << " *** Registering: start **************" << std::endl;
 
-  scm_c_define_gsubr("advent:main-loop", 0, 0, 0, reinterpret_cast<scm_t_subr>(&advent_main_loop));
+  gh_c_define_public_gsubr("advent:main-loop", 0, 0, 0, reinterpret_cast<scm_t_subr>(&advent_main_loop));
 
   SpriteDrawable::register_guile_bindings ();
   Scenario::register_guile_bindings ();

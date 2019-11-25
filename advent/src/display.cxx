@@ -21,14 +21,16 @@
 #include <iostream>
 #include <ClanLib/display.h>
 #include <ClanLib/gl.h>
+
 #include "display.hxx"
+#include "util.hxx"
 
 namespace Advent {
 
 void
 Display::register_guile_bindings ()
 {
-  scm_c_define_gsubr("c:display:setup", 3, 0, 0, reinterpret_cast<scm_t_subr>(&Display::scm_display_setup));
+  gh_c_define_public_gsubr("c:display:setup", 3, 0, 0, reinterpret_cast<scm_t_subr>(&Display::scm_display_setup));
 }
 
 SCM

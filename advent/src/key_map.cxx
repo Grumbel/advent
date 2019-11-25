@@ -21,6 +21,7 @@
 
 #include "scm_converter.hxx"
 #include "key_map.hxx"
+#include "util.hxx"
 
 long KeyMap::tag;
 
@@ -80,9 +81,9 @@ KeyMap::register_guile_bindings ()
   scm_set_smob_free  (tag, KeyMap::free);
   scm_set_smob_print (tag, KeyMap::print);
 
-  scm_c_define_gsubr("c:keymap:create", 0, 0, 0, reinterpret_cast<scm_t_subr>(&KeyMap::scm_keymap_create));
-  scm_c_define_gsubr("c:keymap:create1", 1, 0, 0, reinterpret_cast<scm_t_subr>(&KeyMap::scm_keymap_create));
-  scm_c_define_gsubr("c:keymap:bind-key", 3, 0, 0,  reinterpret_cast<scm_t_subr>(&KeyMap::scm_bind_key));
+  gh_c_define_public_gsubr("c:keymap:create", 0, 0, 0, reinterpret_cast<scm_t_subr>(&KeyMap::scm_keymap_create));
+  gh_c_define_public_gsubr("c:keymap:create1", 1, 0, 0, reinterpret_cast<scm_t_subr>(&KeyMap::scm_keymap_create));
+  gh_c_define_public_gsubr("c:keymap:bind-key", 3, 0, 0,  reinterpret_cast<scm_t_subr>(&KeyMap::scm_bind_key));
 }
 
 SCM

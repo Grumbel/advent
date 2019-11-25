@@ -18,9 +18,11 @@
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include <ClanLib/core.h>
+
 #include "scm_converter.hxx"
 #include "scm_obj.hxx"
 #include "time_manager.hxx"
+#include "util.hxx"
 
 namespace Advent {
 
@@ -109,8 +111,8 @@ TimeManager::register_guile_bindings ()
 {
   puts ("TimeManager::register_guile_bindings ()");
 
-  scm_c_define_gsubr("c:timemanager:create", 0, 0, 0, reinterpret_cast<scm_t_subr>(&TimeManager::scm_timemanager_create));
-  scm_c_define_gsubr("c:timemanager:add", 3, 0, 0, reinterpret_cast<scm_t_subr>(&TimeManager::scm_timemanager_add));
+  gh_c_define_public_gsubr("c:timemanager:create", 0, 0, 0, reinterpret_cast<scm_t_subr>(&TimeManager::scm_timemanager_create));
+  gh_c_define_public_gsubr("c:timemanager:add", 3, 0, 0, reinterpret_cast<scm_t_subr>(&TimeManager::scm_timemanager_add));
 }
 /*
 SCM

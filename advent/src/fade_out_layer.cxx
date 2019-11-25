@@ -19,9 +19,11 @@
 
 #include <ClanLib/core.h>
 #include <ClanLib/display.h>
+
 #include "scm_converter.hxx"
 //#include "AdvHook.hh"
 #include "fade_out_layer.hxx"
+#include "util.hxx"
 
 namespace Advent {
 
@@ -39,14 +41,14 @@ FadeOutLayer::~FadeOutLayer ()
 void
 FadeOutLayer::register_guile_bindings ()
 {
-  scm_c_define_gsubr("c:fadeout-layer:create", 0, 0, 0, reinterpret_cast<scm_t_subr>(&FadeOutLayer::scm_fadeout_layer_create));
-  scm_c_define_gsubr("c:fadeout-layer:fade", 2, 0, 0, reinterpret_cast<scm_t_subr>(&FadeOutLayer::scm_fadeout_layer_fade));
-  scm_c_define_gsubr("c:fadeout-layer:blackout", 1, 0, 0, reinterpret_cast<scm_t_subr>(&FadeOutLayer::scm_fadeout_layer_blackout));
-  scm_c_define_gsubr("c:fadeout-layer:fade-in", 1, 0, 0, reinterpret_cast<scm_t_subr>(&FadeOutLayer::scm_fadeout_layer_fade_in));
+  gh_c_define_public_gsubr("c:fadeout-layer:create", 0, 0, 0, reinterpret_cast<scm_t_subr>(&FadeOutLayer::scm_fadeout_layer_create));
+  gh_c_define_public_gsubr("c:fadeout-layer:fade", 2, 0, 0, reinterpret_cast<scm_t_subr>(&FadeOutLayer::scm_fadeout_layer_fade));
+  gh_c_define_public_gsubr("c:fadeout-layer:blackout", 1, 0, 0, reinterpret_cast<scm_t_subr>(&FadeOutLayer::scm_fadeout_layer_blackout));
+  gh_c_define_public_gsubr("c:fadeout-layer:fade-in", 1, 0, 0, reinterpret_cast<scm_t_subr>(&FadeOutLayer::scm_fadeout_layer_fade_in));
 
-  //scm_c_define_gsubr("c:fadeout-layer:fade-out", 2, 0, 0, reinterpret_cast<scm_t_subr>(&FadeOutLayer::scm_fadeout_layer_fade_out));
-  //scm_c_define_gsubr("c:fadeout-layer:fade-in", 1, 0, 0,  reinterpret_cast<scm_t_subr>(&FadeOutLayer::scm_fade_in));
-  //scm_c_define_gsubr("c:fadeout-layer:blackout", 1, 0, 0, reinterpret_cast<scm_t_subr>(&FadeOutLayer::scm_blackout));
+  //gh_c_define_public_gsubr("c:fadeout-layer:fade-out", 2, 0, 0, reinterpret_cast<scm_t_subr>(&FadeOutLayer::scm_fadeout_layer_fade_out));
+  //gh_c_define_public_gsubr("c:fadeout-layer:fade-in", 1, 0, 0,  reinterpret_cast<scm_t_subr>(&FadeOutLayer::scm_fade_in));
+  //gh_c_define_public_gsubr("c:fadeout-layer:blackout", 1, 0, 0, reinterpret_cast<scm_t_subr>(&FadeOutLayer::scm_blackout));
 }
 
 SCM

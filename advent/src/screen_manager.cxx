@@ -28,6 +28,7 @@
 #include "screen_manager.hxx"
 #include "button_layer.hxx"
 #include "display_view.hxx"
+#include "util.hxx"
 
 namespace Advent {
 
@@ -101,7 +102,7 @@ ScreenManager::on_button_release (const CL_InputEvent& key)
 void
 ScreenManager::register_guile_bindings ()
 {
-  scm_c_define_gsubr("c:screenmanager:set-screen", 1, 0, 0, reinterpret_cast<scm_t_subr>(&ScreenManager::scm_screenmanager_set_screen));
+  gh_c_define_public_gsubr("c:screenmanager:set-screen", 1, 0, 0, reinterpret_cast<scm_t_subr>(&ScreenManager::scm_screenmanager_set_screen));
 }
 
 SCM

@@ -18,7 +18,9 @@
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include <assert.h>
+
 #include "polygon_collideable.hxx"
+#include "util.hxx"
 
 namespace Advent {
 
@@ -130,7 +132,7 @@ void
 PolygonCollideable::register_guile_bindings ()
 {
   puts ("PolygonCollideable::register_guile_bindings ()");
-  scm_c_define_gsubr("c:polygon-collideable:create", 1, 0, 0,
+  gh_c_define_public_gsubr("c:polygon-collideable:create", 1, 0, 0,
 		       reinterpret_cast<scm_t_subr>(&PolygonCollideable::scm_polygon_collideable_create));
 }
 

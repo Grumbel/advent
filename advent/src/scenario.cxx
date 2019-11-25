@@ -22,6 +22,7 @@
 #include "view.hxx"
 #include "drawable_display.hxx"
 #include "scenario.hxx"
+#include "util.hxx"
 
 namespace Advent {
 
@@ -199,15 +200,15 @@ Scenario::register_guile_bindings ()
   scm_set_smob_free  (tag, Scenario::free);
   scm_set_smob_print (tag, Scenario::print);
 
-  scm_c_define_gsubr("c:scenario:create", 1, 0, 0, reinterpret_cast<scm_t_subr>(&Scenario::scm_scenario_create));
-  scm_c_define_gsubr("c:scenario:add-drawable", 2, 0, 0, reinterpret_cast<scm_t_subr>(&Scenario::scm_scenario_add_drawable));
-  scm_c_define_gsubr("c:scenario:remove-drawable", 2, 0, 0, reinterpret_cast<scm_t_subr>(&Scenario::scm_scenario_remove_drawable));
+  gh_c_define_public_gsubr("c:scenario:create", 1, 0, 0, reinterpret_cast<scm_t_subr>(&Scenario::scm_scenario_create));
+  gh_c_define_public_gsubr("c:scenario:add-drawable", 2, 0, 0, reinterpret_cast<scm_t_subr>(&Scenario::scm_scenario_add_drawable));
+  gh_c_define_public_gsubr("c:scenario:remove-drawable", 2, 0, 0, reinterpret_cast<scm_t_subr>(&Scenario::scm_scenario_remove_drawable));
 
-  scm_c_define_gsubr("c:scenario:add-advobj", 2, 0, 0,    reinterpret_cast<scm_t_subr>(&Scenario::scm_scenario_add_advobj));
-  scm_c_define_gsubr("c:scenario:remove-advobj", 2, 0, 0, reinterpret_cast<scm_t_subr>(&Scenario::scm_scenario_remove_advobj));
+  gh_c_define_public_gsubr("c:scenario:add-advobj", 2, 0, 0,    reinterpret_cast<scm_t_subr>(&Scenario::scm_scenario_add_advobj));
+  gh_c_define_public_gsubr("c:scenario:remove-advobj", 2, 0, 0, reinterpret_cast<scm_t_subr>(&Scenario::scm_scenario_remove_advobj));
 
-  scm_c_define_gsubr("c:scenario:set-colmap", 2, 0, 0, reinterpret_cast<scm_t_subr>(&Scenario::scm_scenario_set_colmap));
-  scm_c_define_gsubr("c:scenario:set-dimension", 3, 0, 0, reinterpret_cast<scm_t_subr>(&Scenario::scm_scenario_set_dimension));
+  gh_c_define_public_gsubr("c:scenario:set-colmap", 2, 0, 0, reinterpret_cast<scm_t_subr>(&Scenario::scm_scenario_set_colmap));
+  gh_c_define_public_gsubr("c:scenario:set-dimension", 3, 0, 0, reinterpret_cast<scm_t_subr>(&Scenario::scm_scenario_set_dimension));
 }
 
 SCM

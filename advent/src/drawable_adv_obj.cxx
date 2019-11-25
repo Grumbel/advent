@@ -19,6 +19,7 @@
 
 #include "scm_converter.hxx"
 #include "drawable_adv_obj.hxx"
+#include "util.hxx"
 
 namespace Advent {
 
@@ -56,8 +57,8 @@ DrawableAdvObj::register_guile_bindings ()
 {
   puts ("DrawableAdvObj::register_guile_bindings ()");
 
-  scm_c_define_gsubr("c:drawable-advobj:create", 3, 0, 0, reinterpret_cast<scm_t_subr>(&DrawableAdvObj::drawable_advobj_create));
-  scm_c_define_gsubr("c:drawable-advobj:set-drawable", 2, 0, 0, reinterpret_cast<scm_t_subr>(&DrawableAdvObj::drawable_advobj_set_drawable));
+  gh_c_define_public_gsubr("c:drawable-advobj:create", 3, 0, 0, reinterpret_cast<scm_t_subr>(&DrawableAdvObj::drawable_advobj_create));
+  gh_c_define_public_gsubr("c:drawable-advobj:set-drawable", 2, 0, 0, reinterpret_cast<scm_t_subr>(&DrawableAdvObj::drawable_advobj_set_drawable));
 }
 
 /*

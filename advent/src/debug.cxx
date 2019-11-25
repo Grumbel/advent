@@ -27,7 +27,7 @@ void
 Debug::register_guile_bindings ()
 {
   // FIXME: disabled when converting to guile-2.2
-  // scm_c_define_gsubr("debug:set-free", 1, 0, 0, &scm_set_memory_free);
+  // gh_c_define_public_gsubr("debug:set-free", 1, 0, 0, &scm_set_memory_free);
 }
 
 SCM

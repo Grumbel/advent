@@ -18,6 +18,7 @@
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "sprite_group.hxx"
+#include "util.hxx"
 
 namespace Advent {
 
@@ -83,8 +84,8 @@ void
 SpriteGroup::register_guile_bindings ()
 {
   std::cout << "SpriteGroup::register_guile_bindings ()" << std::endl;
-  scm_c_define_gsubr("c:sprite-group:create", 0, 0, 0, reinterpret_cast<scm_t_subr>(&SpriteGroup::scm_sprite_group_create));
-  scm_c_define_gsubr("c:sprite-group:add", 4, 0, 0, reinterpret_cast<scm_t_subr>(&SpriteGroup::scm_sprite_group_add));
+  gh_c_define_public_gsubr("c:sprite-group:create", 0, 0, 0, reinterpret_cast<scm_t_subr>(&SpriteGroup::scm_sprite_group_create));
+  gh_c_define_public_gsubr("c:sprite-group:add", 4, 0, 0, reinterpret_cast<scm_t_subr>(&SpriteGroup::scm_sprite_group_add));
 }
 
 SCM

@@ -19,6 +19,7 @@
 
 #include "scm_converter.hxx"
 #include "empty_adv_obj.hxx"
+#include "util.hxx"
 
 namespace Advent {
 
@@ -38,7 +39,7 @@ EmptyAdvObj::register_guile_bindings ()
 {
   puts ("EmptyAdvObj::register_guile_bindings ()");
 
-  scm_c_define_gsubr("c:empty-advobj:create", 2, 0, 0, reinterpret_cast<scm_t_subr>(&EmptyAdvObj::scm_empty_advobj_create));
+  gh_c_define_public_gsubr("c:empty-advobj:create", 2, 0, 0, reinterpret_cast<scm_t_subr>(&EmptyAdvObj::scm_empty_advobj_create));
 }
 /*
 SCM

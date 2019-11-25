@@ -21,6 +21,7 @@
 #include "surface_sprite.hxx"
 #include "scm_converter.hxx"
 #include "font_sprite.hxx"
+#include "util.hxx"
 
 #include "sprite.hxx"
 
@@ -35,8 +36,8 @@ Sprite::cast (SCM smob)
 void
 Sprite::register_guile_bindings ()
 {
-  scm_c_define_gsubr("c:sprite:get-width", 1, 0, 0, reinterpret_cast<scm_t_subr>(&scm_sprite_get_width));
-  scm_c_define_gsubr("c:sprite:get-height", 1, 0, 0, reinterpret_cast<scm_t_subr>(&scm_sprite_get_height));
+  gh_c_define_public_gsubr("c:sprite:get-width", 1, 0, 0, reinterpret_cast<scm_t_subr>(&scm_sprite_get_width));
+  gh_c_define_public_gsubr("c:sprite:get-height", 1, 0, 0, reinterpret_cast<scm_t_subr>(&scm_sprite_get_height));
 }
 
 SCM
